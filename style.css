@@ -57,6 +57,26 @@ footer {
   color: #666;
 }
 
+nav {
+  margin-top: 1rem;
+}
+
+nav a {
+  color: #eee;
+  margin: 0 0.5rem;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.videos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 @media (min-width: 768px) {
   .cards {
     flex-direction: row;
