@@ -41,6 +41,15 @@ h2 {
   border-radius: 0.5rem;
 }
 
+.card h3 {
+  font-size: 1.15rem;     /* Slightly smaller heading */
+  white-space: nowrap;    /* Prevents line break in heading */
+  overflow: hidden;       /* Hides overflow if too long */
+  text-overflow: ellipsis;/* Adds ... if text overflows */
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
 footer {
   text-align: center;
   margin-top: 5rem;
