@@ -3,79 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="StarNav - Best-in-class navigation software for unified deployment across all robot platforms" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <meta name="description" content="1N Robotics offers navigation software kits, AI operations tools, and deployment packages for modern robotics teams." />
   <meta name="robots" content="index, follow" />
-  <meta name="keywords" content="1N Robotics, 1n robotics, 1nrobotics, embodied AI, autonomous robot, drone, humanoid, navigation software, robot navigation" />
+  <meta name="keywords" content="1N Robotics, robot navigation, robotics ecommerce, AI robotics platform, navigation kits" />
   <meta name="author" content="1N Robotics" />
-  <title>1N Robotics | 1nrobotics - Autonomous Robots</title>
+  <title>1N Robotics | Robotics Navigation Store</title>
   <link rel="canonical" href="https://1nrobotics.com/" />
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="1N Robotics | 1nrobotics" />
-  <meta property="og:description" content="Best-in-class navigation software for unified deployment across all robot platforms." />
-  <meta property="og:image" content="https://1nrobotics.com/logo.png" />
-  <meta property="og:url" content="https://1nrobotics.com/" />
-  <meta property="og:type" content="website" />
-
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="1N Robotics | 1nrobotics" />
-  <meta name="twitter:description" content="Best-in-class navigation software for unified deployment across all robot platforms." />
-  <meta name="twitter:image" content="https://1nrobotics.com/logo.png" />
-  <meta name="twitter:url" content="https://1nrobotics.com/" />  
+  <script defer src="script.js"></script>
 </head>
-<body>
-  <header>
-    <nav>
-      <a href="index.html"><img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /></a>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <!-- <li><a href="product.html">Product</a></li> -->
-        <li><a href="about.html">About</a></li>
-        <!-- <li><a href="blog.html">Blog</a></li> -->
-      </ul>
-    </nav>
+<body data-page="home">
+  <header class="site-header">
+    <div class="container site-nav">
+      <a href="index.html" class="brand-mark">1N Robotics</a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="index.html">Home</a>
+        <a href="product.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="checkout.html" class="cart-link">Cart <span data-cart-count>0</span></a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-text">
-        <h1>Best-in-Class Navigation Software for Every Robot</h1>
-        <p>StarNav delivers unified, production-ready navigation software that works seamlessly across drones, quadrupeds, and humanoids. Deploy once, scale everywhere—with the intelligence to navigate any environment autonomously.</p>
-        <a href="https://www.linkedin.com/company/1nrobotics/" target="_blank" rel="noopener noreferrer" class="cta-button">Learn More</a>
-      </div>
-      <div class="hero-image">
-        <div class="video-container">
-          <iframe src="https://www.youtube.com/embed/EqFC4jIAa88?autoplay=1&mute=1&loop=1&playlist=EqFC4jIAa88" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <main>
+    <section class="hero-shell">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="kicker">AI-native robotics commerce</p>
+          <h1>Design, buy, and deploy navigation systems for modern robot fleets.</h1>
+          <p class="lead">
+            1N Robotics packages field-ready navigation software, cloud control, and deployment kits
+            into products your team can buy online and roll out quickly.
+          </p>
+          <div class="hero-actions">
+            <a href="product.html" class="button button-primary">Shop Products</a>
+            <a href="checkout.html" class="button button-secondary">Go to Checkout</a>
+          </div>
+          <div class="hero-badges">
+            <span>AI-generated product visuals</span>
+            <span>Simple online ordering</span>
+            <span>Deployment-ready kits</span>
+          </div>
         </div>
-        <p class="caption">StarNav: Unified navigation software for all autonomous robots.</p>
+        <figure class="hero-art">
+          <img src="other-images/ai/hero-multirobot.png" alt="AI-generated multi-robot navigation scene" />
+        </figure>
       </div>
     </section>
 
-    <section class="content" id="why-us">
-        <h2>Why StarNav?</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>Universal Deployment</h3>
-                <p>One navigation stack for all robot types. Whether you're building drones, quadrupeds, or humanoids, StarNav provides consistent, reliable navigation across your entire fleet without platform-specific rewrites.</p>
-            </div>
-            <div class="card">
-                <h3>Production-Ready from Day One</h3>
-                <p>Skip years of development with our battle-tested navigation software. Deploy sophisticated autonomous capabilities in weeks, not years, and focus your resources on what makes your robot unique.</p>
-            </div>
-            <div class="card">
-                <h3>Continuously Improving Intelligence</h3>
-                <p>Your robots stay at the cutting edge with automatic updates to our AI models and navigation algorithms. As we improve, every robot in your fleet gets smarter—no engineering required.</p>
-            </div>
+    <section class="metrics-strip">
+      <div class="container metrics-grid">
+        <div class="metric-card">
+          <strong>4</strong>
+          <span>robot classes supported</span>
         </div>
+        <div class="metric-card">
+          <strong>72h</strong>
+          <span>starter deployment turnaround</span>
+        </div>
+        <div class="metric-card">
+          <strong>24/7</strong>
+          <span>cloud monitoring ready</span>
+        </div>
+        <div class="metric-card">
+          <strong>1</strong>
+          <span>cart and checkout experience</span>
+        </div>
+      </div>
     </section>
-    
+
+    <section class="section">
+      <div class="container section-head">
+        <p class="kicker">Featured Products</p>
+        <h2>Start with a deployable kit. Expand into fleet operations when you are ready.</h2>
+      </div>
+      <div class="container product-grid" data-featured-products></div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container section-head">
+        <p class="kicker">Deployment Packages</p>
+        <h2>Choose the buying path that matches your robot program.</h2>
+      </div>
+      <div class="container plans-grid">
+        <article class="plan-card">
+          <p class="plan-label">Pilot</p>
+          <h3>Evaluate one robot and move quickly.</h3>
+          <p>Best for initial mapping, navigation validation, and buyer-side proof of value.</p>
+          <ul class="plan-list">
+            <li>Starter software package</li>
+            <li>Setup checklist and handoff notes</li>
+            <li>Simple online order and confirmation</li>
+          </ul>
+        </article>
+        <article class="plan-card plan-card-featured">
+          <p class="plan-label">Deployment</p>
+          <h3>Ship a production-ready kit with support.</h3>
+          <p>Designed for teams that need integrated hardware, rollout support, and repeatable launch steps.</p>
+          <ul class="plan-list">
+            <li>Integrated navigation kit</li>
+            <li>Implementation line item in checkout</li>
+            <li>Delivery and onboarding scope included</li>
+          </ul>
+        </article>
+        <article class="plan-card">
+          <p class="plan-label">Fleet</p>
+          <h3>Scale into cloud operations and orchestration.</h3>
+          <p>For multi-robot programs that need monitoring, workflows, and remote operations tooling.</p>
+          <ul class="plan-list">
+            <li>Fleet command products</li>
+            <li>Remote ops and incident visibility</li>
+            <li>Expansion path without replatforming</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container split-layout">
+        <div class="content-stack">
+          <p class="kicker">What You Get</p>
+          <h2>A complete purchase path from navigation stack to operations support.</h2>
+          <p>
+            We package robotics software the way real buyers expect to consume it: clear products,
+            transparent scopes, online ordering, and a simple path from trial to deployment.
+          </p>
+          <div class="pill-list">
+            <span>Navigation core</span>
+            <span>Fleet workflows</span>
+            <span>Cloud control</span>
+            <span>Deployment onboarding</span>
+          </div>
+        </div>
+        <div class="info-stack">
+          <article class="info-card">
+            <h3>Buy the right layer</h3>
+            <p>Choose software-only products or integrated deployment kits based on your robot program stage.</p>
+          </article>
+          <article class="info-card">
+            <h3>Launch with less friction</h3>
+            <p>Everything in the storefront is written around practical delivery: scope, target robot type, and rollout speed.</p>
+          </article>
+          <article class="info-card">
+            <h3>Scale into operations</h3>
+            <p>Move from single-robot evaluation to multi-robot operations with add-on tools instead of replatforming.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container section-head">
+        <p class="kicker">Included With Every Order</p>
+        <h2>Every package is framed for a practical buyer conversation.</h2>
+      </div>
+      <div class="container assurance-grid">
+        <article class="assurance-card">
+          <h3>Clear package scope</h3>
+          <p>Each product states its use case, package type, and delivery posture so buyers know what they are ordering.</p>
+        </article>
+        <article class="assurance-card">
+          <h3>Implementation visibility</h3>
+          <p>Checkout separates product and implementation costs, making procurement and approval easier.</p>
+        </article>
+        <article class="assurance-card">
+          <h3>Support-ready handoff</h3>
+          <p>Orders capture deployment region, buyer details, and rollout notes to support follow-up after purchase.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container section-head">
+        <p class="kicker">How Ordering Works</p>
+        <h2>Simple purchase flow built into the site.</h2>
+      </div>
+      <div class="container steps-grid">
+        <article class="step-card">
+          <span>01</span>
+          <h3>Choose a product</h3>
+          <p>Select a kit or cloud product based on robot type and deployment goal.</p>
+        </article>
+        <article class="step-card">
+          <span>02</span>
+          <h3>Add to cart</h3>
+          <p>Review quantity, pricing, and package details before moving to checkout.</p>
+        </article>
+        <article class="step-card">
+          <span>03</span>
+          <h3>Place an order</h3>
+          <p>Enter buyer information, confirm the order, and receive an on-site confirmation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-muted">
+      <div class="container testimonials-grid">
+        <article class="quote-card">
+          <p>"The site now supports the actual buying conversation: discovery, product choice, and checkout in one flow."</p>
+          <span>Deployment buyer journey</span>
+        </article>
+        <article class="quote-card">
+          <p>"The product model makes it easier to sell navigation as a package instead of a custom discussion every time."</p>
+          <span>Commercial packaging</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container cta-banner">
+        <div>
+          <p class="kicker">Ready To Buy</p>
+          <h2>Build your robotics stack the same way your buyers expect to buy software.</h2>
+        </div>
+        <div class="hero-actions">
+          <a href="product.html" class="button button-primary">Browse All Products</a>
+          <a href="checkout.html" class="button button-secondary">Open Checkout</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <p>© 2025 1N Robotics — build towards general intelligence for robots.</p>
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div>
+        <strong>1N Robotics</strong>
+        <p>Navigation systems, cloud tools, and deployment kits for modern robotics teams.</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="product.html">Shop</a>
+        <a href="about.html">About</a>
+        <a href="checkout.html">Checkout</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
