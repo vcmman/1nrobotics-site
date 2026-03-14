@@ -44,17 +44,6 @@ const PRODUCTS = [
     tags: ["Quadruped", "Field", "Operations"],
   },
   {
-    id: "vision-dock-station",
-    name: "Vision Dock Station",
-    category: "hardware",
-    price: 9800,
-    implementation: 1300,
-    image: "other-images/ai/mobile-manipulator.png",
-    blurb: "Sensor dock and charging-side deployment station for repeatable launches, health checks, and image capture.",
-    delivery: "Hardware prep in 6 business days",
-    tags: ["Docking", "Sensors", "Maintenance"],
-  },
-  {
     id: "multirobot-command-suite",
     name: "Multi-Robot Command Suite",
     category: "fleet",
@@ -105,10 +94,7 @@ function getCartDetailed() {
     .map((item) => {
       const product = getProduct(item.id);
       if (!product) return null;
-      return {
-        ...product,
-        quantity: item.quantity,
-      };
+      return { ...product, quantity: item.quantity };
     })
     .filter(Boolean);
 }
@@ -179,18 +165,10 @@ function productCard(product) {
   `;
 }
 
-function renderFeaturedProducts() {
-  const container = document.querySelector("[data-featured-products]");
+function renderHomeProducts() {
+  const container = document.querySelector("[data-home-products]");
   if (!container) return;
-  container.innerHTML = PRODUCTS.slice(0, 3).map(productCard).join("");
-}
-
-function renderShopProducts(filter = "all") {
-  const container = document.querySelector("[data-shop-products]");
-  if (!container) return;
-  const filtered =
-    filter === "all" ? PRODUCTS : PRODUCTS.filter((product) => product.category === filter);
-  container.innerHTML = filtered.map(productCard).join("");
+  container.innerHTML = PRODUCTS.map(productCard).join("");
 }
 
 function renderCheckout() {
@@ -199,7 +177,12 @@ function renderCheckout() {
 
   const items = getCartDetailed();
   if (items.length === 0) {
-    itemsNode.innerHTML = `<p class="empty-cart">Your cart is empty. Add products from the shop to continue.</p>`;
+    itemsNode.innerHTML = `
+      <div class="empty-state">
+        <p class="empty-cart">Your cart is empty.</p>
+        <a href="index.html#packages" class="button button-secondary">Browse Packages</a>
+      </div>
+    `;
     document.querySelector("[data-subtotal]").textContent = formatPrice(0);
     document.querySelector("[data-implementation]").textContent = formatPrice(0);
     document.querySelector("[data-total]").textContent = formatPrice(0);
@@ -236,19 +219,6 @@ function renderCheckout() {
   document.querySelector("[data-total]").textContent = formatPrice(total);
 }
 
-function bindFilters() {
-  const buttons = document.querySelectorAll("[data-filter]");
-  if (!buttons.length) return;
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      buttons.forEach((node) => node.classList.remove("active"));
-      button.classList.add("active");
-      renderShopProducts(button.dataset.filter);
-      bindAddToCartButtons();
-    });
-  });
-}
-
 function bindAddToCartButtons() {
   document.querySelectorAll("[data-add-to-cart]").forEach((button) => {
     button.addEventListener("click", () => {
@@ -266,9 +236,9 @@ function bindCheckout() {
   if (!form) return;
 
   document.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-remove-item]");
-    if (button) {
-      removeFromCart(button.dataset.removeItem);
+    const removeButton = event.target.closest("[data-remove-item]");
+    if (removeButton) {
+      removeFromCart(removeButton.dataset.removeItem);
       renderCheckout();
       return;
     }
@@ -311,10 +281,8 @@ function bindCheckout() {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
-  renderFeaturedProducts();
-  renderShopProducts();
+  renderHomeProducts();
   renderCheckout();
-  bindFilters();
   bindAddToCartButtons();
   bindCheckout();
 });

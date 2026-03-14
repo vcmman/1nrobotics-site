@@ -3,35 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="My first blog post." />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <meta name="description" content="My first blog post from 1N Robotics." />
   <title>My First Blog Post | 1N Robotics</title>
   <link rel="stylesheet" href="../style.css" />
+  <script defer src="../script.js"></script>
 </head>
-<body>
-  <header>
-    <nav>
-      <a href="../index.html"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /></a>
-      <ul>
-        <li><a href="../index.html">Home</a></li>
-        <li><a href="../about.html">About</a></li>
-        <li><a href="../platform.html">Platform</a></li>
-        <li><a href="../blog.html">Blog</a></li>
-        <li><a href="../contact.html">Contact</a></li>
-      </ul>
-    </nav>
+<body data-page="post">
+  <header class="site-header">
+    <div class="container site-nav">
+      <a href="../index.html" class="brand-mark">1N Robotics</a>
+      <nav class="top-nav" aria-label="Primary">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../checkout.html" class="cart-link">Cart <span data-cart-count>0</span></a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="content">
-      <h1>My First Blog Post</h1>
-      <p class="post-meta">August 25, 2025</p>
-      <p>This is the full content of my first blog post. You can write your blog posts in HTML and save them in the `posts` directory. You can then link to them from the `blog.html` page.</p>
-      <p>You can use standard HTML tags to format your blog posts, such as headings, paragraphs, lists, and images.</p>
+  <main>
+    <section class="page-hero">
+      <div class="container narrow-copy">
+        <p class="kicker">Post</p>
+        <h1>My First Blog Post</h1>
+        <p class="article-meta">August 25, 2025</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <article class="container article-shell">
+        <p>
+          This is a simple first post for the 1N Robotics blog. It exists mainly to show how longer updates,
+          product notes, or deployment observations can sit inside the same visual system as the rest of the site.
+        </p>
+        <p>
+          The main site now keeps navigation straightforward: packages live on the homepage, checkout handles
+          lightweight ordering, and About explains the productized buying model.
+        </p>
+        <p>
+          Future posts can expand on deployment lessons, product packaging decisions, and customer-facing updates
+          without introducing extra sections or navigation complexity.
+        </p>
+        <a href="../blog.html" class="button button-secondary">Back to Blog</a>
+      </article>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 1N Robotics — Made by Gemini, built for embodied AI.</p>
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <div>
+        <strong>1N Robotics</strong>
+        <p>Navigation systems, cloud tools, and deployment kits for modern robotics teams.</p>
+      </div>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../checkout.html">Checkout</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>
