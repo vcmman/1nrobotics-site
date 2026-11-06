@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Embodied AI Weekly | 1N Robotics</title>
+    <link>https://1nrobotics.com/blog.html</link>
+    <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Nov 2026 09:00:00 +0800</lastBuildDate>
+    <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Tactile reaction, field reliability, and collaborative robot learning</title>
+      <link>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</guid>
+      <pubDate>Fri, 06 Nov 2026 09:00:00 +0800</pubDate>
+      <description>Four developments that moved embodied AI closer to useful physical systems this week.</description>
+    </item>
+  </channel>
+</rss>

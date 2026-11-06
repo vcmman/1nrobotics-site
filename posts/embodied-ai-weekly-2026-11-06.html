@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="Embodied AI Weekly for November 6, 2026: tactile-reactive manipulation, field-driven robot design, collaborative learning tools, and dexterous hands." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>Tactile Reaction and Field Reliability | Embodied AI Weekly</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=3" />
+
+  <meta property="og:title" content="Tactile Reaction and Field Reliability | Embodied AI Weekly" />
+  <meta property="og:description" content="Four developments that moved embodied AI closer to useful, reliable physical systems this week." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html" />
+  <meta property="og:type" content="article" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link">
+        <img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" />
+      </a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="page-hero article-hero">
+        <div class="container narrow">
+          <p class="eyebrow">Embodied AI Weekly · Week 45</p>
+          <h1>Tactile reaction, field reliability, and collaborative robot learning</h1>
+          <p class="lead article-deck">Four developments that moved the field closer to useful physical systems—and the common engineering idea connecting them.</p>
+          <p class="post-meta"><time datetime="2026-11-06">November 6, 2026</time> · 5 min read · 1N Robotics</p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container narrow article-layout">
+          <div class="article-body">
+            <p>The most interesting progress this week was not simply a larger model. It was a tighter loop between intelligence and the physical world: faster tactile correction, product redesign informed by field hours, shared tooling for adaptation, and a clearer full-stack map of dexterous manipulation.</p>
+
+            <h2 id="tactile-reaction">1. T-Rex adds a fast tactile reflex to a slower VLA policy</h2>
+            <p>Panasonic and collaborators introduced T-Rex, a bimanual manipulation system that combines vision-and-language action generation at roughly 5 Hz with tactile-driven correction at roughly 20 Hz. The split matters: the higher-level policy can set the motion while fingertip signals react more quickly to slip, pressure, and deformation.</p>
+            <p>In the team’s evaluation across 12 contact-rich tasks, T-Rex reported a 65% average success rate, compared with 35% for the strongest baseline. Removing tactile input reduced the result to 42%. The reported training recipe combines 22,889 hours of human egocentric video with 100 hours of synchronized bimanual robot data and task-specific demonstrations.</p>
+            <p class="takeaway"><strong>Why it matters:</strong> useful dexterity may depend less on forcing every decision through one large policy and more on pairing semantic intelligence with fast, sensor-specific control loops.</p>
+
+            <h2 id="field-reliability">2. Stretch Gen 2 turns deployment history into product design</h2>
+            <p>Boston Dynamics unveiled the second generation of Stretch, its trailer-unloading robot. The headline is not a new benchmark; it is that the redesign draws on more than 100,000 operating hours and tens of millions of handled boxes.</p>
+            <p>The company says it used those field records to target common sources of downtime, harden the structure, and make parts easier to swap. For embodied AI teams, this is a useful counterweight to lab metrics: autonomy becomes a product only when maintenance, recovery, serviceability, and uptime are treated as part of the intelligence system.</p>
+            <p class="takeaway"><strong>Why it matters:</strong> real-world data is not only training data. It should also reshape hardware, diagnostics, and operational workflows.</p>
+
+            <h2 id="shared-learning">3. Collaborative infrastructure is becoming part of robot learning</h2>
+            <p>Sidekick Robotics announced a collaborative tier for its platform, describing shared workspaces, interactive reinforcement-learning alignment, and multi-robot fleet management. The release is a product announcement rather than a research result, so its performance impact still needs independent evidence.</p>
+            <p>Even so, the direction is notable. Robot learning is moving from isolated model experiments toward repeatable team workflows: collect data, review behavior, adapt a policy, deploy it, and compare outcomes across machines. The quality of that loop may become as important as the choice of base model.</p>
+            <p class="takeaway"><strong>Why it matters:</strong> the next scaling bottleneck may be organizational—the ability for people and robots to contribute to one auditable learning loop.</p>
+
+            <h2 id="dexterous-hands">4. Dexterous hands get a full-stack field map</h2>
+            <p>A new survey covers dexterous robotic hands from hardware and sensing through data, cross-embodiment transfer, learning, and evaluation. Its scope is the useful signal: progress cannot be understood from policy architecture alone when actuation, tactile sensing, embodiment differences, and benchmark design all shape the result.</p>
+            <p>The survey also reflects a maturing field. Researchers now have enough competing hardware designs, learning approaches, and evaluation setups to compare the interfaces between layers—not merely individual demonstrations.</p>
+
+            <h2>The thread to watch</h2>
+            <p>This week’s common theme is <strong>layered intelligence</strong>. High-level reasoning, learned action policies, reactive control, hardware design, and field operations are becoming distinct but coordinated layers. General-purpose robot capability is unlikely to arrive as one model replacing the stack. It is more likely to emerge from better interfaces across the stack.</p>
+
+            <section class="source-list" aria-labelledby="sources-heading">
+              <h2 id="sources-heading">Primary sources</h2>
+              <ol>
+                <li><a href="https://news.panasonic.com/global/press/en261105-2" target="_blank" rel="noopener noreferrer">Panasonic: T-Rex tactile-reactive dexterous manipulation</a>, November 5, 2026.</li>
+                <li><a href="https://bostondynamics.com/news/boston-dynamics-launches-next-generation-stretch-robot" target="_blank" rel="noopener noreferrer">Boston Dynamics: Stretch Gen 2</a>, November 3, 2026.</li>
+                <li><a href="https://www.sidekickrobotics.ai/news" target="_blank" rel="noopener noreferrer">Sidekick Robotics: Team collaborative plan</a>, November 4, 2026.</li>
+                <li><a href="https://arxiv.org/abs/2611.06724" target="_blank" rel="noopener noreferrer">Dexterous Robotic Hands in the Foundation-Model Era</a>, November 5, 2026.</li>
+              </ol>
+            </section>
+          </div>
+
+          <aside class="article-aside">
+            <strong>In this issue</strong>
+            <ol>
+              <li><a href="#tactile-reaction">Tactile reaction</a></li>
+              <li><a href="#field-reliability">Field reliability</a></li>
+              <li><a href="#shared-learning">Shared learning tools</a></li>
+              <li><a href="#dexterous-hands">Dexterous hands</a></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../product.html">Product</a>
+        <a href="../about.html">About</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../feed.xml">RSS</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
