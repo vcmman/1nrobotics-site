@@ -4,61 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="Learn about 1N Robotics - building best-in-class navigation software to power the next generation of autonomous robots." />
+  <meta name="description" content="Learn about 1N Robotics, the team building StarNav to help robots navigate intelligently and autonomously in the real world." />
   <meta name="robots" content="index, follow" />
   <meta name="keywords" content="1N Robotics, about us, robotics company, autonomous navigation, robot software, careers" />
   <meta name="author" content="1N Robotics" />
-  <title>About Us | 1N Robotics</title>
+  <title>About | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/about.html" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="About Us | 1N Robotics" />
-  <meta property="og:description" content="Building best-in-class navigation software to power the next generation of autonomous robots." />
-  <meta property="og:image" content="https://1nrobotics.com/logo.png" />
+  <meta property="og:title" content="About | 1N Robotics" />
+  <meta property="og:description" content="Building StarNav to power the next generation of autonomous robots." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
   <meta property="og:url" content="https://1nrobotics.com/about.html" />
   <meta property="og:type" content="website" />
 
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About Us | 1N Robotics" />
-  <meta name="twitter:description" content="Building best-in-class navigation software to power the next generation of autonomous robots." />
-  <meta name="twitter:image" content="https://1nrobotics.com/logo.png" />
+  <meta name="twitter:title" content="About | 1N Robotics" />
+  <meta name="twitter:description" content="Building StarNav to power the next generation of autonomous robots." />
+  <meta name="twitter:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html"><img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /></a>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand-link">
+        <img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" />
+      </a>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <!-- <li><a href="product.html">Product</a></li> -->
-        <li><a href="about.html">About</a></li>
-        <!-- <li><a href="blog.html">Blog</a></li> -->
+        <li><a href="product.html">Product</a></li>
+        <li><a href="about.html" aria-current="page">About</a></li>
+        <li><a href="blog.html">Blog</a></li>
       </ul>
+      <a href="mailto:contact@1nrobotics.com?subject=Hello%201N%20Robotics" class="nav-cta">Contact</a>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>About Us</h1>
-      <p>We're building best-in-class navigation software to power the next generation of autonomous robots.</p>
+  <main>
+    <section class="page-hero">
+      <div class="container narrow">
+        <p class="eyebrow">About 1N Robotics</p>
+        <h1>We are building the autonomy layer for real robot deployment.</h1>
+        <p class="lead">1N Robotics exists to help robots navigate intelligently and autonomously, regardless of form factor or field environment.</p>
+      </div>
     </section>
 
-    <section class="content">
-      <h2>Our Mission</h2>
-      <p>At 1N Robotics, we believe every robot should navigate intelligently and autonomously, regardless of its form or application. Our mission is to accelerate robotics innovation by providing production-ready navigation software that works across all platforms—from drones and ground robots to quadrupeds and humanoids.</p>
-            
-      <p>StarNav combines cutting-edge AI with robust software engineering to deliver navigation that just works. Our platform continuously improves through AI updates, making every robot in your fleet smarter over time—no engineering required.</p>
+    <section class="content-section">
+      <div class="container split-layout">
+        <div>
+          <p class="eyebrow">Mission</p>
+          <h2>Make capable robots easier to deploy.</h2>
+        </div>
+        <div class="prose">
+          <p>Every robotics team has to bridge the same hard gap: a robot that works in a controlled demo must become a robot that can operate reliably around messy real-world conditions.</p>
+          <p>StarNav combines autonomy software, validation workflows, and fleet operations tooling so teams can spend less time rebuilding navigation infrastructure and more time shipping differentiated robots.</p>
+        </div>
+      </div>
+    </section>
 
-      <h2>Contact</h2>
-      <p>Interested in bringing StarNav to your robots? Contact us at <a href="mailto:contact@1nrobotics.com">contact@1nrobotics.com</a> or connect with us on <a href="https://www.linkedin.com/company/1nrobotics/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.</p>
-      
-      <p>We're looking for talented engineers and roboticists who share our passion for advancing autonomous systems. If you're excited about building the future of robot navigation, reach out to join our team.</p>
+    <section class="content-section section-band">
+      <div class="container cards">
+        <article class="card">
+          <h3>Production-minded</h3>
+          <p>We care about telemetry, validation, fallback behavior, and rollout discipline because deployment is where autonomy becomes real.</p>
+        </article>
+        <article class="card">
+          <h3>Robot-agnostic</h3>
+          <p>StarNav is designed around the shared autonomy patterns across drones, mobile robots, quadrupeds, and humanoids.</p>
+        </article>
+        <article class="card">
+          <h3>Built with teams</h3>
+          <p>We work with robotics builders who already have hardware ambition and need a stronger path to field-ready navigation.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-section final-cta">
+      <div class="container cta-panel">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Interested in StarNav or joining the team?</h2>
+          <p>Reach us by email or connect with 1N Robotics on LinkedIn.</p>
+        </div>
+        <div class="cta-actions">
+          <a href="mailto:contact@1nrobotics.com" class="cta-button">Email us</a>
+          <a href="https://www.linkedin.com/company/1nrobotics/" target="_blank" rel="noopener noreferrer" class="secondary-button">LinkedIn</a>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 1N Robotics — build towards general intelligence for robots.</p>
+    <div class="container footer-row">
+      <p>© 2025 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="product.html">Product</a>
+        <a href="blog.html">Blog</a>
+        <a href="https://www.linkedin.com/company/1nrobotics/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>

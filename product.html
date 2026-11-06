@@ -4,73 +4,143 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="1N Robotics product platform" />
+  <meta name="description" content="StarNav is the 1N Robotics autonomy platform for robot runtime, simulation, validation, and fleet operations." />
   <meta name="robots" content="index, follow" />
-  <meta name="keywords" content="1N Robotics, 1n robotics, 1nrobotics, embodied AI, autonomous robot, drone, humanoid, product, platform" />
+  <meta name="keywords" content="StarNav, robot autonomy platform, robot runtime, fleet operations, simulation, robot navigation" />
   <meta name="author" content="1N Robotics" />
-  <title>1N Robotics | Product</title>
+  <title>Product | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/product.html" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=2" />
 
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="1N Robotics | Product" />
-  <meta property="og:description" content="The StarNav Platform for building and deploying intelligent robots." />
-  <meta property="og:image" content="https://1nrobotics.com/logo.png" />
+  <meta property="og:title" content="Product | 1N Robotics" />
+  <meta property="og:description" content="The StarNav autonomy platform for robots moving from prototype to field deployment." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
   <meta property="og:url" content="https://1nrobotics.com/product.html" />
   <meta property="og:type" content="website" />
 
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="1N Robotics | Product" />
-  <meta name="twitter:description" content="The StarNav Platform for building and deploying intelligent robots." />
-  <meta name="twitter:image" content="https://1nrobotics.com/logo.png" />
+  <meta name="twitter:title" content="Product | 1N Robotics" />
+  <meta name="twitter:description" content="The StarNav autonomy platform for robots moving from prototype to field deployment." />
+  <meta name="twitter:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html"><img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /></a>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand-link">
+        <img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" />
+      </a>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <!-- <li><a href="product.html">Product</a></li> -->
+        <li><a href="product.html" aria-current="page">Product</a></li>
         <li><a href="about.html">About</a></li>
-        <!-- <li><a href="blog.html">Blog</a></li> -->
+        <li><a href="blog.html">Blog</a></li>
       </ul>
+      <a href="mailto:contact@1nrobotics.com?subject=StarNav%20product%20intro" class="nav-cta">Contact</a>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h2 id="platform">The StarNav Platform</h2>
-      <p>The unified hardware, software, and cloud solution for building and deploying intelligent robots.</p>
+  <main>
+    <section class="page-hero">
+      <div class="container narrow">
+        <p class="eyebrow">Product</p>
+        <h1>The StarNav platform</h1>
+        <p class="lead">A modular autonomy system for teams building robots that need to navigate, execute missions, and improve after deployment.</p>
+      </div>
     </section>
 
-    <section class="content">
-      <div class="card">
-        <img src="other-images/vNav.png" alt="StarNav Hardware" />
-        <h3>StarNav Hardware</h3>
-        <p>A reference design for a powerful, compact, and energy-efficient autonomy box. It includes a high-performance processor, a suite of sensors, and a variety of I/O ports. You can build it yourself or work with one of our manufacturing partners.</p>
+    <section class="content-section">
+      <div class="container product-stack">
+        <article class="product-panel">
+          <div>
+            <span class="card-index">01</span>
+            <h2>Robot Runtime</h2>
+            <p>StarNav runs on the robot to support perception, localization, obstacle awareness, mission-aware planning, and safe recovery behaviors.</p>
+          </div>
+          <ul class="feature-list">
+            <li>Sensor fusion and map alignment</li>
+            <li>Route planning and local obstacle response</li>
+            <li>Operator handoff and recovery behavior</li>
+          </ul>
+        </article>
+
+        <article class="product-panel">
+          <div>
+            <span class="card-index">02</span>
+            <h2>Validation Layer</h2>
+            <p>Teams can validate autonomy behavior before field rollout through repeatable scenarios, regression checks, and deployment gates.</p>
+          </div>
+          <ul class="feature-list">
+            <li>Scenario libraries for target environments</li>
+            <li>Robot-specific policy adaptation</li>
+            <li>Release checks before field exposure</li>
+          </ul>
+        </article>
+
+        <article class="product-panel">
+          <div>
+            <span class="card-index">03</span>
+            <h2>Fleet Operations</h2>
+            <p>StarNav connects field robots back to operators with mission visibility, diagnostics, telemetry, and update workflows.</p>
+          </div>
+          <ul class="feature-list">
+            <li>Mission dashboards and health monitoring</li>
+            <li>Remote diagnostics and version tracking</li>
+            <li>Feedback loops from field data</li>
+          </ul>
+        </article>
       </div>
-      <div class="card">
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="200" fill="#ffffff" stroke="#ddd" stroke-width="1"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" fill="#000000">StarNav ROS</text>
-        </svg>
-        <h3>StarNav ROS</h3>
-        <p>Best-in-class navigation software built on top of ROS (Robot Operating System). It provides a rich set of libraries and tools for perception, planning, and control. The software is designed to be modular and extensible, so you can easily integrate it with your existing ROS-based systems.</p>
+    </section>
+
+    <section class="content-section section-band">
+      <div class="container split-layout">
+        <div>
+          <p class="eyebrow">Hardware fit</p>
+          <h2>Designed to work across changing robot programs.</h2>
+          <p>StarNav can support teams evolving sensors, compute, locomotion, and operator workflows without restarting the autonomy strategy every cycle.</p>
+        </div>
+        <div class="support-grid">
+          <article>
+            <h3>Composable modules</h3>
+            <p>Adopt the parts of the stack that match your robot and extend where your team needs control.</p>
+          </article>
+          <article>
+            <h3>Deployment discipline</h3>
+            <p>Move from one-off demos toward repeatable releases and measurable field performance.</p>
+          </article>
+          <article>
+            <h3>Operator-aware workflows</h3>
+            <p>Support supervised autonomy, fallback, diagnostics, and fleet-level visibility.</p>
+          </article>
+          <article>
+            <h3>Learning loop</h3>
+            <p>Bring logs and mission outcomes back into validation and policy improvement.</p>
+          </article>
+        </div>
       </div>
-      <div class="card">
-        <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-          <rect width="400" height="200" fill="#ffffff" stroke="#ddd" stroke-width="1"/>
-          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" fill="#000000">StarNav RMF</text>
-        </svg>
-        <h3>StarNav RMF</h3>
-        <p>A cloud-based platform for managing your fleet of robots. It allows you to plan multi-robot missions, monitor the health of your robots, and collect and analyze data from the field. The cloud platform also includes a powerful simulation environment, so you can test your planning before deploying them to the real world.</p>
+    </section>
+
+    <section class="content-section final-cta">
+      <div class="container cta-panel">
+        <div>
+          <p class="eyebrow">Product intro</p>
+          <h2>See whether StarNav fits your robot program.</h2>
+          <p>Tell us about your robot type, target environment, and deployment stage. We will help map the right integration path.</p>
+        </div>
+        <a href="mailto:contact@1nrobotics.com?subject=StarNav%20product%20fit" class="cta-button">Start the conversation</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 1N Robotics — build towards general intelligence for robots.</p>
+    <div class="container footer-row">
+      <p>© 2025 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="blog.html">Blog</a>
+        <a href="https://www.linkedin.com/company/1nrobotics/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>

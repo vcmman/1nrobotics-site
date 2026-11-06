@@ -4,44 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="Blog of 1N Robotics." />
-  <title>Blog | 1N Robotics</title>
+  <meta name="description" content="Embodied AI Weekly from 1N Robotics: a source-led briefing on robot learning, foundation models, hardware, and real-world deployment." />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="embodied AI, robotics weekly, robot learning, vision language action models, humanoid robots" />
+  <meta name="author" content="1N Robotics" />
+  <title>Embodied AI Weekly | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/blog.html" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="style.css?v=3" />
+
+  <meta property="og:title" content="Embodied AI Weekly | 1N Robotics" />
+  <meta property="og:description" content="The signal behind the week's most important progress in embodied intelligence." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/blog.html" />
+  <meta property="og:type" content="website" />
 </head>
 <body>
-  <header>
-    <nav>
-      <a href="index.html"><img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /></a>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" class="brand-link">
+        <img src="logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" />
+      </a>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="product.html">Product</a></li>
         <li><a href="about.html">About</a></li>
-        <!-- <li><a href="blog.html">Blog</a></li> -->
+        <li><a href="blog.html" aria-current="page">Blog</a></li>
       </ul>
+      <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
     </nav>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>1N Robotics Blog</h1>
-      <p>News, updates, and insights from the team at 1N Robotics.</p>
+  <main>
+    <section class="page-hero weekly-hero">
+      <div class="container weekly-hero-grid">
+        <div>
+          <p class="eyebrow">Embodied AI Weekly</p>
+          <h1>The signal behind a fast-moving field.</h1>
+          <p class="lead">A weekly, source-led briefing on robot foundation models, learning systems, hardware, and the hard work of deployment.</p>
+        </div>
+        <aside class="weekly-promise" aria-label="Publication details">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div>
+            <strong>Published every Friday</strong>
+            <p>Five-minute reads. Primary sources. Practical implications for robotics teams.</p>
+          </div>
+        </aside>
+      </div>
     </section>
 
-    <section class="content">
-      <h2>Latest Posts</h2>
-      <div class="blog-list">
-        <div class="blog-post-preview">
-          <h3><a href="posts/my-first-post.html">My First Blog Post</a></h3>
-          <p class="post-meta">August 25, 2025</p>
-          <p>This is a short preview of my first blog post. Click the link above to read the full post.</p>
+    <section class="content-section">
+      <div class="container section-heading blog-heading">
+        <div>
+          <p class="eyebrow">Latest issue</p>
+          <h2>Week 45 · Touch gets a faster feedback loop</h2>
         </div>
+        <a class="text-link" href="feed.xml">Follow via RSS <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="container featured-post">
+        <article class="featured-post-copy">
+          <p class="post-meta"><time datetime="2026-11-06">November 6, 2026</time> · 5 min read</p>
+          <h3><a href="posts/embodied-ai-weekly-2026-11-06.html">Tactile reaction, field reliability, and collaborative robot learning</a></h3>
+          <p>This week, tactile feedback moved closer to the control loop, deployed robots fed their own redesign, and the tooling around foundation models became more collaborative.</p>
+          <a class="cta-button" href="posts/embodied-ai-weekly-2026-11-06.html">Read this week’s briefing</a>
+        </article>
+        <ol class="issue-index" aria-label="Stories in this issue">
+          <li><span>01</span><div><strong>T-Rex</strong><small>Fast tactile correction for bimanual tasks</small></div></li>
+          <li><span>02</span><div><strong>Stretch Gen 2</strong><small>Designing from 100,000 field hours</small></div></li>
+          <li><span>03</span><div><strong>Shared learning</strong><small>Collaboration reaches robot tooling</small></div></li>
+          <li><span>04</span><div><strong>Dexterous hands</strong><small>A full-stack view of the field</small></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="content-section section-band">
+      <div class="container section-heading">
+        <p class="eyebrow">What we track</p>
+        <h2>From research result to working robot.</h2>
+      </div>
+      <div class="container topic-grid">
+        <article><span>Models</span><h3>Foundation models</h3><p>VLA systems, world models, embodied reasoning, memory, and cross-embodiment transfer.</p></article>
+        <article><span>Learning</span><h3>Data and adaptation</h3><p>Demonstrations, reinforcement learning, simulation, evaluation, and deployment feedback loops.</p></article>
+        <article><span>Systems</span><h3>Hardware and operations</h3><p>Sensing, control, safety, reliability, and the infrastructure that keeps robots useful in the field.</p></article>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 1N Robotics — build towards general intelligence for robots.</p>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="product.html">Product</a>
+        <a href="about.html">About</a>
+        <a href="feed.xml">RSS</a>
+      </div>
+    </div>
   </footer>
 </body>
 </html>

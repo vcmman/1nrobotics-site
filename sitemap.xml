@@ -20,8 +20,14 @@
   </url>
   <url>
     <loc>https://1nrobotics.com/blog.html</loc>
-    <lastmod>2025-10-31</lastmod>
+    <lastmod>2026-11-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
