@@ -727,6 +727,13 @@ footer {
   margin-top: 0;
 }
 
+.article-body > h3 {
+  margin: 2.6rem 0 0.7rem;
+  font-size: 1.28rem;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
 .article-body p,
 .article-body li {
   color: #304151;

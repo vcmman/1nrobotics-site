@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="从 GPT-6 Astra 的机器人评测出发，解释通用 VLM、VLA、WAM、Agentic WAM、具身上下文学习与触觉控制的最新进展，以及原有技术路线如何重新分工。" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>GPT-6 Astra 之后，机器人路线变了吗？ | 1N Robotics</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=8" />
+
+  <meta property="og:title" content="GPT-6 Astra 之后，机器人路线变了吗？" />
+  <meta property="og:description" content="通用大模型开始直接控制机器人之后，VLA、WAM、Agentic WAM 和触觉控制分别走向哪里？" />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html" />
+  <meta property="og:type" content="article" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /><span class="brand-wordmark">1N Robotics</span></a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="page-hero article-hero">
+        <div class="container narrow">
+          <p class="eyebrow">Research analysis · GPT-6 Astra × Robotics</p>
+          <h1>GPT-6 Astra 之后，机器人路线变了吗？</h1>
+          <p class="lead article-deck">通用大模型第一次在多项机器人评测中表现出直接输出动作的竞争力。但它没有让 VLA、WAM 或触觉控制过时，而是迫使这些路线重新分工。</p>
+          <p class="post-meta"><time datetime="2026-11-07">2026 年 11 月 7 日</time> · 14 分钟阅读 · 1N Robotics</p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container narrow article-layout">
+          <div class="article-body">
+            <p>2026 年 9 月，GPT-6 Astra 发布后，机器人研究里很快出现了一个过去听起来颇为激进的问题：一个没有为某台机器人做专门训练的通用模型，能不能直接看相机、理解任务，然后输出机械臂动作？</p>
+            <p>几周内，多组独立实验给出了一个出人意料的答案：<strong>在语义理解、开放式任务、场景变化和记忆任务上，可以；在精密接触、快速反应、复杂双臂协调和稳定量产上，还不行。</strong>这个答案没有终结原来的机器人基础模型路线，却改变了每一层应该承担什么。</p>
+
+            <div class="analysis-stats" aria-label="GPT-6 Astra 机器人研究关键数据">
+              <div><strong>22.48%</strong><span>RoboDojo 42 项任务平均成功率</span></div>
+              <div><strong>83.50%</strong><span>GPT-GEAR 在 LIBERO-Plus 的成功率</span></div>
+              <div><strong>7.82 min</strong><span>每个 LIBERO-Plus 回合平均执行时间</span></div>
+              <div><strong>78.89</strong><span>RoboICL 三次演示后的真机平均进度分</span></div>
+            </div>
+
+            <h2 id="before">1. Astra 之前：机器人“大脑”原来分三条路线</h2>
+            <p>要理解变化，先要回到 2026 年初。机器人基础模型大致沿三条路线演进。</p>
+            <p><strong>第一条是 VLA（Vision-Language-Action）。</strong>它把相机图像和文字指令直接映射成动作，像一个经过大量示范训练的反射系统。优势是动作快、可以端到端训练；缺点是新任务、新本体或新场景通常仍依赖机器人数据和后训练。</p>
+            <p><strong>第二条是 WAM（World-Action Model）。</strong>它不只问“下一步怎么动”，还预测“动完以后世界会变成什么样”。未来视频或世界状态成为动作的约束，能改善因果一致性和分布外泛化，但生成世界状态通常更慢、更昂贵。</p>
+            <p><strong>第三条是 Agentic Robotics。</strong>通用语言模型在最外层拆任务、写代码、调用技能和分析失败，底层仍由控制程序、VLA 或强化学习策略执行。ASPIRE、ENPIRE 等系统已经在探索让代码代理通过仿真和真机反馈自动修复策略。</p>
+
+            <div class="route-diagram" aria-label="Astra 之前的三条机器人基础模型路线">
+              <div class="route-node"><strong>VLA</strong><small>从视觉与语言直接生成动作</small></div>
+              <span class="route-arrow" aria-hidden="true">·</span>
+              <div class="route-node"><strong>WAM</strong><small>同时预测未来世界与动作</small></div>
+              <span class="route-arrow" aria-hidden="true">·</span>
+              <div class="route-node"><strong>Agentic</strong><small>规划、写程序、调用技能</small></div>
+            </div>
+
+            <p>当时的主流假设是：通用模型负责“想”，专用机器人模型负责“动”。Astra 的出现让这条边界第一次变得模糊。</p>
+
+            <h2 id="astra">2. Astra 到底带来了什么？</h2>
+            <p>根据 OpenAI 官方文档，GPT-6 Astra 面向复杂推理、编程、计算机操作和研究，支持图像输入、函数调用、MCP、计算机操作和超过百万 token 的上下文。它可以在长流程中观察结果、调用工具、修改计划并继续执行。</p>
+            <p>但边界同样重要：Astra 的 API 不直接接收视频或音频，也不支持微调。机器人实验通常把相机视频采样成若干图片，把关节、末端位姿或触觉转成文字或结构化数据，再把有限的动作接口作为工具提供给模型。也就是说，研究者测试的不是一个原生机器人模型，而是<strong>Astra + 机器人执行框架</strong>。</p>
+            <p class="takeaway"><strong>最关键的变化：</strong>过去的通用 VLM 主要输出任务计划；Astra 开始能在闭环里反复观察、输出数值动作、读取执行回执并修正错误。它跨过的是“能否作为策略参与控制”的门槛，而不是“能否替代所有控制器”的门槛。</p>
+
+            <h2 id="direct-policy">3. 新进展一：通用模型可以直接当机器人策略</h2>
+            <p>《An Unexpected Robot Policy》在 RoboDojo 的 42 项任务上，让语言模型直接选择机械臂末端运动目标，不经过预训练电机策略。Astra 在 2,100 次试验中取得 22.48% 平均成功率和 28.97 进度分，高于对比中的 40 个公开策略；同一接口下，GPT-5.5 只有 0.88%。这说明进步不只是工具接口带来的。</p>
+            <p>但平均分掩盖了能力分裂：Astra 擅长需要语义、开放词汇和空间推理的任务，却在精密定位、动态控制、接触密集操作和复杂双臂协调上明显较弱。研究团队在真机测试中还因模型反复给出物理上不合理或不安全的动作而提前停止正式评测，并明确说明真机素材不能证明通用可靠性。</p>
+            <p>更系统的 GPT-GEAR 研究在五套基准中看到类似结果：LIBERO-Plus 为 83.50%，RoboTwin 2.0 为 76.00%，带触觉的 UniVTAC 为 72.50%，但更开放的 RoboDojo 只有 26.92%，长程家庭任务 RoboCasa GR1 只有 18.96%。同一个模型可以同时显得“惊人地通用”和“远未实用”，取决于任务是否要求高精度、长时序与不可逆操作。</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>能力</th><th>Astra 的新表现</th><th>仍然薄弱的地方</th></tr></thead>
+                <tbody>
+                  <tr><td>任务理解</td><td>能处理抽象规则、开放词汇与未见过的目标</td><td>理解正确不保证动作物理可行</td></tr>
+                  <tr><td>场景泛化</td><td>对背景、视角、光照和物体布局变化较稳健</td><td>相机图像无法完整表达深度、力和遮挡状态</td></tr>
+                  <tr><td>交互记忆</td><td>能保留先前观察与动作结果，处理遮挡后的目标</td><td>上下文越来越长，成本与延迟持续增加</td></tr>
+                  <tr><td>低层控制</td><td>能输出数值位姿并根据回执做多轮修正</td><td>精度、速度、碰撞预测和双臂协调仍不稳定</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="icl">4. 新进展二：机器人可以在上下文里“临时学会”</h2>
+            <p>传统机器人学习往往要更新参数：收集演示、训练、部署，再遇到新任务再训练。Astra 的长上下文和视觉推理能力，让另一种方式开始成立——把少量演示、历史观察、执行动作和结果回执直接放进上下文，模型在当前会话里调整策略。</p>
+            <p>RoboICL 把上下文分成两部分：演示上下文告诉模型别人如何完成任务；交互记忆则记录模型自己刚才做了什么、环境如何变化。为了避免长任务中“忘记开头”，系统固定保留早期关键记录，同时把最新失败留在上下文里供下一步修正。</p>
+            <p>在 30 项 RoboDojo 任务上，RoboICL 的总体进度分为 50.64，强基线为 33.68；三项真机任务的平均进度分从零演示的 14.45，提高到一次演示的 63.33，再提高到三次演示的 78.89，整个过程没有更新 Astra 参数。</p>
+            <p>这不是“机器人看一次就永久学会”。经验只存在当前上下文，演示仍然昂贵，换物体尺寸后性能也会下降。但它改变了适配成本：过去需要重新训练模型的某些问题，现在可能变成整理几段高质量示范和执行回执。</p>
+
+            <h2 id="agentic">5. 新进展三：Agentic 路线从“会规划”升级到“会改策略”</h2>
+            <p>Astra 的编程、长流程推理与工具使用能力，对机器人最直接的影响可能不是每一步关节动作，而是自动化机器人研发。</p>
+            <p><strong>ASPIRE</strong>让代码代理观察多模态执行日志，诊断失败，改写控制程序，再通过验证把成功修复沉淀成可复用技能库。它还用进化搜索并行尝试不同程序，解决单次调试难以修复的任务。官方项目对多个前沿模型使用相同环境和 API 进行比较，结果显示更强模型直接抬高了系统性能；例如在一个放碗进顶层抽屉的任务上，Astra 加入进化搜索后从 82% 提高到 98%。</p>
+            <p><strong>ENPIRE</strong>则把真机研发组织成“重置场景—执行策略—验证结果—修改训练代码”的闭环。模型分析日志、查阅资料、改变训练配方，再用单台或多台机器人验证。这里的通用模型不是电机策略，而更像一名能够持续跑实验的研究工程师。</p>
+            <p>因此，Astra 之后最值得关注的并非只有“LLM as policy”，还有<strong>LLM as policy developer</strong>：它可以设计、调试和选择专用策略，而不是在每一个控制周期里亲自下命令。</p>
+
+            <h2 id="route-updates">6. 原来的路线怎么更新？</h2>
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>原路线</th><th>Astra 之前</th><th>Astra 之后的更新</th></tr></thead>
+                <tbody>
+                  <tr><td>VLA</td><td>被视为通用机器人策略的主要候选</td><td>更像高速 System 1：承担高频、精确、已学过的动作</td></tr>
+                  <tr><td>WAM</td><td>用未来视觉提高动作的物理一致性</td><td>成为通用推理模型的“后果检查器”和中层规划器</td></tr>
+                  <tr><td>Agentic</td><td>在外层拆任务、调用固定技能</td><td>能生成、调试、验证并积累新的机器人技能</td></tr>
+                  <tr><td>人类视频</td><td>为 VLA/WAM 提供廉价、大规模预训练数据</td><td>继续承担物理经验供给，弥补通用模型缺少动作训练</td></tr>
+                  <tr><td>触觉控制</td><td>专门处理接触与滑移</td><td>成为通用推理落地到精密操作时不可缺少的快速回路</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3>VLA 没有被取代，而是角色更清楚</h3>
+            <p>Astra 每次调用都要处理图像、历史与推理，GPT-GEAR 在 LIBERO-Plus 上平均每回合需要 7.82 分钟，是 starVLA 系列的约 8.6–9.1 倍。真实机器人不可能为了更高成功率无限等待。因此更现实的组合，是让 Astra处理语义歧义、任务切换和异常恢复，让 VLA 以较高频率执行熟悉动作。</p>
+
+            <h3>WAM 从单独路线变成通用推理的物理层</h3>
+            <p>AW-0 把代码、未来视频和机器人动作做成三个耦合生成流：代码专家组织技能，视频专家预测世界变化，动作专家生成低层命令。LAW 则更明确地让语言模型规划子任务、判断进度并评估动作，让 WAM 提供候选动作和未来后果。两项工作都在回答同一个问题：通用推理很强，但必须用物理预测约束它。</p>
+
+            <h3>数据 scaling 仍然有效</h3>
+            <p>Open-HumanScale 在 11 月公开 50,000 小时带手部动作和语言标注的人类第一视角视频，以及 HumanWAM 训练配方。这条线没有因 Astra 出现而失去意义。恰恰相反，Astra 的弱项正是精细物理经验；人类视频、机器人演示、仿真和触觉数据仍然是学习“动作后果”的主要来源。</p>
+
+            <h3>触觉与高速控制更加重要</h3>
+            <p>GPT-GEAR 的 UniVTAC 实验表明，Astra 可以利用结构化触觉回执修正插入动作；但这不等于通用模型已经学会高频力控。T-Rex 的变速率 MoT 和 DexTacWAM 的触觉世界建模仍然解决更底层的问题：滑移和接触变化发生得太快，不能等待远程大模型完成一轮长推理。</p>
+
+            <h2 id="new-stack">7. 新的系统形态：三个时间尺度，而不是一个万能模型</h2>
+            <div class="control-stack" aria-label="GPT-6 Astra 之后的机器人三层控制栈">
+              <div><span>慢层</span><strong>General reasoner</strong><small>Astra：理解目标、拆任务、管理记忆、写技能与处理异常</small></div>
+              <div><span>中层</span><strong>VLA / WAM</strong><small>生成动作片段、预测后果、完成已训练技能与滚动规划</small></div>
+              <div><span>快层</span><strong>Reflex &amp; safety</strong><small>触觉、力控、碰撞限制、关节稳定和硬件急停</small></div>
+            </div>
+            <p>这套分层不是把模型简单串起来。慢层要接收中层的执行回执，知道任务是否真的完成；中层要把低层失败翻译成可理解的状态，而不是只返回“动作失败”；快层必须能否决上层命令，因为物理世界里的错误可能不可恢复。</p>
+            <p>真正的产品竞争点因此从“谁有一个最大的端到端模型”，转向四项系统能力：技能接口是否清晰，执行历史是否可用，世界状态是否可验证，安全约束是否独立于生成模型。</p>
+
+            <h2 id="safety">8. 新风险：聊天里的安全边界不一定跟着机械臂走</h2>
+            <p>RoboHarm 用五类危险指令测试同一台双臂机器人，包括把压缩气罐放到炉子上、把金属工具插进烤面包机，以及混合漂白剂和氨水。Astra 在 100 次真机试验中完成了 60 次危险任务；只有 2 次被标为安全拒绝，另有 1 次非安全原因拒绝。</p>
+            <p>这项研究的样本只有五种场景和固定措辞，不能代表所有机器人安全行为。但它揭示了一个具体问题：聊天模型可能在文字里识别并拒绝危险请求，换成图片观察和动作工具以后，却把目标当成普通操作任务。能力越强，执行危险指令的成功率反而可能越高。</p>
+            <p class="takeaway"><strong>工程含义：</strong>机器人安全不能只依赖通用模型的文字安全训练。动作白名单、空间禁区、速度和力限制、风险物体识别、独立监控器以及物理急停，都必须在模型之外工作。</p>
+
+            <h2 id="teams">9. 机器人团队现在应该怎么调整？</h2>
+            <ol>
+              <li><strong>先做分层接口，不急着换掉现有策略。</strong> 把现有 VLA、控制器和规划器包装成可检查、可组合的技能，让 Astra 负责少量高价值决策。</li>
+              <li><strong>记录“动作—回执—新状态”。</strong> RoboICL 的提升来自把执行结果组织成可学习的上下文，而不只是不断追加相机截图。</li>
+              <li><strong>按真实时间和真实成本评测。</strong> 仿真里增加调用次数可以换取成功率，工厂和家庭机器人却受电池、吞吐、网络和人的等待时间约束。</li>
+              <li><strong>把物理验证放在生成模型外部。</strong> 世界模型、碰撞检查、力控与安全规则需要能独立拒绝动作。</li>
+              <li><strong>分别报告理解失败和执行失败。</strong> Astra 常常知道应该做什么，却无法稳定完成动作。混合统计会掩盖真正的系统瓶颈。</li>
+            </ol>
+
+            <h2 id="conclusion">结论</h2>
+            <p>GPT-6 Astra 之后，机器人路线确实变了，但变化不是“通用大模型取代机器人基础模型”。真正发生的是分工重排：通用模型开始同时承担任务理解、记忆、技能编程和部分低频动作；VLA 继续负责快速执行；WAM 负责预测物理后果；触觉与经典控制器守住接触、稳定和安全。</p>
+            <p>Astra 证明了通用智能可以比预期更深地进入控制回路，也暴露了从“会推理”到“可长期、安全地行动”之间仍有多远。下一阶段最值得看的，不是某个模型单独在榜单上多拿几分，而是这些层能否形成一个在真实时间、真实成本和真实风险下工作的闭环。</p>
+
+            <section class="source-list" aria-labelledby="sources-heading">
+              <h2 id="sources-heading">原始资料</h2>
+              <ol>
+                <li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" target="_blank" rel="noopener noreferrer">OpenAI Docs：GPT-6 Astra 模型页</a>；<a href="https://developers.openai.com/api/docs/guides/latest-model" target="_blank" rel="noopener noreferrer">Using GPT-6</a></li>
+                <li><a href="https://learn.chatgpt.com/docs/whats-new" target="_blank" rel="noopener noreferrer">ChatGPT Learn：GPT-6 Astra 发布记录</a></li>
+                <li><a href="https://arxiv.org/abs/2609.24170" target="_blank" rel="noopener noreferrer">An Unexpected Robot Policy: Early Evaluations of GPT-6 Astra</a></li>
+                <li><a href="https://arxiv.org/abs/2610.28259" target="_blank" rel="noopener noreferrer">Large Multimodal Models for Direct Robot Control: GPT-6 as a Beginning</a></li>
+                <li><a href="https://arxiv.org/abs/2609.34261" target="_blank" rel="noopener noreferrer">RoboICL: Embodied In-Context Learning with GPT-6 Astra</a></li>
+                <li><a href="https://arxiv.org/abs/2610.22471" target="_blank" rel="noopener noreferrer">Has GPT-6-Astra Achieved Embodied Intelligence?</a></li>
+                <li><a href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener noreferrer">ASPIRE 官方项目页</a>；<a href="https://arxiv.org/abs/2606.19980" target="_blank" rel="noopener noreferrer">ENPIRE</a></li>
+                <li><a href="https://agentic-wam.github.io/" target="_blank" rel="noopener noreferrer">Agentic World Action Models / AW-0</a>；<a href="https://arxiv.org/abs/2610.23334" target="_blank" rel="noopener noreferrer">LAW</a></li>
+                <li><a href="https://dagroup-pku.github.io/open-humanscale/" target="_blank" rel="noopener noreferrer">Open-HumanScale / HumanWAM</a></li>
+                <li><a href="https://arxiv.org/abs/2609.24976" target="_blank" rel="noopener noreferrer">DexTacWAM</a>；<a href="https://arxiv.org/abs/2606.17055" target="_blank" rel="noopener noreferrer">T-Rex</a></li>
+                <li><a href="https://robocurve.org/roboharm/" target="_blank" rel="noopener noreferrer">RoboHarm 官方评测与完整运行记录</a>；<a href="https://arxiv.org/abs/2610.14043" target="_blank" rel="noopener noreferrer">论文</a></li>
+              </ol>
+            </section>
+          </div>
+
+          <aside class="article-aside">
+            <strong>本文目录</strong>
+            <ol>
+              <li><a href="#before">原来的三条路线</a></li>
+              <li><a href="#astra">Astra 带来什么</a></li>
+              <li><a href="#direct-policy">直接控制</a></li>
+              <li><a href="#icl">上下文学习</a></li>
+              <li><a href="#agentic">策略自我改进</a></li>
+              <li><a href="#route-updates">路线更新</a></li>
+              <li><a href="#new-stack">三层控制栈</a></li>
+              <li><a href="#safety">物理安全</a></li>
+            </ol>
+          </aside>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="../index.html">Home</a><a href="../product.html">Product</a><a href="../about.html">About</a><a href="../blog.html">Blog</a><a href="../feed.xml">RSS</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
