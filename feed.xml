@@ -5,8 +5,15 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 15:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 21:00:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GPT-6 Astra 之后，机器人路线变了吗？</title>
+      <link>https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html</guid>
+      <pubDate>Sat, 07 Nov 2026 21:00:00 +0800</pubDate>
+      <description>从发布后的机器人评测出发，分析 GPT-6 Astra 如何改变 VLA、WAM、Agentic WAM、具身上下文学习与触觉控制的分工。</description>
+    </item>
     <item>
       <title>从“预见下一帧”到“编排下一步”：Agentic WAM、MoT 与灵巧手控制</title>
       <link>https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html</link>
