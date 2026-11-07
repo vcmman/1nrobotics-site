@@ -5,8 +5,15 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 06 Nov 2026 09:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 09:00:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从人类视频到机器人行动：DA Group 的 HumanScale 与 HumanWAM 路线解析</title>
+      <link>https://1nrobotics.com/posts/humanscale-humanwam-analysis.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/humanscale-humanwam-analysis.html</guid>
+      <pubDate>Sat, 07 Nov 2026 09:00:00 +0800</pubDate>
+      <description>解析 Open-HumanScale-50K、HumanWAM-Vanilla 与 HumanWAM-Goal 如何把人类第一视角经验迁移为机器人行动。</description>
+    </item>
     <item>
       <title>Tactile reaction, field reliability, and collaborative robot learning</title>
       <link>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</link>
