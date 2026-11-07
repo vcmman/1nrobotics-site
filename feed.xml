@@ -5,8 +5,15 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 07 Nov 2026 09:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 15:00:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从“预见下一帧”到“编排下一步”：Agentic WAM、MoT 与灵巧手控制</title>
+      <link>https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html</guid>
+      <pubDate>Sat, 07 Nov 2026 15:00:00 +0800</pubDate>
+      <description>解析 NVIDIA 参与的 AW-0 三专家 MoT 架构，并对比 EgoScale、T-Rex、DexTacWAM 与 Dexplore 的灵巧手控制路线。</description>
+    </item>
     <item>
       <title>从人类视频到机器人行动：DA Group 的 HumanScale 与 HumanWAM 路线解析</title>
       <link>https://1nrobotics.com/posts/humanscale-humanwam-analysis.html</link>
