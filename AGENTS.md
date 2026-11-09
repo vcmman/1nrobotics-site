@@ -14,4 +14,6 @@ These rules are mandatory for automated weekly posts as well as one-off analysis
 - State whether a result is in-distribution, zero-shot, few-shot, fine-tuned, simulated, or real-world.
 - Do not call a system general-purpose or deployment-ready from a single benchmark or selected demo.
 - Update `blog.html`, `feed.xml`, and `sitemap.xml` when publishing a post.
+- Publish complete English and Chinese copy through `i18n.js`; English is the default language.
+- Add the language switch to every new page and verify that the saved preference follows navigation.
 - Validate HTML/XML, local links, responsive layout, and the live deployment after merging.

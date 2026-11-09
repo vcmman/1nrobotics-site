@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="解析 NVIDIA Agentic World Action Model（AW-0）的 Mixture-of-Transformers 架构，并对比 WAM、EgoScale、T-Rex、DexTacWAM 与 Dexplore 在灵巧手控制上的进展。" />
+  <meta name="description" content="An analysis of NVIDIA-linked Agentic World Action Models, AW-0's Mixture-of-Transformers architecture, and progress in WAM and dexterous-hand control." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="1N Robotics" />
-  <title>NVIDIA Agentic WAM：MoT 架构与灵巧手控制路线 | 1N Robotics</title>
+  <title>NVIDIA Agentic WAM: MoT Architecture and Dexterous Control | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
-  <link rel="stylesheet" href="../style.css?v=8" />
+  <link rel="stylesheet" href="../style.css?v=9" />
+  <script src="../i18n.js?v=1" defer></script>
 
-  <meta property="og:title" content="NVIDIA Agentic WAM：MoT 架构与灵巧手控制路线" />
-  <meta property="og:description" content="代码、未来视频、机器人动作如何在三专家 MoT 中耦合，以及触觉为何是灵巧操作的下一条关键数据流。" />
+  <meta property="og:title" content="NVIDIA Agentic WAM: MoT Architecture and Dexterous Control" />
+  <meta property="og:description" content="How code, future video, and robot actions couple in a three-expert MoT—and why touch is the next essential stream for dexterity." />
   <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
   <meta property="og:url" content="https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html" />
   <meta property="og:type" content="article" />
@@ -28,7 +29,10 @@
         <li><a href="../about.html">About</a></li>
         <li><a href="../blog.html" aria-current="page">Blog</a></li>
       </ul>
-      <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+      <div class="nav-actions">
+        <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+        <button class="language-switch" type="button" data-language-toggle aria-label="切换到中文">中文</button>
+      </div>
     </nav>
   </header>
 
