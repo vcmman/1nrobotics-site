@@ -3,15 +3,24 @@
   <channel>
     <title>Embodied AI Weekly | 1N Robotics</title>
     <link>https://1nrobotics.com/blog.html</link>
-    <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
+    <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 22:05:00 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 13 Nov 2026 07:45:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ropedia W0: the data factory behind cross-embodiment world prediction</title>
+      <link>https://1nrobotics.com/posts/ropedia-w0-data-model-analysis.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/ropedia-w0-data-model-analysis.html</guid>
+      <pubDate>Fri, 13 Nov 2026 07:45:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>How human video, robot logs, and corrected kinematics become Xp-Data—and what the prediction and policy results actually establish</description>
+    </item>
     <item>
       <title>Why agentic robotics is accelerating: NVIDIA's loops and TinyAstral's RSI</title>
       <link>https://1nrobotics.com/posts/agentic-robotics-nvidia-rsi-tinyastral.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/agentic-robotics-nvidia-rsi-tinyastral.html</guid>
       <pubDate>Thu, 12 Nov 2026 22:05:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>NVIDIA's navigation, manipulation, policy-research, and agentic WAM loops, compared with TinyAstral's harness RSI and compact-model distillation.</description>
     </item>
     <item>
@@ -19,6 +28,7 @@
       <link>https://1nrobotics.com/posts/humanwam-groot2-wam-comparison.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/humanwam-groot2-wam-comparison.html</guid>
       <pubDate>Thu, 12 Nov 2026 22:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>Architectures, aligned human and UMI data, benchmark protocols, reinforcement learning, and deployment costs across HumanWAM and GR00T 2.</description>
     </item>
     <item>
@@ -26,6 +36,7 @@
       <link>https://1nrobotics.com/posts/corl-2026-dexterous-hands-sharpa.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/corl-2026-dexterous-hands-sharpa.html</guid>
       <pubDate>Thu, 12 Nov 2026 12:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>A CoRL 2026 dexterity analysis through Sharpa Wave, comparing learning routes, tactile feedback, real-robot protocols, generalization, and industrial value.</description>
     </item>
     <item>
@@ -33,6 +44,7 @@
       <link>https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html</guid>
       <pubDate>Thu, 12 Nov 2026 11:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>HALO's modular synthetic data, rendering, and training pipeline, with an analysis of generative rendering as a substitute for observation rendering and physical simulation.</description>
     </item>
     <item>
@@ -40,6 +52,7 @@
       <link>https://1nrobotics.com/posts/mujoco-4-industrial-value.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/mujoco-4-industrial-value.html</guid>
       <pubDate>Thu, 12 Nov 2026 10:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>The industrial value of better contact simulation, collaboration, calibrated training, and measurable robot development costs.</description>
     </item>
     <item>
@@ -47,6 +60,7 @@
       <link>https://1nrobotics.com/posts/nvidia-gr00t-2-wam-analysis.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/nvidia-gr00t-2-wam-analysis.html</guid>
       <pubDate>Thu, 12 Nov 2026 09:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>A deployment-focused analysis of GR00T 2's world-action architecture, data, generalization, dexterity, agentic recovery, and onboard latency.</description>
     </item>
     <item>
@@ -54,6 +68,7 @@
       <link>https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html</guid>
       <pubDate>Sat, 07 Nov 2026 21:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>A post-release evaluation of how GPT-6 Astra changes the division of labor among VLA, WAM, agentic systems, embodied in-context learning, and tactile control.</description>
     </item>
     <item>
@@ -61,6 +76,7 @@
       <link>https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html</guid>
       <pubDate>Sat, 07 Nov 2026 15:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>An analysis of the three-expert MoT in NVIDIA-linked AW-0, compared with EgoScale, T-Rex, DexTacWAM, and Dexplore.</description>
     </item>
     <item>
@@ -68,6 +84,7 @@
       <link>https://1nrobotics.com/posts/humanscale-humanwam-analysis.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/humanscale-humanwam-analysis.html</guid>
       <pubDate>Sat, 07 Nov 2026 09:00:00 +0800</pubDate>
+      <category>Technical analysis</category>
       <description>How Open-HumanScale-50K, HumanWAM-Vanilla, and HumanWAM-Goal transfer egocentric human experience into robot action.</description>
     </item>
     <item>
@@ -75,6 +92,7 @@
       <link>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</link>
       <guid isPermaLink="true">https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html</guid>
       <pubDate>Fri, 06 Nov 2026 09:00:00 +0800</pubDate>
+      <category>Weekly briefings</category>
       <description>Four developments that moved embodied AI closer to useful physical systems this week.</description>
     </item>
   </channel>
