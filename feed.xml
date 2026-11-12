@@ -5,8 +5,15 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 10:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 11:00:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apple HALO: how a humanoid learns to move through a home</title>
+      <link>https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html</guid>
+      <pubDate>Thu, 12 Nov 2026 11:00:00 +0800</pubDate>
+      <description>HALO's modular synthetic data, rendering, and training pipeline, with an analysis of generative rendering as a substitute for observation rendering and physical simulation.</description>
+    </item>
     <item>
       <title>MuJoCo 4: The Industrial Value of Better Simulation</title>
       <link>https://1nrobotics.com/posts/mujoco-4-industrial-value.html</link>
