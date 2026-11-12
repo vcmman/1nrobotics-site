@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="Apple HALO analysis: modular synthetic data, scene baking, motion-generator and tracker training, and the feasibility of replacing rendering with generative models." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>Apple HALO: how a humanoid learns to move through a home | 1N Robotics</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=9" />
+  <script src="../i18n.js?v=4" defer></script>
+
+  <meta property="og:title" content="Apple HALO: how a humanoid learns to move through a home" />
+  <meta property="og:description" content="How HALO separates synthetic data, rendering, and physical control—and where generative rendering could fit." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html" />
+  <meta property="og:type" content="article" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /><span class="brand-wordmark">1N Robotics</span></a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+        <button class="language-switch" type="button" data-language-toggle aria-label="切换到中文">中文</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="page-hero article-hero">
+        <div class="container narrow">
+          <p class="eyebrow">Humanoid control · Data, rendering, and training</p>
+          <h1>Apple HALO: how a humanoid learns to move through a home</h1>
+          <p class="lead article-deck">A chair is an awkward robotics problem. HALO offers a useful way to study it: generate motion and rooms separately, render the observations, and train a controller that can turn a plan into physical movement. That separation also tells us where generative rendering could help.</p>
+          <p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · 14 min read · 1N Robotics</p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container narrow">
+          <div class="article-body">
+<p>Watch a person sit down. They turn, shift their weight, and trust that the seat will meet them where they expect. For a humanoid, a small error in that last expectation can end in a fall. A video of a successful sit leaves out the hard questions: where did the reference motion come from, what taught the robot to balance, and how much of the room did the system already know?</p>
+<p>Apple's HALO gives unusually concrete answers. The research is titled Perceptive Humanoid Motion from Simulation; it uses a Unitree G1. We are interested in the division of work that makes the result possible, especially the boundary between producing convincing observations and learning physically executable behavior. <a href="#source-1" aria-label="Source 1">[1]</a></p>
+<h2>A modular data factory, before there is a policy</h2>
+<div class="comparison-table-wrap"><table class="comparison-table"><thead><tr><th>Module</th><th>Input and output</th><th>What to audit</th></tr></thead><tbody><tr><td>Motion generation</td><td>Task recipe and constraints &rarr; reference joint trajectory</td><td>Candidate acceptance and segment continuity</td></tr><tr><td>Scene generation</td><td>Procedural room &rarr; geometry, textures, and placement metadata</td><td>Geometry coverage and valid free space</td></tr><tr><td>Observation rendering</td><td>Placed trajectory and camera &rarr; aligned RGB and motion labels</td><td>Camera calibration and pixel–action agreement</td></tr><tr><td>Physical tracking</td><td>Reference plan and onboard observations &rarr; joint targets</td><td>Contact, stability, and recovery under perturbation</td></tr></tbody></table></div>
+<p>HALO's public data pipeline has separate stages for scene generation, motion generation, and staging/rendering. Infinigen supplies indoor rooms. Kimodo supplies constrained whole-body motion. The rendering stage combines a trajectory with a room and exports aligned camera observations and motion labels. These intermediate artifacts are useful interfaces, not merely folders in a repository. <a href="#source-3" aria-label="Source 3">[3]</a></p>
+<p>For sitting, an authored recipe breaks the behavior into walking, turning, and sitting. Waypoints and keyframes constrain the motion generator; candidate checks catch problems such as foot sliding or floor penetration. A placement stage then fits the trajectory and chair into free space in a room. Generating more examples becomes a matter of varying these inputs and rerunning the relevant stage. <a href="#source-3" aria-label="Source 3">[3]</a></p>
+<p>This is where the design earns its keep. Keep the motion fixed and change the room to study visual generalization. Keep both fixed and change the renderer to isolate appearance. Replace the chair and audit placement. A monolithic pipeline makes these questions harder to separate, and a failed experiment becomes harder to diagnose.</p>
+<p>The software deserves an audit as well as the diagram. The released sit pipeline records acceptance flags, can retain a best candidate after retries, and documents a placement fallback. Teams reproducing the work should inspect these flags and fallbacks before treating every exported episode as a verified demonstration. A filter is a procedure with measurable errors. <a href="#source-3" aria-label="Source 3">[3]</a></p>
+<h2>What 'synthetic data' still owes to people</h2>
+<p>The reported corpus contains 162,698 episodes and 296.3 hours across six skills, staged in 1,000 training rooms. The ten dataset instructions are much narrower than free-form conversation. Several reference keyframes come from edited poses, phone video, motion capture, or G1 logs. The robot policy is simulation-trained; the pipeline still uses human motion knowledge and task design. <a href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>The scaling question is therefore: how much work does the next skill require? A new room may be cheap once the scene generator works. A new interaction may need a new recipe, constraints, quality tests, and a reward. These costs scale differently. Counting only synthetic hours hides the expensive part if every new task needs substantial authoring.</p>
+<h2>Rendering: bake the light, replay the motion</h2>
+<p>The scene-generation code bakes lighting into unlit textured meshes. The renderer can reuse those assets in Isaac Sim or MuJoCo. The released render stage replays joint trajectories and produces a calibrated head-camera view, with seeded visual randomization. This route separates expensive scene preparation from repeated episode rendering. <a href="#source-4" aria-label="Source 4">[4]</a> <a href="#source-5" aria-label="Source 5">[5]</a></p>
+<p>An intuitive example is a patch of light on the floor. Full rendering would recompute how light reaches the surface; a baked room carries much of that appearance in its textures. Moving the camera is relatively cheap. Changing the illumination or a reflective surface is less faithful to that shortcut. This is a deliberate approximation with a specific scope.</p>
+<p>The paper reports a median bake time of 38.5 minutes per room on one GPU and a held-out-view error of 3.8 grey levels. Those measurements assess image approximation. They do not measure contact accuracy or prove that a policy will transfer. For replication, the code also matters: the MuJoCo path warps a pinhole render to the calibrated fisheye, while the Isaac path uses native fisheye rendering. <a href="#source-1" aria-label="Source 1">[1]</a> <a href="#source-5" aria-label="Source 5">[5]</a></p>
+<h2>Training the planner and training the body are different jobs</h2>
+<p>The motion generator reads an RGB image and an instruction and predicts a five-second plan. The released configuration freezes Qwen3.5-2B and trains the projections and diffusion-transformer decoder. It uses flow matching, 150 motion frames with 36 values each, and previous-chunk inpainting. Thus, HALO's generator produces a kinematic plan; it does not jointly generate future video as a world-action model would. <a href="#source-6" aria-label="Source 6">[6]</a> <a href="#source-2" aria-label="Source 2">[2]</a></p>
+<p>The frozen encoder keeps language and visual representations available without updating the full backbone. The smaller decoder learns the robot motion representation. Committing an initial part of a plan also gives the next prediction a continuity constraint: a new plan has to fit what the body is already doing. Otherwise, repeated replanning can ask the controller to follow incompatible futures.</p>
+<p>The tracker has its own training curriculum. First, proximal policy optimization (PPO) trains skill experts with privileged simulator state. Next, dataset aggregation (DAgger) distills teachers into a student with onboard observations, including a small depth image. Finally, multi-critic PPO fine-tunes the shared student with wider randomization around a system-identified robot model. <a href="#source-7" aria-label="Source 7">[7]</a></p>
+<p>Different skill rewards can have different scales. A critic for each skill family can estimate its own returns while the actor learns shared behavior. The student's depth input addresses another problem: the robot needs local geometry while executing the plan, especially when its body is close to furniture. Semantic recognition alone cannot tell a knee how to clear a table edge.</p>
+<p>The public tracker trains in Isaac Lab and supports MuJoCo and hardware deployment. The runtime hierarchy runs the orchestrator around 0.5 Hz, the motion generator around 3 Hz, and the tracker at 50 Hz. These clocks express different jobs: decide the active subtask, replan motion, and react while tracking. Neither the renderer nor the language model supplies the fast physical feedback alone. <a href="#source-7" aria-label="Source 7">[7]</a> <a href="#source-2" aria-label="Source 2">[2]</a></p>
+<h2>What the real-room tests establish</h2>
+<p>Apple reports 91% single-skill success over 360 real trials in six unseen, unscanned rooms. Three chained tasks average 70% over 30 trials in one room. This is zero-shot transfer to new deployment spaces, within the evaluated skill set. It is not an evaluation of arbitrary household skills. The chained-task gap is a useful warning about what happens at skill boundaries. <a href="#source-1" aria-label="Source 1">[1]</a></p>
+<p>A plausible plan can still leave the next skill in an awkward state: the robot finishes one action facing away from the next target, for example. Our deployment concern is that a skill library needs contracts for its exit states and recovery, as well as a success label. More visual diversity alone would not guarantee that the robot searches for a target it has lost.</p>
+<h2>Can generative rendering replace the simulator?</h2>
+<p>For HALO's offline RGB dataset, replacing the observation renderer is a reasonable experiment. A generated image could be conditioned on the same geometry, robot pose, camera calibration, depth, and segmentation. The motion labels would stay fixed. The proposed benefit is broader visual coverage without building every material and lighting setup by hand. HALO has not demonstrated that substitution; this is our proposed extension.</p>
+<p>LucidSim provides an earlier example on quadruped visual parkour: generative appearance is conditioned by simulator geometry while physics remains in the loop. RoboRender similarly converts simulated trajectories into RGB videos conditioned on depth and robot masks. These studies support testing a visual replacement. Their tasks and bodies differ from HALO's, so their success rates cannot be carried over to a G1 sitting near furniture. <a href="#source-9" aria-label="Source 9">[9]</a> <a href="#source-10" aria-label="Source 10">[10]</a></p>
+<p>The difficult part is keeping labels true. If generation makes a chair look a few centimetres wider, moves its visible seat, or invents a clear gap under a table, the unchanged motion may become the wrong answer for the new image. Temporal consistency matters when the camera turns; RGB and depth must also describe the same obstacle. A prettier training frame can quietly be a mislabeled example.</p>
+<p>Replacing dynamics asks a harder question. The tracker learns from actions that change physical state: feet make contact, the body accelerates, a chair supports weight. A video generator must then preserve action-dependent outcomes and expose state and rewards accurately enough for learning. Visual plausibility is an inadequate test. Reward exploitation and long-rollout drift would need separate, adversarial evaluation.</p>
+<p>The practical order is therefore to trial generative RGB offline while keeping geometric labels and physical rollouts fixed. Only after that should a team consider learned dynamics for narrow, validated transitions. For contact-rich whole-body reinforcement learning, a calibrated physics engine remains the more inspectable source of training feedback.</p>
+<h2>An experiment that could settle the rendering question</h2>
+<p>Use exactly the same accepted trajectories, scene split, camera poses, and training budget. Compare the current baked renderer, stronger conventional randomization, and geometry-conditioned generative rendering. Keep a fourth mixed-data arm to see whether generated diversity helps alongside the original images. This is a proposed protocol, not an experiment reported by Apple.</p>
+<p>Before training, check projected seat and obstacle boundaries, robot silhouettes, camera motion, and agreement with depth. After training, evaluate complete real tasks on held-out furniture and rooms, with trial counts and uncertainty. Track falls, contacts with furniture, interventions, recovery, and completion time. Image quality scores can help debug the renderer; the real policy outcome decides whether to adopt it.</p>
+<p>Count rejected generations and storage as well as inference time. A renderer that needs many attempts to preserve the chair boundary may cost more per useful episode than rasterization. For a small team, the relevant number is cost per successful real task after adaptation, including authoring and validation. GPU throughput on its own cannot answer that.</p>
+<h2>Where we would invest next</h2>
+<p>The paper reports 250 H100 GPUs for roughly 48 hours of corpus synthesis, 64 B200s for generator training, and four H100s for tracker training. GPU counts without all durations do not give a full training bill. Released code also does not include the trained generator, tracker weights, or dataset, so reproduction requires regeneration and training. <a href="#source-1" aria-label="Source 1">[1]</a> <a href="#source-7" aria-label="Source 7">[7]</a> <a href="#source-8" aria-label="Source 8">[8]</a></p>
+<p>We classify HALO as a controlled experimental demonstration with meaningful real-world transfer evidence. Long-duration intervention rates, safety incident rates, and a complete cost accounting remain unestablished for deployment. The comparisons with earlier systems also use different protocols; they cannot isolate a single architecture's contribution under a matched budget.</p>
+<p>Our first investment would be the module interfaces: traceable motion specifications, reusable scene assets, and tests that catch a mismatch between pixels and actions. Then we would test generated RGB on a bounded skill. There is something appealingly practical about that order. A team can improve one expensive part of the pipeline and still know what the rest of the robot learned.</p>
+<h2>Primary sources</h2><ol class="source-list"><li id="source-1"><a href="https://arxiv.org/html/2611.06908v1" target="_blank" rel="noopener noreferrer">HALO paper: methods, experiments, and appendix</a></li><li id="source-2"><a href="https://apple-aiml-research.github.io/ml-halo/" target="_blank" rel="noopener noreferrer">HALO project: onboard stack and training overview</a></li><li id="source-3"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/datagen/docs/data_pipeline.md" target="_blank" rel="noopener noreferrer">Data pipeline and acceptance/fallback details</a></li><li id="source-4"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/datagen/scene_gen/README.md" target="_blank" rel="noopener noreferrer">Scene generation and baking</a></li><li id="source-5"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/datagen/render/README.md" target="_blank" rel="noopener noreferrer">Renderer implementation and camera calibration</a></li><li id="source-6"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/generator/configs/qwen3_5_2b_dit_vision_frozen.yaml" target="_blank" rel="noopener noreferrer">Generator configuration</a></li><li id="source-7"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/tracker/README.md" target="_blank" rel="noopener noreferrer">Tracker training and deployment</a></li><li id="source-8"><a href="https://github.com/apple-aiml-research/ml-halo/blob/main/generator/README.md" target="_blank" rel="noopener noreferrer">Generator training and release scope</a></li><li id="source-9"><a href="https://lucidsim.github.io/" target="_blank" rel="noopener noreferrer">LucidSim: visual parkour from generated images</a></li><li id="source-10"><a href="https://robo-render.github.io/" target="_blank" rel="noopener noreferrer">RoboRender: robot-oriented generative rendering</a></li></ol>
+</div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="../product.html">Product</a><a href="../about.html">About</a><a href="../feed.xml">RSS</a></div>
+    </div>
+  </footer>
+</body>
+</html>
