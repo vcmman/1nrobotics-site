@@ -1,5 +1,19 @@
 # 1N Robotics repository memory
 
+## Default writing skill
+
+For every substantive writing or editing task in this repository, including
+one-off blogs, automated weekly posts, and English/Chinese website copy, read and
+apply [Humanize Writing](.agents/skills/humanize-writing/SKILL.md) by default.
+No explicit reminder from the user is required. Complete its final editorial
+self-check before publishing. Research and factual accuracy remain governed by
+`BLOG_EDITORIAL_GUIDELINES.md`.
+
+Write with concrete details, natural rhythm, and evidence-backed editorial
+judgment. Do not invent personal experiences, feelings, quotations, or anecdotes
+to make prose feel human. Preserve uncertainty, source attribution, and numerical
+qualifiers in both languages.
+
 ## Blog work
 
 Whenever adding or updating a research blog post, read and follow
