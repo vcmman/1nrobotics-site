@@ -5,8 +5,22 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 12:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 22:05:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why agentic robotics is accelerating: NVIDIA's loops and TinyAstral's RSI</title>
+      <link>https://1nrobotics.com/posts/agentic-robotics-nvidia-rsi-tinyastral.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/agentic-robotics-nvidia-rsi-tinyastral.html</guid>
+      <pubDate>Thu, 12 Nov 2026 22:05:00 +0800</pubDate>
+      <description>NVIDIA's navigation, manipulation, policy-research, and agentic WAM loops, compared with TinyAstral's harness RSI and compact-model distillation.</description>
+    </item>
+    <item>
+      <title>From HumanWAM to GR00T 2: world-action models, data, and deployment</title>
+      <link>https://1nrobotics.com/posts/humanwam-groot2-wam-comparison.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/humanwam-groot2-wam-comparison.html</guid>
+      <pubDate>Thu, 12 Nov 2026 22:00:00 +0800</pubDate>
+      <description>Architectures, aligned human and UMI data, benchmark protocols, reinforcement learning, and deployment costs across HumanWAM and GR00T 2.</description>
+    </item>
     <item>
       <title>CoRL 2026 dexterous hands: what Sharpa helps us see</title>
       <link>https://1nrobotics.com/posts/corl-2026-dexterous-hands-sharpa.html</link>

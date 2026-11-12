@@ -10,6 +10,8 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-12 | [HumanWAM 到 GR00T 2 深度对比](posts/humanwam-groot2-wam-comparison.html) | HumanWAM 两个配置、GR00T 2、Zero-WAM、DreamZero、两项 OpenWAM、EgoWAM、GEN-1.5 | 架构、视角与动作对齐、可比评测、后训练与部署 |
+| 2026-11-12 | [Agentic 机器人与 TinyAstral RSI](posts/agentic-robotics-nvidia-rsi-tinyastral.html) | COMPASS、Vesta、ASPIRE、ENPIRE、AW-0、GR00T 2、TinyAstral | 运行与开发智能体、框架改进、策略更新、蒸馏与全成本 |
 | 2026-11-06 | [触觉反应、现场可靠性与协作学习周报](posts/embodied-ai-weekly-2026-11-06.html) | T-Rex、Stretch Gen 2、Sidekick、灵巧手综述 | 分层智能与现场反馈 |
 | 2026-11-07 | [HumanScale 与 HumanWAM](posts/humanscale-humanwam-analysis.html) | DA Group 的人类视频到机器人路线 | 数据配方、本体对齐、零样本与后训练 |
 | 2026-11-07 | [Agentic WAM、MoT 与灵巧手](posts/nvidia-agentic-wam-mot-dexterity-analysis.html) | AW-0、EgoScale、T-Rex、DexTacWAM、Dexplore | 多模态专家、技能组合与接触闭环 |
@@ -153,6 +155,37 @@
 后续跟踪：完整任务与恢复成功率、换对象的固定适配预算、传感到执行全链延迟、指尖维护、持续运行和总成本。模块组合是未来实验建议，不是论文已证明的现成系统。
 
 来源入口：[Play2Perfect](https://play2perfect.github.io/)、[OpenDexGrasp](https://opendexgrasp.github.io/)、[DEX-X](https://dexx-code.github.io/dexx-code/)、[WM-Craftnet](https://wmcraftnet.github.io/)、[Touch2Trace](https://grmmtt.github.io/corl26-touch2trace/)、[SharpaDex](https://huggingface.co/datasets/Sharpa-Robotics/SharpaDex-v1.0)、[Workshop](https://dex-manipulation.github.io/corl2026/)、[DexAgent](https://dexagent1.github.io/)。详细论文、配置和评测链接见原文章来源列表。
+
+## 9. HumanWAM 到 GR00T 2：配置、数据与工程对照
+
+内容简介：将 HumanWAM-Vanilla、HumanWAM-Goal 和 GR00T 2 分开，比较共享 DiT、动作专家、串行／联合生成、视觉目标与人类视频上下文；附架构图、部署流程图、数据和评测表。
+
+- 版本依据：Open-HumanWAM arXiv v2 与 GR00T 2 白皮书，核对日期为 2026-11-12。旧文使用的 Open-HumanScale 名称不要直接覆盖新版 Open-HumanWAM 的具体配置
+- Vanilla 使用 Wan2.2-TI2V-5B 加动作专家，最终配方采用 IDM 串行推理；Goal 改用 Cosmos3-Nano-16B 主干及 49 维混合动作。不能把 Goal 改善全部归因于视觉目标，也不能把主干参数量当整个系统参数量
+- 区分 Human-1M 原始约百万小时、进入 GR00T 2 inventory 的 402,730 小时与 100K 公开子集；UMI-10K 为 10,184 小时、94.2 万合格回合。EgoPro 是同步头腕视角过渡数据，不能重复加到已有语料小时数中
+- Head + Wrist 增加不一定改善泛化：引用 HumanWAM 视角消融时保留注意力和动作配置。Vanilla RoboTwin 后训练为 92.08／68.88，Goal 为 92.70／84.60，Goal 零样本均值 13.94，不能混用
+- RoboDojo 不同报告采用六组或五维汇总；GR00T 2 Agent／RL 表仅布局库 0，不能与官方三布局库分数直接混排
+- 明确区分两项同名 OpenWAM：OpenWAM-α 模块化预训练项目与 Stanford 可组合框架；后者的 VTA／Joint LIBERO 数字不能移到 α 名下
+- Generalist 官方材料没有建立独占 Wrist-only 配置或匹配的多视角消融；文中的 Wrist-first 属工程解读，不应变成已确认事实，也不能认定 GEN-1.5 已公开 WAM 目标
+- GR00T 2 RL 表保留每任务／方法 50 次试验、重置与时限匹配，以及统计显著性的限定；UMI→YAM 可免同任务 YAM 示范，但仍用本体数据、对齐与标定
+- 运行时延以计时范围和硬件为准：Dexter 优化计时不含预取 VAE；G1 Turbo 计时包含 VAE。两者 2B 配置不意味着相同 token 与运行成本
+
+后续跟踪：匹配数据／时延预算的强 VLA 对照、接触与恢复数据的边际收益、相机配置的全成本、低延迟世界预测的动作消融。
+
+## 10. Agentic 机器人与 RSI：从失败到验证过的修正
+
+内容简介：解释 2026 年多条 Agentic 路线为什么同时推进，按部署期推理、技能程序改进、策略实验、学习式代码接口和运行框架 RSI 分类，而不只堆叠论文。
+
+- COMPASS 的编码智能体用于导航开发；部署时仍由 RGB／里程计／目标到速度的策略执行，不能把它误写成每个控制周期都有 LLM
+- Vesta 展示运行时具身推理；R2R-CE val-unseen 的 SR 55.5、SPL 50.8，与专用模型 SR 55.4、SPL 52.1 对照，不能仅凭 SR 写成全面超过
+- ASPIRE 累积程序与验证过的技能修正；ENPIRE 自动化重置、验证、策略改进和物理实验，两者改进对象不同
+- ENPIRE 的 99% 为 pass@8，子任务最多八次基于失败的上下文重试，不是首试 99%。并行机器人研究不是已经验证的多机器人生产任务协同
+- AW-0 真机 71.1 为平均进度 rubric，不是完整任务成功率。其混合执行改善随机场景，也降低干净场景成功率，应保留权衡
+- 用户所指 tinyastra 的正式对应工作为 TinyAstral，方向是 RSI，而不是 ETH RSL。教师权重冻结，先通过配对检验改进工具、反馈、记忆和恢复，再冻结框架并蒸馏学生
+- TinyAstral 在相同 500 个 RoboTwin 回合，教师 33.4→63.6，4B 学生为 62.8；学生在各框架快照分别训练，不能称学生全程参数冻结
+- TinyAstral 的约五分之一成本指特定部署子集的加速器时间，不是整机节拍或总训练成本。离线 next-call 准确率也不能改写成真机完整任务成功率
+
+后续跟踪：独立验证器误报、选择／评测分离、多轮候选搜索过拟合、工具依赖与回退、跨本体技能迁移、计入感知和执行服务后的总成本。
 
 ## 跨文章延续的分析主线
 
