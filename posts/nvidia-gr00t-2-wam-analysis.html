@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="A deployment-focused analysis of NVIDIA GR00T 2: its world-action architecture, Human-1M data, cross-embodiment adaptation, dexterity, agentic recovery, and onboard latency." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>NVIDIA GR00T 2: World-Action Models Meet Deployment Reality | 1N Robotics</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/nvidia-gr00t-2-wam-analysis.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=9" />
+  <script src="../i18n.js?v=2" defer></script>
+
+  <meta property="og:title" content="NVIDIA GR00T 2: World-Action Models Meet Deployment Reality" />
+  <meta property="og:description" content="What changed from VLA to WAM—and what the reported generalization, dexterity, agentic recovery, and edge-deployment results actually prove." />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/nvidia-gr00t-2-wam-analysis.html" />
+  <meta property="og:type" content="article" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /><span class="brand-wordmark">1N Robotics</span></a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+        <button class="language-switch" type="button" data-language-toggle aria-label="切换到中文">中文</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="page-hero article-hero">
+        <div class="container narrow">
+          <p class="eyebrow">Research analysis · NVIDIA GR00T 2</p>
+          <h1>GR00T 2: World-Action Models Meet Deployment Reality</h1>
+          <p class="lead article-deck">NVIDIA has moved GR00T from a vision-language-action policy to a model that predicts future video and actions together. The important question is not whether it can imagine the next frame, but whether that representation lowers the cost of adapting, controlling, and recovering a real robot.</p>
+          <p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · 15 min read · 1N Robotics</p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container narrow article-layout">
+          <div class="article-body">
+            <p>GR00T 2 is NVIDIA's clearest statement yet that robot foundation models are moving beyond the classic VLA recipe. Instead of reading images and language and directly producing actions, one 2-billion-parameter diffusion transformer jointly denoises future video and robot action chunks. The action is therefore conditioned not only on what the robot sees, but also on the future the model is generating.</p>
+            <p>That architectural change sits inside a much larger system: roughly 436,000 hours of heterogeneous pretraining data, embodiment-specific action heads, few-shot LoRA adaptation, real-world reinforcement learning, an external reasoning agent, recovery programs, and a fast whole-body controller. GR00T 2 is best understood as a stack, not a single policy.</p>
+
+            <div class="analysis-stats" aria-label="Key reported GR00T 2 results">
+              <div><strong>436k h</strong><span>human video, UMI, and robot teleoperation combined</span></div>
+              <div><strong>40→95%</strong><span>zero-shot to five-shot success on the selected Dexter-50 suite</span></div>
+              <div><strong>124 ms</strong><span>Turbo median prediction latency on an onboard Jetson Thor</span></div>
+              <div><strong>292/300</strong><span>agent-assisted YAM assembly trials completed from clutter</span></div>
+            </div>
+
+            <h2 id="lineage">1. First, the naming: N2 became GR00T 2</h2>
+            <p>NVIDIA previewed the route earlier in 2026 as <strong>GR00T N2</strong>, describing a DreamZero-based world-action model. The November release uses the formal name <strong>GR00T 2</strong>. This is not GR00T N1 with a larger visual backbone. It is a shift in what the model is trained to predict.</p>
+
+            <div class="route-diagram" aria-label="GR00T model-family evolution">
+              <div class="route-node"><strong>GR00T N1</strong><small>System 2 VLM + System 1 diffusion action model</small></div>
+              <span class="route-arrow" aria-hidden="true">→</span>
+              <div class="route-node"><strong>GR00T 1.7</strong><small>3B open VLA, stronger data and deployment tooling</small></div>
+              <span class="route-arrow" aria-hidden="true">→</span>
+              <div class="route-node"><strong>GR00T 2</strong><small>joint future-video and action generation</small></div>
+            </div>
+
+            <p>GR00T N1 and 1.7 already used diffusion to generate action chunks. GR00T 2 adds an explicit learned future of every camera stream to the same generative process. In principle, this gives the policy a physical prior: an action should be compatible with how the scene is expected to change. In practice, it also makes video tokens the dominant computation and creates a new deployment bottleneck.</p>
+
+            <h2 id="architecture">2. The architecture: one shared world, several robot-specific interfaces</h2>
+            <p>At each decision, GR00T 2 receives 0.8 seconds of 224×320 video from as many as four cameras at 5 fps, a language instruction, and robot state. A frozen Wan 2.1 VAE compresses video; a frozen Cosmos-Reason1 model encodes language; and a Cosmos-Predict2.5-2B diffusion transformer processes video, state, and action tokens in one sequence. Flow matching trains future video latents and actions together.</p>
+            <p>The shared transformer does not make the model fully embodiment-independent. Small robot-specific MLPs still map each robot's state and actions into and out of the common representation. Bringing up a new platform requires camera mapping, a compatible action space or a new one, and target-robot data. The gain is a reusable physical representation; the cost of hardware grounding does not disappear.</p>
+
+            <div class="control-stack" aria-label="GR00T 2 execution hierarchy">
+              <div><span>Slow</span><strong>Reasoning agent</strong><small>decomposes tasks, verifies progress, and invokes recovery code</small></div>
+              <div><span>Medium</span><strong>GR00T 2 WAM</strong><small>predicts future video and 1.6-second action chunks</small></div>
+              <div><span>Fast</span><strong>Robot controller / SONIC</strong><small>stabilizes contact and whole-body motion at 50 Hz</small></div>
+            </div>
+
+            <p class="takeaway"><strong>1N Robotics interpretation:</strong> the core innovation is not “video generation for robots” by itself. It is a common predictive space in which human experience, several robot bodies, and agentic steering can meet. The remaining per-robot heads and controllers show exactly where embodiment-specific engineering still lives.</p>
+
+            <h2 id="data">3. The data pyramid: scale comes mostly from humans, grounding still comes from robots</h2>
+            <p>NVIDIA reports 402,730 hours of egocentric human work video, 10,184 hours of handheld UMI demonstrations spanning 2,897 tasks, and 23,500 hours of robot teleoperation. By raw hours, human video is more than 92% of the mixture. But an hour of passive human video, a task-focused UMI trajectory, and a synchronized robot episode are not equivalent units; the paper explicitly says their exchange rate is unknown.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>Data source</th><th>Reported scale</th><th>What it contributes</th><th>Deployment caveat</th></tr></thead>
+                <tbody>
+                  <tr><td>Human-1M video</td><td>402,730 h</td><td>task and environment coverage</td><td>no native robot state, force, or action labels</td></tr>
+                  <tr><td>UMI demonstrations</td><td>10,184 h / 2,897 tasks</td><td>task-focused actions in a robot-like format</td><td>camera, gripper, and workspace still differ</td></tr>
+                  <tr><td>Robot teleoperation</td><td>23,500 h</td><td>embodiment grounding and executable actions</td><td>expensive operators and hardware time</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>A controlled scaling study is the strongest evidence that human video matters: across 72 downstream Dexter tasks, increasing human-video pretraining from none to the full mixture raised video-rollout progress from 64% to 77% and real-robot progress from 50% to 70%. This is evidence of a positive scaling effect, not yet a scaling law. The full 402,730-hour corpus is also not the same as the announced Human-1M-100K open subset.</p>
+
+            <h2 id="generalization">4. Generalization: a real transfer result with an important selection condition</h2>
+            <p>For Dexter-50, the target robot had no task-specific training data for the 50 evaluated skills; the tasks appeared in human video, YAM teleoperation, or both. The pretrained model averaged 40% zero-shot success. One target-robot episode per task followed by LoRA fine-tuning raised success to 71%; five episodes, less than three minutes of robot data per task, reached 95%. Each adapter took about 30 minutes to train on one RTX 5090.</p>
+            <p>Two labels matter. First, one-shot and five-shot are <strong>fine-tuned</strong> results, not in-context learning. Second, the 50 tasks were selected from tasks that achieved at least 80% after five episodes, so the 95% five-shot number is high partly by construction. The zero-shot result is still meaningful, but the suite is not an unbiased sample of arbitrary new tasks.</p>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>Setting</th><th>Target-task robot data</th><th>Reported mean success</th><th>Correct reading</th></tr></thead>
+                <tbody>
+                  <tr><td>Zero-shot</td><td>none</td><td>40%</td><td>cross-embodiment transfer; target robot still had task-agnostic embodiment data</td></tr>
+                  <tr><td>One-shot + LoRA</td><td>1 episode</td><td>71%</td><td>parameter adaptation, not prompt-only learning</td></tr>
+                  <tr><td>Five-shot + LoRA</td><td>5 episodes</td><td>95%</td><td>selected learnable suite; 37/50 tasks were perfect across trials</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="xadapt">5. X-Adapt: “no teleoperation” does not mean “no robot data”</h2>
+            <p>GR00T 2 can learn target tasks from motion-capture gloves, handheld UMI devices, DexUMI exoskeleton recordings, or a human video expanded through simulation. On four chemistry tasks transferred from humans to Dexter, NVIDIA reports successful real-robot execution without task-specific teleoperation. UMI-to-YAM and DexUMI-to-hand experiments extend the same idea across grippers and dexterous hands.</p>
+            <p>The recipe still uses task-agnostic play data to describe the target embodiment in several settings. Human or UMI demonstrations specify <em>what</em> to do; robot play specifies <em>how this body moves</em>; pretraining links them. This can reduce expensive task-by-task teleoperation, but it does not eliminate robot-side calibration or embodiment data.</p>
+
+            <h2 id="dexterity">6. Dexterity and RL: the WAM helps, but touch remains incomplete</h2>
+            <p>On seven post-trained long-horizon dexterous tasks, GR00T 2 reports 68.6% average success, compared with 0.7% for GR00T 1.7 and 0% for π0.5 under the paper's evaluation. Individual results include 85% for seating GB300 memory and 65% for toy-truck assembly. Real-world GRPO post-training lifted three contact-rich tasks from supervised baselines of 40–76% to 88–96%.</p>
+            <p>These are strong within-paper comparisons, but they are not independent replications. Most tasks use up to 20 trials, enough to show a large gap but not enough to distinguish deployment targets such as 95% versus 99%. The paper estimates that comparison would require roughly 285 trials per policy.</p>
+            <p>There is also a sensing boundary. GR00T 2 can predict force targets learned from DexUMI and use them to adjust hand stiffness, but it does not take touch as an input. Visual prediction cannot fully observe incipient slip, contact pressure, or a hidden jam. High-rate tactile feedback remains a separate open problem.</p>
+
+            <h2 id="agentic">7. Agentic GR00T 2: reliability comes from recovery, not policy confidence</h2>
+            <p>GR00T 2 exposes a WAM interface to a slower multimodal reasoning agent. The agent decomposes tasks, checks progress, and calls code-as-policy recovery skills when the robot drops a part or stalls. From randomly dumped, unseen clutter, the combined system completed 98/100 toy-plane assemblies, 97/100 tractor assemblies, and 97/100 Hot Wheels assemblies. A trial needing human help counted as a failure.</p>
+            <p>This is one of the most deployment-relevant results in the report because it covers 300 long episodes lasting roughly 5–14 minutes. It also shows that reliability is a system property: supervised policies alone achieved 23–69%; adding DAgger reached 71–84%; the agent and recovery library produced the final 292/300.</p>
+            <p>The same hierarchy carries a throughput cost. In visually steered trash sorting, a median agent turn took 7.5 seconds, versus about 0.6 seconds for an unaccelerated policy call, and the robot waited for the agent during a median 38% of an episode. Visual target marks improved short tasks, but on the Dexter long-horizon tests they rarely completed an entire task. Image-space points express <em>where</em> to act, not final orientation, force, or motion.</p>
+
+            <h2 id="turbo">8. GR00T 2 Turbo: “real time” is a hierarchy, not a 50 Hz foundation model</h2>
+            <p>The full model predicts a Dexter action chunk in a median 153 ms on a workstation RTX 5090. Turbo keeps the 2B joint transformer but swaps in a higher-compression Wan 2.2 VAE, reducing the spatial latent grid by 4×. After TensorRT, CUDA graph, FP8, and denoising-step optimizations, Turbo reaches 38 ms on an RTX 5090 and 124 ms on the Unitree G1's onboard Jetson Thor at 120 W.</p>
+            <p>Turbo plans 1.6-second motion chunks roughly once per second while SONIC executes whole-body control at 50 Hz. This is a sensible engineering split: the WAM chooses a motion plan, and a much faster controller keeps the humanoid balanced and coordinated. It should not be described as GR00T 2 itself running low-level control at 50 Hz.</p>
+            <p>The speed-capability trade-off is visible. Turbo retains 65.0% average success on the six YAM long-horizon tasks but falls to 34.3% on the seven dexterous-hand tasks, versus 71.7% and 68.6% for the full model. Edge deployment is possible because NVIDIA accepts a smaller visual representation and moves stabilization outside the WAM.</p>
+
+            <h2 id="deployment">9. Deployment scorecard: what is measured, and what is still missing</h2>
+
+            <div class="comparison-table-wrap">
+              <table class="comparison-table">
+                <thead><tr><th>Deployment dimension</th><th>Best public evidence</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Task success</td><td>300 cluttered assembly trials; selected few-shot and post-training suites</td><td>strong controlled evidence, not fleet evidence</td></tr>
+                  <tr><td>Latency</td><td>500-call medians on RTX 5090 and Jetson Thor</td><td>measured; agent latency remains high</td></tr>
+                  <tr><td>Generalization</td><td>zero-shot and cross-embodiment transfer with explicit protocols</td><td>promising but bounded by task and embodiment data</td></tr>
+                  <tr><td>Safety</td><td>paper identifies physical-action checks as an open problem</td><td>no reported collision, force-limit, or near-miss rate</td></tr>
+                  <tr><td>Human intervention</td><td>assembly trials count help as failure</td><td>no long-duration intervention-hours metric</td></tr>
+                  <tr><td>Cost and energy</td><td>1,024 GB300 GPUs for pretraining; Thor measured at 120 W</td><td>no end-to-end training cost or cost per task</td></tr>
+                  <tr><td>Reproducibility</td><td>whitepaper, project page, and planned code release</td><td>code listed for December; no independent reproduction yet</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p>Pretraining used 1,024 GB300 GPUs and a pipeline processing petabyte-scale input each month. That is evidence of infrastructure maturity, but not yet an accessible recipe for most robotics teams. The project page lists code availability for December, and only a 100,000-hour subset of Human-1M is announced as open. “Open model” should therefore be separated from “fully reproducible training pipeline.”</p>
+
+            <h2 id="comparison">10. How GR00T 2 changes the current model landscape</h2>
+            <p>Compared with a VLA such as GR00T 1.7, GR00T 2 spends more compute learning a visible future and gains a stronger bridge between human video and robot action. Compared with an Agentic WAM such as AW-0, it places more of the published evidence on scaling, cross-embodiment transfer, real-robot RL, and a production-shaped runtime. Compared with tactile WAM work, it is broader across bodies and tasks but still lacks touch as a closed-loop observation.</p>
+            <p>The practical architecture is converging toward three time scales: a slow agent for goals and exceptions, a medium-rate WAM for predictive motion chunks, and a fast controller for stability, force, and safety. GR00T 2 is significant because NVIDIA evaluates all three layers together and reports where each one becomes the bottleneck.</p>
+
+            <h2 id="verdict">Our verdict: a stronger foundation, not a deployment-ready general robot</h2>
+            <div class="verdict-grid">
+              <div><strong>What is genuinely new</strong><p>Large-scale human-video pretraining now connects to joint future-video and action generation, and the same model family spans grippers, hands, and humanoids.</p></div>
+              <div><strong>What is most convincing</strong><p>Cross-embodiment transfer, explicit few-shot protocols, 300 cluttered assembly trials, and measured edge latency provide more substance than selected demos.</p></div>
+              <div><strong>What remains unresolved</strong><p>Safety rates, tactile feedback, operator intervention over long deployments, energy and cost per task, and independent reproduction are still missing.</p></div>
+            </div>
+
+            <p>GR00T 2 moves the field from “can one policy imitate many robot demonstrations?” toward “can one predictive physical representation be adapted, steered, and corrected across bodies?” The answer is increasingly yes in controlled settings. The leap to deployment will depend less on another headline benchmark and more on cost-to-reliability: how much robot time, human time, compute, and recovery engineering it takes to hold performance across weeks of real operation.</p>
+
+            <h2 id="sources">Primary sources</h2>
+            <ul class="source-list">
+              <li><a href="https://research.nvidia.com/labs/gear/gr00t-2/" target="_blank" rel="noopener noreferrer">NVIDIA GEAR: GR00T 2 project page</a></li>
+              <li><a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf" target="_blank" rel="noopener noreferrer">GR00T 2 technical whitepaper</a></li>
+              <li><a href="https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/" target="_blank" rel="noopener noreferrer">NVIDIA: GR00T 2 and robotics simulation announcement</a></li>
+              <li><a href="https://developer.nvidia.com/blog/develop-humanoid-robot-policies-end-to-end-with-nvidia-isaac-gr00t/" target="_blank" rel="noopener noreferrer">NVIDIA technical blog: GR00T 1.7 architecture and data</a></li>
+              <li><a href="https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Expands-Open-Model-Families-to-Power-the-Next-Wave-of-Agentic-Physical-and-Healthcare-AI/" target="_blank" rel="noopener noreferrer">NVIDIA: original GR00T N2 preview</a></li>
+              <li><a href="https://arxiv.org/abs/2503.14734" target="_blank" rel="noopener noreferrer">GR00T N1 technical report</a></li>
+            </ul>
+          </div>
+
+          <aside class="article-toc" aria-label="In this analysis">
+            <strong>In this analysis</strong>
+            <a href="#lineage">N2 → GR00T 2</a>
+            <a href="#architecture">WAM architecture</a>
+            <a href="#data">Data pyramid</a>
+            <a href="#generalization">Generalization</a>
+            <a href="#xadapt">X-Adapt</a>
+            <a href="#dexterity">Dexterity and RL</a>
+            <a href="#agentic">Agentic recovery</a>
+            <a href="#turbo">Turbo and latency</a>
+            <a href="#deployment">Deployment scorecard</a>
+            <a href="#verdict">Verdict</a>
+          </aside>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="../product.html">Product</a><a href="../about.html">About</a><a href="../feed.xml">RSS</a></div>
+    </div>
+  </footer>
+</body>
+</html>
