@@ -1,5 +1,20 @@
 # 1N Robotics repository memory
 
+## Persistent memory documents
+
+Before website edits, read [website editing guidelines](WEBSITE_EDITING_GUIDELINES.md).
+Before planning or updating research posts, read [blog research memory](BLOG_RESEARCH_MEMORY.md)
+alongside the mandatory editorial guidelines below. Keep these documents current
+when user preferences change or research posts are added or materially revised.
+
+## Website copy style
+
+Omit terminal periods (English `.` and Chinese `。`) from headings, short
+taglines, captions, buttons, and navigation labels in both languages. Preserve
+question marks and normal punctuation in body paragraphs and complete sentences.
+The full typography, bilingual, approval, and deployment rules are recorded in
+[website editing guidelines](WEBSITE_EDITING_GUIDELINES.md).
+
 ## Default writing skill
 
 For every substantive writing or editing task in this repository, including
