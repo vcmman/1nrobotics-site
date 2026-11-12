@@ -5,8 +5,15 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>A weekly, source-led briefing on embodied intelligence, robot learning, hardware, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 12 Nov 2026 11:00:00 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 12 Nov 2026 12:00:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CoRL 2026 dexterous hands: what Sharpa helps us see</title>
+      <link>https://1nrobotics.com/posts/corl-2026-dexterous-hands-sharpa.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/corl-2026-dexterous-hands-sharpa.html</guid>
+      <pubDate>Thu, 12 Nov 2026 12:00:00 +0800</pubDate>
+      <description>A CoRL 2026 dexterity analysis through Sharpa Wave, comparing learning routes, tactile feedback, real-robot protocols, generalization, and industrial value.</description>
+    </item>
     <item>
       <title>Apple HALO: how a humanoid learns to move through a home</title>
       <link>https://1nrobotics.com/posts/apple-halo-humanoid-control-analysis.html</link>
