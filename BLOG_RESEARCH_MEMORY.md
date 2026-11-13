@@ -10,6 +10,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-13 | [第 46 周具身智能周报](posts/embodied-ai-weekly-2026-11-13.html) | AMP1、RoboScript／WICL、MR0 v3、NVIDIA CoRL 平台 | 纠错数据、演练记忆、恢复权限、实际耗时与复现成本 |
 | 2026-11-13 | [Ropedia W0 数据与模型分析](posts/ropedia-w0-data-model-analysis.html) | Xp-Data、Xp-Teleop、Ropedia W0 5B/A14B、FastWAM 初始化 | 采集与人工标注、同步字段、跨本体预测、控制迁移和复现成本 |
 | 2026-11-12 | [HumanWAM 到 GR00T 2 深度对比](posts/humanwam-groot2-wam-comparison.html) | HumanWAM 两个配置、GR00T 2、Zero-WAM、DreamZero、两项 OpenWAM、EgoWAM、GEN-1.5 | 架构、视角与动作对齐、可比评测、后训练与部署 |
 | 2026-11-12 | [Agentic 机器人与 TinyAstral RSI](posts/agentic-robotics-nvidia-rsi-tinyastral.html) | COMPASS、Vesta、ASPIRE、ENPIRE、AW-0、GR00T 2、TinyAstral | 运行与开发智能体、框架改进、策略更新、蒸馏与全成本 |
@@ -215,3 +216,14 @@
 - 表 6 FastWAM 初始化：完整约 43 示范／任务，LIBERO-Plus 50.06%→56.82%（+6.76pp）；10 示范相机扰动 18.32%→10.94%，不能写成所有扰动提升。真实 G1 33.3%→56.7% 为任务进度分
 - 复现：两个 5B 权重、18 示例，公开推理至少 40GB 显存、31GB 峰值、验证 H200；A14B、后训练和评测相关发布仍应查清单。论文 4 步学生 21.3 fps、首块约 1.4 秒；公开默认 50 步推理不等同流式模型。权重 CC BY-NC 4.0、代码 Apache-2.0、数据 CC BY 4.0，基础模型另有条款
 - 独立判断：值得借鉴统一数据模式、几何对齐与离线策略筛选；属于受控研究演示。下一步看标定误差容忍、接触后果准确度、完整真机成功率，以及扣除标注与错误建议后的真实试验节省
+
+
+## 12. 第 46 周周报：预训练之后如何继续学习
+
+- 文章：[第 46 周具身智能周报](posts/embodied-ai-weekly-2026-11-13.html)，完整中英文，周报栏目。覆盖新加坡时间 2026-11-06 18:00 至 2026-11-13 18:00，已核对远程主分支避免同周重复
+- 日期依据：AMP1 v1 为 UTC 11 月 6 日 18:59（新加坡 11 月 7 日）；WICL 为 UTC 11 月 9 日 18:59（新加坡 11 月 10 日）；NVIDIA 公告 11 月 9 日。MR0 v1 为 UTC 11 月 5 日，明确作为 v2／v3 的修订回顾，不能把所有结果称为本周新实验
+- [AMP1](https://arxiv.org/html/2611.09892v1)：真实 Franka 三实例、12 任务、各 9 次，Opus 5.5 完成 104/108；成功试验均值 280 秒，推理 211 秒。五分钟执行预算不含推理；主表 AMP1 可恢复控制器错误，基线遇错误终止，必须保留这一公平性限定。$1.39 是论文按当时表价核算的 RoboLab 仿真 API 回合费用，不是机器人总成本
+- [RoboScript](https://archeone-ai.github.io/RoboScript/)／[代码](https://github.com/ArcheOne-AI/RoboScript)：一条任务示范＋仿真演练＋冻结记忆，不等于零经验。50 RoboTwin 2.0 任务 clean 83.6%、random 83.2%、平均 83.4%，是 Agent 系统，不直接与纯 Policy 混排；仿真 ALOHA 到真 PiPER 需要坐标、运动学、夹爪适配。项目 API 费用 $308／$1,911 含全部 50 任务与 1,000 评测回合，非真机运营成本
+- [MR0 v3](https://arxiv.org/html/2611.08577v3)：15,060 小时清洗数据池＝3,235 开源真实＋7,530 授权真实＋4,295 仿真，12 本体；数据池小时数不等于训练曝光，排除底盘运动。Rollback 保留被替换策略片段与人工修正；网线插入同数据、每方法 30 次自主评测，CFG-DAgger SR70%／PS0.90，RECAP60%／0.67，是后训练结果。Agent 记忆部署为定性展示。公开模型与 RoboDesk 不代表授权数据全部可再分发
+- [NVIDIA CoRL 公告](https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/)：GR00T 2 40/50 任务至少成功一次不等于每试验 80% 成功。AlphaNIST >98% 是训练成功率，约39倍是相对 GPU 时间，不等于工厂部署指标。Lab-Arena0.4 为开发者预览；DexBench 公告15任务4场景。每次引用检查发布资产与版本
+- 独立判断：纠错数据、回合内恢复和可审查任务记忆在改变模块分工。仍属于受控实验演示；团队应统一恢复权限，核算完整成功、实际耗时、人工、重置及安全事件，先做匹配条件的小试点
