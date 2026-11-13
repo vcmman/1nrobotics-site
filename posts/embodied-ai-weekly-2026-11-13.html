@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="AMP1, RoboScript, MR0 revisions, and NVIDIA's CoRL stack reveal where corrections and rehearsal improve robots—and where deployment costs remain unproven" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>Robot learning after pretraining | 1N Robotics</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-13.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=12" />
+  <script src="../i18n.js?v=10" defer></script>
+
+  <meta property="og:title" content="Robot learning after pretraining" />
+  <meta property="og:description" content="AMP1, RoboScript, MR0 revisions, and NVIDIA's CoRL stack reveal where corrections and rehearsal improve robots—and where deployment costs remain unproven" />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-13.html" />
+  <meta property="og:type" content="article" />
+  <script src="../site-stats.js?v=1" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /><span class="brand-wordmark">1N Robotics</span></a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+        <button class="language-switch" type="button" data-language-toggle aria-label="切换到中文">中文</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <article>
+      <header class="page-hero article-hero">
+        <div class="container narrow">
+          <p class="eyebrow">Embodied AI Weekly · Week 46</p>
+          <h1>Robot learning after pretraining</h1>
+          <p class="lead article-deck">AMP1, RoboScript, MR0 revisions, and NVIDIA's CoRL stack reveal where corrections and rehearsal improve robots—and where deployment costs remain unproven</p>
+          <p class="post-meta"><time datetime="2026-11-13">November 13, 2026</time> · 10 min read · 1N Robotics</p>
+        </div>
+      </header>
+
+      <section class="content-section">
+        <div class="container narrow">
+          <div class="article-body">
+<p>A pretrained robot can recognize the task and still stall after a bad grasp. This week's useful evidence concerns what happens next: which mistakes become training data, what an agent can repair during execution, and whether experience can be stored as task memory. Those choices change both reliability and the cost of acquiring it.</p>
+<div class="article-callout"><p>Coverage window: 6 November 18:00 to 13 November 18:00, 2026, Asia/Singapore. AMP1 and RoboScript are new papers within this window; NVIDIA's CoRL announcement is dated 9 November. MR0 first appeared before the window and is included as a revision review, using v3. Results are author-reported, not independently reproduced by 1N Robotics; our deployment judgments are identified below.</p>
+</div><h2 id="dates">What actually changed this week</h2>
+<div class="comparison-table-wrap"><table class="comparison-table"><thead><tr><th scope="col">Work</th><th scope="col">Date evidence</th><th scope="col">Why it belongs here</th></tr></thead><tbody><tr><td>AMP1</td><td>6 Nov 18:59 UTC / 7 Nov 02:59 Singapore</td><td>New agentic manipulation paper</td></tr><tr><td>RoboScript / WICL</td><td>9 Nov 18:59 UTC / 10 Nov 02:59 Singapore</td><td>New context-learning paper and code</td></tr><tr><td>NVIDIA CoRL platform</td><td>Official announcement: 9 Nov</td><td>GR00T 2, Isaac Lab 3.0, evaluation workflows</td></tr><tr><td>MR0 revision review</td><td>v1: 5 Nov UTC; v2: 10 Nov; v3: 12 Nov</td><td>Review current evidence; no claim that every result is new</td></tr></tbody></table></div>
+<p>Dates come from arXiv submission histories and NVIDIA's dated announcement. These are publication and revision dates, not the dates on which experiments were performed. Older world-action model (WAM) work discussed in our recent technical analyses remains background rather than another new release this week. <a href="#weekly-source-1" aria-label="Source 1">[1]</a> <a href="#weekly-source-3" aria-label="Source 3">[3]</a> <a href="#weekly-source-6" aria-label="Source 6">[6]</a> <a href="#weekly-source-10" aria-label="Source 10">[10]</a></p>
+<h2 id="amp">1. AMP1: strong recovery comes with a different runtime budget</h2>
+<p>Apple's AMP1 lets a generalist model write Python against sensing, perception, and motion interfaces. The basic harness has no ready-made grasp or placement selector. Its explicit geometry and checked motion interface still do substantial engineering work; “no demonstrations” describes task adaptation, not an absence of perception models or robot infrastructure. <a href="#weekly-source-2" aria-label="Source 2">[2]</a></p>
+<p>On physical hardware, AMP1 with Opus 5.5 completes 104 of 108 trials across 12 tasks and three Franka platform instances. Mean time over successful trials is 280 seconds, including 211 seconds of reasoning. The five-minute execution budget excludes reasoning time. Recoverable controller errors may be handled by AMP1, while the main baseline deployments terminate on such errors; the paper supplies a no-recovery ablation. <a href="#weekly-source-1" aria-label="Source 1">[1]</a></p>
+<p>That qualification changes the interpretation. The experiment evaluates a model plus runtime, including recovery permissions. A factory evaluating the same idea should equalize those permissions and count wall-clock completion, resets, and operator calls. The result supports trying an agent for unfamiliar, reasoning-heavy manipulation; it does not establish a production cycle time.</p>
+<p>The paper estimates $1.39 per RoboLab-120 simulation episode for Opus 5.5 using its listed API prices. That excludes robot ownership, local compute, resets, and labour. The released code pins external benchmark versions and documents an H100 80GB simulation setup; reproduce the harness and dependencies before treating the dollar figure as a deployment budget. <a href="#weekly-source-1" aria-label="Source 1">[1]</a> <a href="#weekly-source-9" aria-label="Source 9">[9]</a></p>
+<h2 id="roboscript">2. RoboScript: a demonstration becomes memory after rehearsal</h2>
+<p>World In-Context Learning (WICL) freezes the foundation model and writes simulation feedback into context. RoboScript implements it through reusable skills, task rehearsal, frozen Task Memory, and reflection. It uses one task demonstration and additional rehearsal interactions. This is few-shot task acquisition with a simulator in the loop, not zero-experience deployment. <a href="#weekly-source-3" aria-label="Source 3">[3]</a> <a href="#weekly-source-4" aria-label="Source 4">[4]</a></p>
+<p>Across all 50 RoboTwin 2.0 tasks, the repository reports 83.6% clean and 83.2% randomized success, averaging 83.4%. Rehearsal uses clean scenes; deployment uses frozen memory. The project separates privileged simulator supervision during learning from inputs available to a real robot during deployment. Simulated ALOHA memory is also adapted to a physical dual-arm PiPER, with frame and kinematic remapping. <a href="#weekly-source-4" aria-label="Source 4">[4]</a> <a href="#weekly-source-5" aria-label="Source 5">[5]</a></p>
+<p>Our reading is that randomization retention is the useful signal here. The system tries to preserve workflow knowledge while changing visual conditions. It does not prove transfer to arbitrary contact dynamics. Nor can its 83.4% be ranked directly against MR0's RoboTwin score: an agent with rehearsal, tools, and memory has a different data and runtime budget from a trained policy.</p>
+<p>The project prices all 50 tasks plus 1,000 evaluation episodes at $308 with GPT-5.6-Luna and $1,911 with GPT-6.1-Sol, mostly evaluation. These are its reported API totals, not robot operating costs. A useful follow-up is cost per accepted new task, including simulator setup, failed rehearsals, memory inspection, and the real-world acceptance test. <a href="#weekly-source-4" aria-label="Source 4">[4]</a></p>
+<h2 id="mr0">3. MR0 revisions: keep the policy's replaced attempts</h2>
+<p>Meituan-Robotics-0 is a vision-language-action (VLA) policy with a separate event-driven agent. Its curated robot corpus contains 15,060 hours across 12 embodiments: 3,235 hours of open real data, 7,530 licensed real hours, and 4,295 simulation hours. This is a curated-pool description, not a count of equally weighted training exposures. Collection excludes base-motion segments, limiting claims about mobile manipulation. <a href="#weekly-source-7" aria-label="Source 7">[7]</a> <a href="#weekly-source-8" aria-label="Source 8">[8]</a></p>
+<p>Rollback pairs a replaced policy segment with a human correction from an earlier anchor state. Classifier-free-guided DAgger (CFG-DAgger) uses the pair as direct negative and positive supervision. On real Ethernet insertion, the paper reports 70% complete success and 0.90 progress, versus RECAP's 60% and 0.67, using the same Rollback dataset and 30 autonomous trials per method. This is post-training, not zero-shot execution. <a href="#weekly-source-7" aria-label="Source 7">[7]</a></p>
+<p>The important data choice is preserving what the policy did before intervention. Successful demonstrations mainly show the intended route; paired corrections expose states the policy actually visits. Our interpretation is that this can improve the information value of operator time. The reported sample is too small to establish a precise reliability margin, and the paper's event-memory deployments are qualitative demonstrations rather than a long-duration agent benchmark. <a href="#weekly-source-7" aria-label="Source 7">[7]</a></p>
+<p>The MR0 repository links base and benchmark-specific weights, RoboDesk, training configurations, and a policy server. That is a useful reproduction entry point. It does not imply redistribution of the licensed half of the curated corpus; check each asset's card and terms, and separate policy reproduction from rebuilding the full pretraining run. <a href="#weekly-source-11" aria-label="Source 11">[11]</a></p>
+<p>The paper reports 500,000 pretraining steps on 256 GPUs and mid-training on 128 GPUs. Those allocations do not specify a complete training bill. Comparing a trained policy with an API-driven agent requires both adaptation cost and runtime cost, amortized over the number of accepted tasks. <a href="#weekly-source-7" aria-label="Source 7">[7]</a></p>
+<h2 id="nvidia">4. NVIDIA's CoRL stack: make post-training and evaluation repeatable</h2>
+<p>NVIDIA's 9 November announcement combines GR00T 2, a world-action model (WAM), with Isaac Lab 3.0 training tools and industrial evaluation workflows. Isaac Lab adds choices of physics solver and renderer plus reinforcement post-training support. Lab-Arena 0.4 is described as a developer preview; DexBench is announced with 15 tasks in four industrial scenes. An announced benchmark still needs versioned tasks and reproducible evaluation records. <a href="#weekly-source-6" aria-label="Source 6">[6]</a></p>
+<p>The same announcement says GR00T 2 completed 40 of 50 evaluated tasks at least once without task-specific demonstrations. That is task coverage with at least one completion, not an 80% per-trial success rate. Its AlphaNIST example reports more than 98% training success across 20 tasks with roughly 39 times less GPU time than separate per-task policies. Those are training and relative compute claims, not 20 verified factory deployment rates. <a href="#weekly-source-6" aria-label="Source 6">[6]</a></p>
+<p>For an engineering team, the useful opportunity is to make failures reproducible before scaling training. Lock the simulator, physics parameters, randomization, controller, and success checker together. Then determine whether a gain survives real calibration and contact variation. A faster solver can reduce the price of iteration; it cannot validate an incorrect friction model.</p>
+<h2 id="scorecard">Deployment scorecard: compare questions before scores</h2>
+<div class="comparison-table-wrap"><table class="comparison-table"><thead><tr><th scope="col">Evidence</th><th scope="col">Adaptation and runtime</th><th scope="col">What is still missing</th></tr></thead><tbody><tr><td>AMP1: 104/108 real completions</td><td>Zero-shot agent; recovery-enabled; reasoning adds wall time</td><td>Matched recovery permissions, sustained intervention and safety rates</td></tr><tr><td>RoboScript: 83.4% simulation mean</td><td>One demo/task + rehearsal; frozen task memory</td><td>Broad real-robot trials and contact-transfer evidence</td></tr><tr><td>MR0: 70% real insertion success</td><td>Task post-training; paired corrections; 30 trials</td><td>Confidence, operator cost, continuous-operation evidence</td></tr><tr><td>Isaac Lab / Arena / DexBench</td><td>Training and evaluation infrastructure, with preview components</td><td>Independent, version-matched real-world validation</td></tr></tbody></table></div>
+<p>This table summarizes the experiments above; it is not a cross-paper leaderboard. None of these selected results alone establishes scalable deployment. For the evaluated robot applications, our maturity judgment remains controlled experimental demonstration; software availability and deployment maturity are separate questions.</p>
+<h2 id="next">Our judgment: budget for the whole learning loop</h2>
+<p>This week's work solves different pieces of the same practical problem. AMP1 strengthens reasoning and recovery during a trial. RoboScript makes task experience portable as inspected memory. MR0 turns operator corrections into explicit training supervision. NVIDIA supplies more of the infrastructure for repeating those experiments. These components can change module responsibilities without eliminating the need for a fast controller or physical acceptance tests.</p>
+<p>Our recommendation is a small, matched pilot. Choose a task with known failures, freeze the initial states and safety rules, and compare a baseline with one added mechanism. Record complete success and wall-clock time, then operator minutes, resets, API or GPU cost, and safety events. Include failed attempts in the ledger. The meaningful improvement is more accepted work for the same total effort.</p>
+<p>Follow these routes now if your bottleneck is recovery coverage or task adaptation. Continue observing claims of unattended industrial reliability until repeated-day performance and intervention data appear. The next useful paper will make it easier to account for both the robot's failures and the human work required to fix them.</p>
+<h2 id="sources">Primary sources</h2>
+<ol class="source-list"><li id="weekly-source-1"><a href="https://arxiv.org/abs/2611.09892v1" target="_blank" rel="noopener noreferrer">AMP1 paper v1 and dated submission history</a></li><li id="weekly-source-2"><a href="https://apple-aiml-research.github.io/ml-amp/" target="_blank" rel="noopener noreferrer">Apple AMP1 project and harness</a></li><li id="weekly-source-3"><a href="https://arxiv.org/abs/2611.12885" target="_blank" rel="noopener noreferrer">WICL paper and dated submission history</a></li><li id="weekly-source-4"><a href="https://archeone-ai.github.io/RoboScript/" target="_blank" rel="noopener noreferrer">RoboScript project: memory, transfer, and cost</a></li><li id="weekly-source-5"><a href="https://github.com/ArcheOne-AI/RoboScript" target="_blank" rel="noopener noreferrer">RoboScript repository and reproduction entry points</a></li><li id="weekly-source-6"><a href="https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/" target="_blank" rel="noopener noreferrer">NVIDIA CoRL announcement, 9 November 2026</a></li><li id="weekly-source-7"><a href="https://arxiv.org/html/2611.08577v3" target="_blank" rel="noopener noreferrer">MR0 paper v3: data and post-training</a></li><li id="weekly-source-8"><a href="https://meituan-robotics.github.io/Meituan-Robotics-0/" target="_blank" rel="noopener noreferrer">MR0 project: data mixture and system separation</a></li><li id="weekly-source-9"><a href="https://github.com/apple-aiml-research/ml-amp" target="_blank" rel="noopener noreferrer">AMP1 repository: dependencies and hardware</a></li><li id="weekly-source-10"><a href="https://arxiv.org/abs/2611.08577" target="_blank" rel="noopener noreferrer">MR0 submission and revision history</a></li><li id="weekly-source-11"><a href="https://github.com/Meituan-Robotics/Meituan-Robotics-0" target="_blank" rel="noopener noreferrer">MR0 repository: models, RoboDesk, and evaluation</a></li></ol>
+
+</div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links"><a href="../index.html">Home</a><a href="../product.html">Product</a><a href="../about.html">About</a><a href="../feed.xml">RSS</a></div>
+    </div>
+    <div class="container site-stats" aria-label="Site statistics">
+      <span><span>Site views</span> <strong data-site-views>—</strong></span>
+      <span>Since 12 Nov 2026</span>
+      <span><span>Counter by</span> <a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener noreferrer">Busuanzi</a></span>
+      <span data-stats-unavailable hidden>Count unavailable</span>
+    </div>
+  </footer>
+</body>
+</html>
