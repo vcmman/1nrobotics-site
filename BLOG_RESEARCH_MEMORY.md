@@ -1,6 +1,6 @@
 # 博客内容与研究分析记忆
 
-更新日期：2026-11-13
+更新日期：2026-11-14
 
 这份文档保存已经写过什么、分析了哪些工作、哪些结论必须连同条件保留，以及后续值得继续追的问题。它是选题与论证索引，不是重新验证过的最新事实库。以下概括来自仓库现有文章；模型名称、发布状态、数字、许可和代码开放情况在再次引用或更新时，都要回到原始来源重新核验。
 
@@ -10,6 +10,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-14 | [Ropedia 最新数据与模型路线](posts/ropedia-xperience2-data-model-industry.html) | Xperience 2、EgoX、Holi-World、W0、DONIC、A0／ETM | 真实开放范围、配准质量、模型分工、仿真轨迹验收与产业成本 |
 | 2026-11-13 | [第 46 周具身智能周报](posts/embodied-ai-weekly-2026-11-13.html) | AMP1、RoboScript／WICL、MR0 v3、NVIDIA CoRL 平台 | 纠错数据、演练记忆、恢复权限、实际耗时与复现成本 |
 | 2026-11-13 | [Ropedia W0 数据与模型分析](posts/ropedia-w0-data-model-analysis.html) | Xp-Data、Xp-Teleop、Ropedia W0 5B/A14B、FastWAM 初始化 | 采集与人工标注、同步字段、跨本体预测、控制迁移和复现成本 |
 | 2026-11-12 | [HumanWAM 到 GR00T 2 深度对比](posts/humanwam-groot2-wam-comparison.html) | HumanWAM 两个配置、GR00T 2、Zero-WAM、DreamZero、两项 OpenWAM、EgoWAM、GEN-1.5 | 架构、视角与动作对齐、可比评测、后训练与部署 |
@@ -227,3 +228,19 @@
 - [MR0 v3](https://arxiv.org/html/2611.08577v3)：15,060 小时清洗数据池＝3,235 开源真实＋7,530 授权真实＋4,295 仿真，12 本体；数据池小时数不等于训练曝光，排除底盘运动。Rollback 保留被替换策略片段与人工修正；网线插入同数据、每方法 30 次自主评测，CFG-DAgger SR70%／PS0.90，RECAP60%／0.67，是后训练结果。Agent 记忆部署为定性展示。公开模型与 RoboDesk 不代表授权数据全部可再分发
 - [NVIDIA CoRL 公告](https://blogs.nvidia.com/blog/robotics-simulation-advancements-corl/)：GR00T 2 40/50 任务至少成功一次不等于每试验 80% 成功。AlphaNIST >98% 是训练成功率，约39倍是相对 GPU 时间，不等于工厂部署指标。Lab-Arena0.4 为开发者预览；DexBench 公告15任务4场景。每次引用检查发布资产与版本
 - 独立判断：纠错数据、回合内恢复和可审查任务记忆在改变模块分工。仍属于受控实验演示；团队应统一恢复权限，核算完整成功、实际耗时、人工、重置及安全事件，先做匹配条件的小试点
+
+
+## 13. Ropedia 最新进展：从人类视频到可复用机器人世界
+
+- 文章：[Ropedia 最新数据与模型路线](posts/ropedia-xperience2-data-model-industry.html)，2026-11-14，技术分析栏目，完整中英文；与 11 月 13 日 W0 专题互补，不重复宣称 W0 是最新发布
+- 最新依据：[Xperience 2 v1](https://arxiv.org/html/2611.17060v1)，UTC 11 月 12 日提交；其他模型线作为较早背景。各组件衔接属于我们的路线综合，尚不是已验证联合部署系统
+- 规模：论文发布扫描集合 1,589；更广采集清单为 596 地点、4,230 记录、74 任务、131 小时。场景按扫描计数，不等于独立物理地点。不能把 Xperience-10M／EgoX-Data-6M／Xp-Data／Xperience2 的规模相加
+- 核查 [当前 HF 数据卡](https://huggingface.co/datasets/ropedia-ai/Ropedia-Xperience-2)：首批126场景、约1.07TB；首批文件尚未附记录到扫描配准变换。网页 still-coming-soon 标记不能代替实际文件与数据卡状态。每次再引用须重查批次
+- HOMIE四全局快门鱼眼＋IMU＋四声道音频，配手持LiDAR扫描；传感器观测／几何与运动估计／模型生成描述要区分。下肢为推断，遮挡手可能缺失；不是全部动作捕捉真值
+- [配准工具](https://github.com/Ropedia/Ropedia-Xperience-2/blob/main/docs/scene_registration.md)：CPU单对配准，要求已处理导出数据，不是完整传感器流水线；PASS留出平移中位数≤5cm、p90≤12cm，缺深度不能PASS；VERIFIED仅视觉配对，输出文件存在不保证PASS。全局变换不能纠正局部SLAM漂移
+- QC：保留1589中507为Reuse；91无显式QC记录按规则赋Usable，33冲突按最佳等级；不能称每个保留场景都均匀验证或可直接仿真。20场景评测子集只含Perfect/Usable
+- 模型：EgoX1.2B为联合重建，50h/5.4M为数据子集而完整训练混合约280h；Holi-World约80K QA训练4B空间模型；W0为条件预测；DONIC为参考条件跟踪，BiHOI1575序列/229物体/14.77h，仿真未见轨迹86.79→88.68%、未见物体57.32→59.76%；A0链接现为ETM／COAP，42任务3种子×50布局自评70.24%，不等于无需离线任务开发
+- 关键评测：20场景Boxer AP25 24.69/AP50 6.09；500空间题Gemini2.5Pro74.2/GPT6AstraHigh71.8/HoliWorld4B67.8为问答准确率。深度按场景中位数尺度对齐，不能证明米制恢复
+- 生成：一个仿真住宅八子任务，30/30留出初始状态完成，轨迹约2.2min、单worker计算10–16min，非新任务／真机泛化。重定向四段同场景记录先减速2倍，指尖中位数0.40–0.55cm为仿真跟踪；饮水机演示水量是规则不是流体仿真
+- 商业和产业：数据CCBYNC、配准代码Apache2.0、W0权重NC；研究可下载不等于可直接商用。潜力是减少场景重建、重置与数据迭代，仍要补分割关节化、接触参数、配准、验收、隐私与授权成本
+- 独立判断：部分开放基础设施的受控实验演示。先在已知现场按相同真机验收标准对照现有流程，计每工程师日的合格结果；未来重点看完整配准占比、接触标定、新任务与新现场留出真机成功率、人工修复和完整成本。尚未证明物理智能缩放定律

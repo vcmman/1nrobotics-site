@@ -5,8 +5,16 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Nov 2026 18:05:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 16:15:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ropedia's next step: from human video to reusable robot worlds</title>
+      <link>https://1nrobotics.com/posts/ropedia-xperience2-data-model-industry.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/ropedia-xperience2-data-model-industry.html</guid>
+      <pubDate>Sat, 14 Nov 2026 16:15:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>Xperience 2, reconstruction, world models, and control: what the data can support, where the interfaces remain incomplete, and how industrial teams should measure value</description>
+    </item>
     <item>
       <title>Robot learning after pretraining | Embodied AI Weekly</title>
       <link>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-13.html</link>
