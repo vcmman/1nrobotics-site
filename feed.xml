@@ -5,8 +5,16 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 16:53:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 02:25:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From BEVFormer to UniAD: a one-year route from Pi3X geometry to persistent navigation</title>
+      <link>https://1nrobotics.com/posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html</guid>
+      <pubDate>Sun, 15 Nov 2026 02:25:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>What to transfer into Compass 1-style systems, which experiments must come first, and when a robotics team should continue, simplify, or stop</description>
+    </item>
     <item>
       <title>Compass 1: what a single camera, geometric labels, and usable memory solve in robot navigation</title>
       <link>https://1nrobotics.com/posts/compass1-camera-geometry-memory-navigation.html</link>
