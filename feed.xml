@@ -5,8 +5,32 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 14 Nov 2026 16:15:00 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2026 16:53:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Compass 1: what a single camera, geometric labels, and usable memory solve in robot navigation</title>
+      <link>https://1nrobotics.com/posts/compass1-camera-geometry-memory-navigation.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/compass1-camera-geometry-memory-navigation.html</guid>
+      <pubDate>Sat, 14 Nov 2026 16:53:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>Inside Archon’s navigation model: DJI Action 4 capture, monocular reconstruction, structured memory, video-action generation, and the gap to autonomous deployment</description>
+    </item>
+    <item>
+      <title>From BEVFormer and UniAD to WorldEngine and SimScale: learning from the states that demonstrations miss</title>
+      <link>https://1nrobotics.com/posts/bevformer-uniad-worldengine-simscale-robotics.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/bevformer-uniad-worldengine-simscale-robotics.html</guid>
+      <pubDate>Sat, 14 Nov 2026 16:53:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>How spatial memory and planning-oriented learning led to interactive data engines, and which lessons transfer from autonomous driving to robotics</description>
+    </item>
+    <item>
+      <title>Anchor1, SONIC, and SuperMimic: precision, scale, and the cost of control</title>
+      <link>https://1nrobotics.com/posts/anchor1-sonic-supermimic-control-analysis.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/anchor1-sonic-supermimic-control-analysis.html</guid>
+      <pubDate>Sat, 14 Nov 2026 16:53:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>Why a humanoid that can track a backflip can still miss a stationary reach, and what three control systems change about that problem</description>
+    </item>
     <item>
       <title>Ropedia's next step: from human video to reusable robot worlds</title>
       <link>https://1nrobotics.com/posts/ropedia-xperience2-data-model-industry.html</link>

@@ -10,6 +10,9 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-14 | [Compass 1 相机、几何与导航](posts/compass1-camera-geometry-memory-navigation.html) | Archon Compass 1、Pi3、MoGe-2、Cosmos3-Edge-4B | 离线几何与在线历史地图、问答监督、真机分母、异步吞吐与部署依赖 |
+| 2026-11-14 | [BEVFormer 到 WorldEngine／SimScale](posts/bevformer-uniad-worldengine-simscale-robotics.html) | BEVFormer、UniAD、WorldEngine、自动驾驶 SimScale | 空间表征、规划查询、交互经验、后训练、反事实数据与机器人迁移 |
+| 2026-11-14 | [Anchor1／SONIC／SuperMimic](posts/anchor1-sonic-supermimic-control-analysis.html) | Anchor1 v1、SONIC v4、SuperMimic v2 | 稀疏目标、解码器误差反馈、精细真机跟踪、训练集覆盖与算力成本 |
 | 2026-11-14 | [Ropedia 最新数据与模型路线](posts/ropedia-xperience2-data-model-industry.html) | Xperience 2、EgoX、Holi-World、W0、DONIC、A0／ETM | 真实开放范围、配准质量、模型分工、仿真轨迹验收与产业成本 |
 | 2026-11-13 | [第 46 周具身智能周报](posts/embodied-ai-weekly-2026-11-13.html) | AMP1、RoboScript／WICL、MR0 v3、NVIDIA CoRL 平台 | 纠错数据、演练记忆、恢复权限、实际耗时与复现成本 |
 | 2026-11-13 | [Ropedia W0 数据与模型分析](posts/ropedia-w0-data-model-analysis.html) | Xp-Data、Xp-Teleop、Ropedia W0 5B/A14B、FastWAM 初始化 | 采集与人工标注、同步字段、跨本体预测、控制迁移和复现成本 |
@@ -244,3 +247,58 @@
 - 生成：一个仿真住宅八子任务，30/30留出初始状态完成，轨迹约2.2min、单worker计算10–16min，非新任务／真机泛化。重定向四段同场景记录先减速2倍，指尖中位数0.40–0.55cm为仿真跟踪；饮水机演示水量是规则不是流体仿真
 - 商业和产业：数据CCBYNC、配准代码Apache2.0、W0权重NC；研究可下载不等于可直接商用。潜力是减少场景重建、重置与数据迭代，仍要补分割关节化、接触参数、配准、验收、隐私与授权成本
 - 独立判断：部分开放基础设施的受控实验演示。先在已知现场按相同真机验收标准对照现有流程，计每工程师日的合格结果；未来重点看完整配准占比、接触标定、新任务与新现场留出真机成功率、人工修复和完整成本。尚未证明物理智能缩放定律
+
+
+## 14. Anchor1、SONIC 与 SuperMimic：精度、规模与控制成本
+
+内容简介：比较三者优化的不同瓶颈，解释五位姿参考、FSQ token、解码器显式误差反馈、世界模型可微训练，并分开真机精度表与仿真覆盖率表。
+
+- Anchor1 无运行时重定向不等于无离线重定向；训练仍使用机器人参考与质量筛选。1,081.37 小时含 688.37 原始与 392.99 镜像小时，不能当独立采集
+- Anchor1 真机表为 G1、51 条站立伸手与 72 条内部序列；全局手腕误差 44.58／75.69 mm，SONIC-G1 98.15／234.37，SONIC-SMPL 166.70／314.00。不是完整操作成功率；不同接口及 60／900／180 ms 前视不等于网络延迟
+- Anchor1 真机使用 re-locate，不输入全局定位；光学骨盆跟踪仅用于评分。Global 与 re-locate 模式必须区分；局部好不能代替全局好
+- SONIC 以 v4 为准：611 小时训练、最大 42M 参数、约 21k GPU 小时；Orin 推理 1–2 ms、策略 50 Hz、电机发送 500 Hz，不混成同一频率
+- SuperMimic v2 的 129,514 条为两方法训练动作，确定性仿真无噪声／域随机化，179→25→0 是覆盖率，不是新任务泛化或真机零失败。2 H100×9.8 小时为 19.6 GPU 小时
+- SuperMimic 受控 LAFAN1 比较比跨系统倍率更有算法解释力。未有 Anchor1 与 SuperMimic 的同协议精细控制排名
+- Anchor1 两项采集任务有效示范数／小时：43、62；SONIC v1.1 SMPL：9、41。不是自主策略成功率，也不能推广全部操作者成本
+- 截至核对，Anchor1 权重／部署工具为年底计划；SONIC 有运行代码和权重；SuperMimic 核实论文及浏览器演示，不据此认定完整训练部署包公开
+
+保留判断：三条路线可能互补，但联合可微训练与精确 token 反馈是建议实验，不是现成验证系统。单一本体、物体接触、重建误差、持续安全仍是边界。
+
+来源：[Anchor1](https://arxiv.org/html/2611.00193v1)、[SONIC v4](https://arxiv.org/html/2511.07820v4)、[SuperMimic v2](https://arxiv.org/pdf/2610.28480v2)。
+
+## 15. BEVFormer、UniAD 到 WorldEngine 与 SimScale
+
+内容简介：分析从共享空间记忆、规划导向查询接口，走向交互式数据生成和失败驱动后训练，对移动导航与操作行业的启示。
+
+- 时间与谱系：BEVFormer 首稿 2022-03，UniAD 2022-12，SimScale 2025-11，World Engine 论文 2026-06。后两者为互补工具，不是四个连续模型版本；WorldEngine 基准为 VADv2 风格规划器，不将所有提升归为 UniAD
+- BEVFormer NDS 56.9 对应 V2-99 加额外深度预训练，不是导航成功；UniAD 原始开环表平均 L2 2.11→1.03 m、碰撞指标 0.71%→0.31%，不是实路事故率
+- WorldEngine 将 3DGS 外观渲染与扩散行为世界模型分开，失败挖掘→重建→交互→带 KL 先验约束的后训练。公共仓库截至核对仍标记 BWM 集成未完成，不能把论文完整系统当完整公开复现
+- WorldEngine 稀有 4 秒仿真回合 SR 73.66→88.89，PDMS* 60.98→70.12；必须同时看进度，合成回放 SR 高但 EP 仅 32.49。量产实验超过 10,000 仿真场景最多相对降碰撞 45.5%；约 200km 三次路测零接管、基础一次干预，不推导长期事故率
+- 14 倍数据等效是对 12k–103k 场景扩展曲线外推，不是与 14 倍采集模型实测
+- SimScale 指 OpenDriveLab 自动驾驶工作，区别同名云仿真及 2026-11 智能体操作项目。147k 恢复式／237k 规划式派生场景；不等于独立地点。NAVSIM v2 EPDMS 为复合基准分数，不能与 WorldEngine PDMS* 或真机 SR 横排
+- ResNet34 下 navhard：LTF 24.4→30.2，DiffusionDrive 27.5→32.6，GTRS-Dense 38.3→46.9；navtest 分别 81.5→84.4、84.2→85.9、82.3→84.6。按同一模型有无仿真配对
+- 仿真比例增加不必然持续改善：LTF 在测试范围 1:1 后饱和退化，扩散多模态与探索型专家更适配多解监督；不能外推无限 scaling
+- SimScale 数据卡头部 Apache 与正文 nuPlan 数据 CC BY-NC-SA 有差异，分别核查代码与数据许可
+
+保留判断：机器人应建设失败到学习闭环，先小规模验证仿真与真机排序。3DGS 不提供接触物理；操作需关节物体、力／触觉、动力学校准和独立验收。行业价值以匹配吞吐和总成本后的干预／失败降低衡量。
+
+来源：[World Engine](https://arxiv.org/pdf/2606.19836)、[SimScale v3](https://arxiv.org/html/2511.23369v3)、[UniAD](https://arxiv.org/pdf/2212.10156v2)、[BEVFormer](https://arxiv.org/pdf/2203.17270v2)。
+
+## 16. Compass 1：相机、离线几何与可用历史
+
+内容简介：专门拆解 Archon Compass 1，区别其他同名 COMPASS；重点回答相机、重建、模型独特贡献和端到端导航完成度。
+
+- 自采与地面部署用 DJI Action 4；训练主要约 1m，Go2 0.5m、AgileX 0.35m、K1 0.85m。无人机 1.5m 使用原生工业相机，未给型号，不能根据合作 logo 猜测品牌。4 FPS 是标注示例，不是相机录制帧率
+- Pi3 跨视图恢复位姿／点图，MoGe-2 提供估计米制尺度，用于离线 [Δx,Δy,Δyaw] 动作标注；HRM 为在线历史位置／编号／朝向二维画布，不是稠密三维占据、3DGS 渲染器或碰撞认证
+- 所有真机方法用里程计闭环执行，PRO 6000 远端推理；单目视觉输入不等于整机只需相机，也不等于端侧部署已验证
+- Cosmos3-Edge-4B 共享多模态注意力：结构化 QA + 视频动作扩散，12 帧／12 动作；语言头与动作头异步，不将当前全部 QA 串行输入动作头。监督训练 32 H200×60k steps、batch256，loss3:1:1；未知墙钟时长不能算总 GPU 小时
+- 500+h 自采 + 2000+h YouTube，训练采样85:15，人工检查只自采；几何尺度误差、淘汰率、人时、成本仍未充分报告
+- 主基准 Go2：8类×4景×10次=320，254成功79.4%，最强17.8%；基线选原始／适配权重较好者，但推理监督与动作接口不同。额外本体 HBN：9/10、7/10、7/10，不与主基准混分母
+- 消融160次Office+Street参照78.8%，无HRM53.1、无检索56.3、无阶段55、无探索61.3、无视频46.9、无YouTube65；参照须用同子集78.8，不能用四景79.4，也不能相加贡献
+- 0.43／0.71秒生成12动作为28／17有效动作吞吐Hz，非每36ms闭环重新观察决策，批次约2.3／1.4Hz，未含完整网络到电机延迟
+- R2R-CE70.1/63.2与LightNav68.5/62.8为SR/SPL；IndoorUAV全方法微调且排除上下动作，18.09SR不能称解决零样本飞行
+- 截至2026-11-14仓库计划12月发布数据／部署代码／真机权重。摘要开放措辞不代表当前已下载；仓库Apache不自动覆盖未发布数据及视频版权
+
+保留判断：有力受控真机演示，记忆表征+检索监督+执行调度共同带来提升；多阶段50%、持久回溯58%、主基准66次失败，尚未解决持续自主。重点追踪长期漂移、遮挡恢复、通信失效、本地低延迟与独立复现。
+
+来源：[论文](https://arxiv.org/pdf/2611.12087v1)、[项目](https://www.yuance.ai/research/compass1)、[发布计划](https://github.com/OpenDriveLab/Compass/)。
