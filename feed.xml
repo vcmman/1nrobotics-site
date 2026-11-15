@@ -5,8 +5,16 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Nov 2026 02:25:00 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 15 Nov 2026 09:21:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>From DUSt3R to Pi3X and MapAnything: geometry, ViewCrafter, and usable 3D worlds</title>
+      <link>https://1nrobotics.com/posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html</guid>
+      <pubDate>Sun, 15 Nov 2026 09:21:00 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>How learned reconstruction meets generative rendering—and why content creators and robots need different definitions of a good world</description>
+    </item>
     <item>
       <title>From BEVFormer to UniAD: a one-year route from Pi3X geometry to persistent navigation</title>
       <link>https://1nrobotics.com/posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html</link>
