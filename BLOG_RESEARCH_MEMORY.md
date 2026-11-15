@@ -10,6 +10,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-15 | [DUSt3R／Pi3X／MapAnything 与 ViewCrafter](posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html) | 稠密点图、排列等变、几何分解、点云条件视频扩散、3DGS | 数据单位、观测与生成来源、几何／外观分表、内容资产成本与机器人实测 |
 | 2026-11-15 | [BEVFormer／UniAD 到 Pi3X／Compass 一年路线](posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html) | BEVFormer、UniAD、Pi3X、Compass 1、MapAnything | 规划导向接口、离线几何教师、因果消融、五阶段门槛与有限试点 |
 | 2026-11-14 | [Compass 1 相机、几何与导航](posts/compass1-camera-geometry-memory-navigation.html) | Archon Compass 1、Pi3、MoGe-2、Cosmos3-Edge-4B | 离线几何与在线历史地图、问答监督、真机分母、异步吞吐与部署依赖 |
 | 2026-11-14 | [BEVFormer 到 WorldEngine／SimScale](posts/bevformer-uniad-worldengine-simscale-robotics.html) | BEVFormer、UniAD、WorldEngine、自动驾驶 SimScale | 空间表征、规划查询、交互经验、后训练、反事实数据与机器人迁移 |
@@ -324,3 +325,25 @@
 独立判断：首年合理终点是有限试点候选或有证据地选择简单基线，不是承诺持续通用自主。只有减少新现场完整任务失败、干预及总成本，才值得继续增加几何或模型复杂度。
 
 来源：[BEVFormer](https://arxiv.org/pdf/2203.17270v2)、[UniAD](https://arxiv.org/pdf/2212.10156v2)、[Pi3X](https://github.com/yyfz/Pi3)、[Compass论文](https://arxiv.org/pdf/2611.12087v1)、[发布计划](https://github.com/OpenDriveLab/Compass/)。
+
+
+## 18. DUSt3R 到 Pi3X／MapAnything，与 ViewCrafter 的生成分支
+
+内容简介：完整中英文介绍学习式几何从成对点图、多视图对称推理到可选先验与因子化米制接口的演进，连接 ViewCrafter 的点云条件视频扩散及高斯渲染，分别评价三维内容与机器人用途。
+
+- 用户模糊记得的 Crafter 按直接使用 DUSt3R 的 ViewCrafter 处理；不可混淆 StreetCrafter 或同名 SpatialCrafter 项目
+- 时间不是串行继承：DUSt3R 2023-12，ViewCrafter 2024-09／TPAMI2025，Pi3 2025-07，MapAnything 2025-09，Pi3X 仓库更新 2025-12。Pi3 论文分数不能自动转给 Pi3X
+- DUSt3R 成对点图用第一相机坐标，全局多视图还需配对和优化；尺度归一化不等于真实米制。8.5M图像对不能与场景或视频对直接比规模
+- Pi3 无特殊参考视图／帧索引，不意味无重叠也不意味动态时间可忽略；Pi3X 近似米制、可选先验，测量前不能当可靠尺度真值
+- MapAnything 因子为射线／深度／位姿／全局尺度，仍以第一图为参考，不是完全继承 Pi3 排列等变；动态运动／场景流、持续建图仍有限。13数据集与6数据集Apache检查点需分别评价
+- MapAnything表2双视图：ETH3D／ScanNet++v2／TartanAirV2均值。RGB点相对误差DUSt3R .21、VGGT .20、MapAnything .08；位姿AUC@5°35.5、34.2、56.0。MapAnything+内参 .07/64.7，+内参深度 .04/73.1。额外先验不可混排纯RGB榜，无Pi3X同协议行；不是米误差或机器人成功率
+- ViewCrafter训练由DL3DV／RealEstate10K经DUSt3R与渲染生成632,152视频对、25帧；320×512 50k步，再576×1024 5k步，批量16。迭代数不推算完整算力账单
+- ViewCrafter表2Tanks and Temples每场景2张真实训练图、12评测视图；还用生成图监督3DGS。PSNR/SSIM/LPIPS：DNGaussian15.47/.541/.331；FSGS17.53/.558/.364；InstantSplat18.61/.614/.275；ViewCrafter21.50/.692/.245。外观不等于几何或接触正确
+- 迭代生成→重建会把生成先验反复写回，应保留原始观测与生成谱系。快速最终3DGS渲染不等于快速扩散，也没有自动获得网格拓扑／材质／碰撞／摩擦
+- Pi3X或MapAnything替换ViewCrafter几何为建议假设；统一坐标、裁剪／内参／尺度，先冻结生成器再匹配预算适配，检查重建伪影分布变化
+- 三维内容看合格资产耗时／可编辑性／运镜一致性；机器人先离线标注／地图初始化／可信几何上的视觉增强，生成区域不能当实测碰撞真值；主动感知必须靠真实新观测降低不确定性
+- 许可分别查代码／权重／数据／资产；Pi3宽松代码不覆盖非商业权重，MapAnything Apache模型训练配方不同。没有主张本文组合已经真机验证或可直接部署
+
+独立判断：最有价值的是可审核的几何与生成接口，让系统区分观测、推断与生成；外观补全与几何可靠性分别验收，机器人收益必须在留出真机完整任务上成立。
+
+来源：[DUSt3R](https://arxiv.org/abs/2312.14132)、[Pi3](https://arxiv.org/abs/2507.13347)、[Pi3X代码](https://github.com/yyfz/Pi3)、[MapAnything论文](https://map-anything.github.io/assets/MapAnything.pdf)、[ViewCrafter](https://arxiv.org/abs/2409.02048)。
