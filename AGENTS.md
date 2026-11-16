@@ -47,6 +47,9 @@ These rules are mandatory for automated weekly posts as well as one-off analysis
   Weekly briefings (`#weekly-briefings`), with accurate category counts. New
   recurring weekly issues belong in Weekly briefings; one-off research articles
   belong in Technical analysis. Keep RSS item categories consistent.
+- Within Technical analysis, follow [the reading guide](BLOG_READING_GUIDE.md):
+  place each article once in its research topic and maintain the curated order
+  and previous/next links. Do not restore a mixed reverse-chronological archive.
 - Publish complete English and Chinese copy through `i18n.js`; English is the default language.
 - Add the language switch to every new page and verify that the saved preference follows navigation.
 - Validate HTML/XML, local links, responsive layout, and the live deployment after merging.

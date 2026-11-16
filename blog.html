@@ -4,18 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-  <meta name="description" content="Embodied AI Weekly from 1N Robotics: a source-led briefing on robot learning, foundation models, hardware, and real-world deployment." />
+  <meta name="description" content="Technical reading paths and weekly briefings on robot navigation, data, world-action models, control, and agentic robotics" />
   <meta name="robots" content="index, follow" />
   <meta name="keywords" content="embodied AI, robotics weekly, robot learning, vision language action models, humanoid robots" />
   <meta name="author" content="1N Robotics" />
   <title>Robotics research blog | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/blog.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
-  <link rel="stylesheet" href="style.css?v=12" />
-  <script src="i18n.js?v=15" defer></script>
+  <link rel="stylesheet" href="style.css?v=13" />
+  <script src="i18n.js?v=16" defer></script>
 
   <meta property="og:title" content="Robotics research blog | 1N Robotics" />
-  <meta property="og:description" content="The signal behind the week's most important progress in embodied intelligence." />
+  <meta property="og:description" content="Technical reading paths and weekly briefings on robot navigation, data, world-action models, control, and agentic robotics" />
   <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
   <meta property="og:url" content="https://1nrobotics.com/blog.html" />
   <meta property="og:type" content="website" />
@@ -52,8 +52,8 @@
         <aside class="weekly-promise" aria-label="Publication details">
           <span class="status-dot" aria-hidden="true"></span>
           <div>
-            <strong>Published every Friday</strong>
-            <p>Short briefings and deeper technical analysis. Primary sources. Practical implications for robotics teams.</p>
+            <strong>Read by topic, follow each week</strong>
+            <p>Choose a research path below. Weekly briefings are published every Friday.</p>
           </div>
         </aside>
       </div>
@@ -66,52 +66,43 @@
     </nav>
 
     <section id="technical-analysis" class="content-section blog-category-section" aria-labelledby="technical-heading">
-      <div class="container section-heading blog-heading">
-        <div><p class="eyebrow">Research, examined closely</p><h2 id="technical-heading">Technical analysis</h2></div>
-        <a class="text-link" href="feed.xml">Follow via RSS <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="container featured-post">
-        <article class="featured-post-copy">
-          <p class="post-meta"><time datetime="2026-11-16">November 16, 2026</time> · Analysis · 22 min read</p>
-          <h3><a href="posts/umi-specialist-data-collection-device-comparison.html">UMI after the gripper: Specialist and the engineering of useful robot data</a></h3>
-          <p>Thirteen UMI Arena devices, a closer look at Specialist, and the tradeoffs between portable capture, contact sensing, data scale, and camera robustness</p>
-          <a class="cta-button" href="posts/umi-specialist-data-collection-device-comparison.html">Read the full analysis</a>
-        </article>
-        <ol class="issue-index" aria-label="Analysis highlights">
-          <li><span>01</span><div><strong>Inside Specialist</strong><small>Dual-fisheye labeling, matched hardware, and explicit limits</small></div></li>
-          <li><span>02</span><div><strong>Thirteen interfaces, different goals</strong><small>Compare portability, contact signals, dexterity, and data scale</small></div></li>
-          <li><span>03</span><div><strong>From capture to robot learning</strong><small>Accepted-data cost and evidence for VLA / WAM adaptation</small></div></li>
-        </ol>
-      </div>
-      <div class="container archive-list category-archive"><article><p class="post-meta"><time datetime="2026-11-15">November 15, 2026</time> · Analysis · 18 min read</p><h3><a href="posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html">From DUSt3R to Pi3X and MapAnything: geometry, ViewCrafter, and usable 3D worlds</a></h3><a class="text-link" href="posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-15">November 15, 2026</time> · Analysis · 19 min read</p><h3><a href="posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html">From BEVFormer to UniAD: a one-year route from Pi3X geometry to persistent navigation</a></h3><a class="text-link" href="posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-14">November 14, 2026</time> · Analysis · 17 min read</p><h3><a href="posts/compass1-camera-geometry-memory-navigation.html">Compass 1: what a single camera, geometric labels, and usable memory solve in robot navigation</a></h3><a class="text-link" href="posts/compass1-camera-geometry-memory-navigation.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-14">November 14, 2026</time> · Analysis · 18 min read</p><h3><a href="posts/bevformer-uniad-worldengine-simscale-robotics.html">From BEVFormer and UniAD to WorldEngine and SimScale: learning from the states that demonstrations miss</a></h3><a class="text-link" href="posts/bevformer-uniad-worldengine-simscale-robotics.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-14">November 14, 2026</time> · Analysis · 16 min read</p><h3><a href="posts/anchor1-sonic-supermimic-control-analysis.html">Anchor1, SONIC, and SuperMimic: precision, scale, and the cost of control</a></h3><a class="text-link" href="posts/anchor1-sonic-supermimic-control-analysis.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-14">November 14, 2026</time> · Analysis · 15 min read</p><h3><a href="posts/ropedia-xperience2-data-model-industry.html">Ropedia&#x27;s next step: from human video to reusable robot worlds</a></h3><a class="text-link" href="posts/ropedia-xperience2-data-model-industry.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-13">November 13, 2026</time> · Analysis · 12 min read</p><h3><a href="posts/ropedia-w0-data-model-analysis.html">Ropedia W0: the data factory behind cross-embodiment world prediction</a></h3><a class="text-link" href="posts/ropedia-w0-data-model-analysis.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis</p><h3><a href="posts/agentic-robotics-nvidia-rsi-tinyastral.html">Why agentic robotics is accelerating: NVIDIA's loops and TinyAstral's RSI</a></h3><a class="text-link" href="posts/agentic-robotics-nvidia-rsi-tinyastral.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis · 34 min read</p><h3><a href="posts/humanwam-groot2-wam-comparison.html">From HumanWAM to GR00T 2: world-action models, data, and deployment</a></h3><a class="text-link" href="posts/humanwam-groot2-wam-comparison.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis</p><h3><a href="posts/corl-2026-dexterous-hands-sharpa.html">CoRL 2026 dexterous hands: what Sharpa helps us see</a></h3><a class="text-link" href="posts/corl-2026-dexterous-hands-sharpa.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis</p><h3><a href="posts/apple-halo-humanoid-control-analysis.html">Apple HALO: how a humanoid learns to move through a home</a></h3><a class="text-link" href="posts/apple-halo-humanoid-control-analysis.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis</p><h3><a href="posts/mujoco-4-industrial-value.html">MuJoCo 4: The Industrial Value of Better Simulation</a></h3><a class="text-link" href="posts/mujoco-4-industrial-value.html">Read analysis →</a></article>
-<article><p class="post-meta"><time datetime="2026-11-12">November 12, 2026</time> · Analysis</p><h3><a href="posts/nvidia-gr00t-2-wam-analysis.html">GR00T 2: World-Action Models Meet Deployment Reality</a></h3><a class="text-link" href="posts/nvidia-gr00t-2-wam-analysis.html">Read analysis →</a></article>
-<article>
-          <p class="post-meta"><time datetime="2026-11-07">November 7, 2026</time> · Analysis</p>
-          <h3><a href="posts/gpt6-astra-robotics-new-stack.html">Did GPT-6 Astra Change the Robotics Roadmap?</a></h3>
-          <a class="text-link" href="posts/gpt6-astra-robotics-new-stack.html">Read analysis →</a>
-        </article>
-<article>
-          <p class="post-meta"><time datetime="2026-11-07">November 7, 2026</time> · Analysis</p>
-          <h3><a href="posts/nvidia-agentic-wam-mot-dexterity-analysis.html">从“预见下一帧”到“编排下一步”：Agentic WAM、MoT 与灵巧手控制</a></h3>
-          <a class="text-link" href="posts/nvidia-agentic-wam-mot-dexterity-analysis.html">Read analysis →</a>
-        </article>
-<article>
-          <p class="post-meta"><time datetime="2026-11-07">November 7, 2026</time> · Analysis</p>
-          <h3><a href="posts/humanscale-humanwam-analysis.html">从人类视频到机器人行动：DA Group 的 HumanScale 与 HumanWAM 路线解析</a></h3>
-          <a class="text-link" href="posts/humanscale-humanwam-analysis.html">Read analysis →</a>
-        </article></div>
-    </section>
+<div class="container section-heading blog-heading"><div><p class="eyebrow">Browse by research question</p><h2 id="technical-heading">Technical analysis</h2></div><a class="text-link" href="feed.xml">Follow via RSS <span aria-hidden="true">↗</span></a></div>
+<div class="container research-intro"><p>Five reading paths connect the articles from foundations to engineering decisions. Follow the numbered sequence within a topic, or jump straight to the question you are working on.</p></div>
+<nav class="container research-topics" aria-label="Research topics">
+<a href="#spatial-navigation"><span>Spatial perception and navigation</span><span class="topic-count">4</span></a>
+<a href="#data-simulation"><span>Data collection and simulation</span><span class="topic-count">4</span></a>
+<a href="#world-action-models"><span>World-action models</span><span class="topic-count">4</span></a>
+<a href="#control-dexterity"><span>Control and dexterous manipulation</span><span class="topic-count">2</span></a>
+<a href="#agentic-robotics"><span>Agentic robotics</span><span class="topic-count">3</span></a>
+</nav>
+<section id="spatial-navigation" class="container research-topic" aria-labelledby="spatial-navigation-heading"><header class="research-topic-header"><span class="research-topic-number" aria-hidden="true">01</span><div><h3 id="spatial-navigation-heading">Spatial perception and navigation</h3><p>Build geometric evidence, connect it to decisions, then plan a navigation pilot</p></div><a class="research-back" href="#technical-analysis">All topics ↑</a></header><ol class="research-post-list">
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">01</span><div><p class="research-post-meta"><span>Geometry foundations</span><time datetime="2026-11-15">November 15, 2026</time></p><h4><a href="posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html">DUSt3R → Pi3X → MapAnything, with ViewCrafter</a></h4><p class="research-post-summary">Separate observed geometry from generated appearance before using a reconstructed world</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">02</span><div><p class="research-post-meta"><span>Technical evolution</span><time datetime="2026-11-14">November 14, 2026</time></p><h4><a href="posts/bevformer-uniad-worldengine-simscale-robotics.html">BEVFormer → UniAD → WorldEngine and SimScale</a></h4><p class="research-post-summary">Follow spatial representations into planning and interactive data generation</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">03</span><div><p class="research-post-meta"><span>System analysis</span><time datetime="2026-11-14">November 14, 2026</time></p><h4><a href="posts/compass1-camera-geometry-memory-navigation.html">Compass 1: cameras, geometric labels, and memory</a></h4><p class="research-post-summary">Inspect the navigation system, its physical evaluation, and the remaining deployment gaps</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">04</span><div><p class="research-post-meta"><span>Proposed roadmap</span><time datetime="2026-11-15">November 15, 2026</time></p><h4><a href="posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html">From Pi3X geometry to persistent navigation: a one-year plan</a></h4><p class="research-post-summary">Turn the preceding ideas into staged experiments and explicit decision gates</p></div></article></li>
+</ol></section>
+<section id="data-simulation" class="container research-topic" aria-labelledby="data-simulation-heading"><header class="research-topic-header"><span class="research-topic-number" aria-hidden="true">02</span><div><h3 id="data-simulation-heading">Data collection and simulation</h3><p>Start with usable demonstrations, then examine data factories and synthetic training</p></div><a class="research-back" href="#technical-analysis">All topics ↑</a></header><ol class="research-post-list">
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">01</span><div><p class="research-post-meta"><span>Device comparison</span><time datetime="2026-11-16">November 16, 2026</time></p><h4><a href="posts/umi-specialist-data-collection-device-comparison.html">Specialist and the UMI data-collection landscape</a></h4><p class="research-post-summary">Compare thirteen interfaces through synchronization, sensing, cost, and robot execution</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">02</span><div><p class="research-post-meta"><span>Follow-up analysis</span><time datetime="2026-11-14">November 14, 2026</time></p><h4><a href="posts/ropedia-xperience2-data-model-industry.html">Ropedia after W0: Xperience 2 and reusable worlds</a></h4><p class="research-post-summary">A follow-up on capture, reconstruction, data reuse, and industrial evaluation</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">03</span><div><p class="research-post-meta"><span>Engineering assessment</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/mujoco-4-industrial-value.html">MuJoCo 4: the industrial value of simulation</a></h4><p class="research-post-summary">Judge simulation by integration effort, validation, and the cost of real trials</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">04</span><div><p class="research-post-meta"><span>Pipeline analysis</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/apple-halo-humanoid-control-analysis.html">Apple HALO: a modular synthetic-data pipeline</a></h4><p class="research-post-summary">Unpack scene generation, rendering, motion training, and their transfer limits</p></div></article></li>
+</ol></section>
+<section id="world-action-models" class="container research-topic" aria-labelledby="world-action-models-heading"><header class="research-topic-header"><span class="research-topic-number" aria-hidden="true">03</span><div><h3 id="world-action-models-heading">World-action models</h3><p>Begin with the broad comparison, then read the individual model and data studies</p></div><a class="research-back" href="#technical-analysis">All topics ↑</a></header><ol class="research-post-list">
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">01</span><div><p class="research-post-meta"><span>Start here</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/humanwam-groot2-wam-comparison.html">HumanWAM vs GR00T 2: architecture, data, and deployment</a></h4><p class="research-post-summary">The overview of WAM families, comparable benchmarks, and post-training choices</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">02</span><div><p class="research-post-meta"><span>Focused study</span><time datetime="2026-11-07">November 7, 2026</time></p><h4><a href="posts/humanscale-humanwam-analysis.html">HumanScale and HumanWAM: the human-data route</a></h4><p class="research-post-summary">The earlier focused analysis of human-video scaling and robot alignment</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">03</span><div><p class="research-post-meta"><span>Model deep dive</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/nvidia-gr00t-2-wam-analysis.html">GR00T 2: adaptation, recovery, and runtime</a></h4><p class="research-post-summary">Read the NVIDIA system in detail after the cross-model comparison</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">04</span><div><p class="research-post-meta"><span>Model and data study</span><time datetime="2026-11-13">November 13, 2026</time></p><h4><a href="posts/ropedia-w0-data-model-analysis.html">Ropedia W0: data and cross-embodiment prediction</a></h4><p class="research-post-summary">The W0 baseline for understanding the later Xperience 2 follow-up</p></div></article></li>
+</ol></section>
+<section id="control-dexterity" class="container research-topic" aria-labelledby="control-dexterity-heading"><header class="research-topic-header"><span class="research-topic-number" aria-hidden="true">04</span><div><h3 id="control-dexterity-heading">Control and dexterous manipulation</h3><p>Connect whole-body precision to contact, grasping, and dexterous-hand learning</p></div><a class="research-back" href="#technical-analysis">All topics ↑</a></header><ol class="research-post-list">
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">01</span><div><p class="research-post-meta"><span>Control comparison</span><time datetime="2026-11-14">November 14, 2026</time></p><h4><a href="posts/anchor1-sonic-supermimic-control-analysis.html">Anchor1, SONIC, and SuperMimic</a></h4><p class="research-post-summary">Compare tracking interfaces, motion data, precision, and training cost</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">02</span><div><p class="research-post-meta"><span>Research survey</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/corl-2026-dexterous-hands-sharpa.html">CoRL 2026 dexterity through the Sharpa hand</a></h4><p class="research-post-summary">Use shared hardware to examine different data, contact, and learning choices</p></div></article></li>
+</ol></section>
+<section id="agentic-robotics" class="container research-topic" aria-labelledby="agentic-robotics-heading"><header class="research-topic-header"><span class="research-topic-number" aria-hidden="true">05</span><div><h3 id="agentic-robotics-heading">Agentic robotics</h3><p>Distinguish task agents, predictive policies, and the feedback loops that improve them</p></div><a class="research-back" href="#technical-analysis">All topics ↑</a></header><ol class="research-post-list">
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">01</span><div><p class="research-post-meta"><span>System overview</span><time datetime="2026-11-12">November 12, 2026</time></p><h4><a href="posts/agentic-robotics-nvidia-rsi-tinyastral.html">Agentic robotics: NVIDIA and TinyAstral</a></h4><p class="research-post-summary">The system-level view of navigation, manipulation, and iterative policy development</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">02</span><div><p class="research-post-meta"><span>Architecture study</span><time datetime="2026-11-07">November 7, 2026</time></p><h4><a href="posts/nvidia-agentic-wam-mot-dexterity-analysis.html">Agentic WAM, MoT, and dexterous control</a></h4><p class="research-post-summary">Inspect the interfaces between skill programs, world prediction, and fast control</p></div></article></li>
+<li><article class="research-post"><span class="research-post-number" aria-hidden="true">03</span><div><p class="research-post-meta"><span>Earlier perspective</span><time datetime="2026-11-07">November 7, 2026</time></p><h4><a href="posts/gpt6-astra-robotics-new-stack.html">GPT-6 Astra and the division of work in robotics</a></h4><p class="research-post-summary">The earlier perspective on general models, VLA/WAM policies, and control</p></div></article></li>
+</ol></section>
+</section>
 
     <section id="weekly-briefings" class="content-section section-band blog-category-section" aria-labelledby="weekly-heading">
       <div class="container section-heading"><p class="eyebrow">Every Friday</p><h2 id="weekly-heading">Weekly briefings</h2><p>A weekly view of the evidence that changes robot deployment: data, model families, generalization, runtime, and cost</p></div>
@@ -123,17 +114,6 @@
         </article></div>
     </section>
 
-    <section class="content-section section-band">
-      <div class="container section-heading">
-        <p class="eyebrow">What we track</p>
-        <h2>From research result to working robot</h2>
-      </div>
-      <div class="container topic-grid">
-        <article><span>Models</span><h3>Foundation models</h3><p>VLA systems, world models, embodied reasoning, memory, and cross-embodiment transfer.</p></article>
-        <article><span>Learning</span><h3>Data and adaptation</h3><p>Demonstrations, reinforcement learning, simulation, evaluation, and deployment feedback loops.</p></article>
-        <article><span>Systems</span><h3>Hardware and operations</h3><p>Sensing, control, safety, reliability, and the infrastructure that keeps robots useful in the field.</p></article>
-      </div>
-    </section>
   </main>
 
   <footer>
