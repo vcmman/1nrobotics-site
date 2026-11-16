@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/anchor1-sonic-supermimic-control-analysis.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="Anchor1, SONIC, and SuperMimic: precision, scale, and the cost of control" />
   <meta property="og:description" content="Why a humanoid that can track a backflip can still miss a stationary reach, and what three control systems change about that problem" />
@@ -88,6 +88,14 @@
 <p>Anchor1’s clearest contribution is bringing world-relative tracking and explicit execution feedback into a control interface that remains usable by humans and learned policies. It improves measured reaching and demonstration collection in the authors’ G1 tests. Its limits are equally concrete: one embodiment, reconstructed-target error, and sparse targets that do not specify object geometry, force, or grasp stability. A wrist can reach the right coordinate while the object still slips. <a href="#anchor-source-2" aria-label="Source 2">[2]</a></p>
 <p>SONIC remains a strong reusable baseline because scale, input diversity, held-out evaluation, and an available runtime come together. SuperMimic makes a credible case for changing the training engine, with its controlled PPO comparison more informative than its largest headline ratio. None of the evidence makes all three interchangeable, and none establishes unattended industrial operation.</p>
 <p>For a humanoid team, our recommendation is to benchmark a repeatable reach-and-carry workflow now, separating reference quality from controller error. Test model-based training on a small matched task library before committing a large compute budget. Over the next one to two years, watch whether object-relative targets and force feedback improve complete manipulation, whether differentiable training retains its advantage under payload and contact shifts, and whether token-driven policies maintain precision during long tasks. Those results would matter more than another impressive motion montage.</p>
+<section aria-labelledby="connections">
+<h2 id="connections">Control precision closes only part of the learning loop</h2>
+<p>The UMI study starts at the other end: a useful reference must survive capture, reconstruction, and embodiment conversion before a tracker can execute it. GR00T 2 then illustrates policy-level task adaptation above a controller. These connections do not show that Anchor1 can replace SONIC inside GR00T 2 without retraining. The next comparison should separate reference error, tracking error, and object-contact failure on the same hardware.</p>
+<ul>
+<li><a href="umi-specialist-data-collection-device-comparison.html">Specialist and UMI: where the references come from</a></li>
+<li><a href="nvidia-gr00t-2-wam-analysis.html">GR00T 2: policy adaptation above tracking</a></li>
+</ul>
+</section>
 <h2 id="sources">Sources and version notes</h2>
 <ol class="source-list"><li id="anchor-source-1"><a href="https://www.yuance.ai/research/anchor1" target="_blank" rel="noopener noreferrer">Anchor1 official research page (Archon / Yuance mirror)</a></li><li id="anchor-source-2"><a href="https://arxiv.org/html/2611.00193v1" target="_blank" rel="noopener noreferrer">Anchor1 paper v1 — Tables 1–5, Sections 3–4</a></li><li id="anchor-source-3"><a href="https://arxiv.org/html/2511.07820v4" target="_blank" rel="noopener noreferrer">SONIC paper v4 — evaluation, training, and deployment</a></li><li id="anchor-source-4"><a href="https://github.com/NVlabs/GR00T-WholeBodyControl" target="_blank" rel="noopener noreferrer">NVIDIA GR00T WholeBodyControl — releases and deployment</a></li><li id="anchor-source-5"><a href="https://arxiv.org/pdf/2610.28480v2" target="_blank" rel="noopener noreferrer">SuperMimic paper v2 — controlled ablations and Appendix F</a></li><li id="anchor-source-6"><a href="https://supermimic.github.io/" target="_blank" rel="noopener noreferrer">SuperMimic official project and browser demo</a></li></ol>
 <p>The requested archon.tech research URL is also retained here as the original entry point; the accessible official Yuance page and paper supplied the verifiable details. SONIC v4 supersedes older compute figures; SuperMimic v2 explicitly states that its 129,514-motion headline is training-set coverage.</p>

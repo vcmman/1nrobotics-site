@@ -380,3 +380,14 @@
 独立判断：优先以Specialist和UMI-Live做同任务单位有效数据成本试点；规模平台看YUBI，精细接触按缺失测量选Eucalyptus／PolyUMI，五指先验证Aero与目标手匹配，移动操作需HoMMI式策略控制。成熟度属于研究与受控演示，未证明总体可规模部署。
 
 来源：[Specialist](https://specialist-ai.github.io/)、[开源重建](https://github.com/specialist-ai/specialist)、[UMI-Live论文](https://arxiv.org/html/2610.39385v1)、[AIRoA-0含部分得分协议](https://arxiv.org/html/2611.03815v1)、[官方名单](https://umi-arena.airoa.io/accepted)。
+
+
+## 2026-11-16：全篇内容一致性审校
+
+本轮覆盖 17 篇技术分析和 2 期周报，逐篇补充具体论证衔接，保留五主题顺序和原发布日期。详细逐篇职责、原始来源与修正记录见 [BLOG_CONTENT_REVIEW.md](BLOG_CONTENT_REVIEW.md)。跨篇链接是分析关系，不能作为同一结果的独立佐证。
+
+- GR00T 2 精密操作以白皮书 F.4 为准：四任务 SFT 66/58/76/40%，直接 GRPO 86/72/92/94%，成功 RL 轨迹自模仿 88/98/94/96%；每任务每方法 50 次自主评测，仅管件和充电器的直接 GRPO 收益在 5% 水平显著。自模仿继承 RL 采集成本；残差 RL 训练含人工辅助
+- AW-0 是分块因果代码→视频→动作信息流，不能写成三个流互相验真；WAM 预测监督不是物理硬约束或独立安全证书
+- HumanWAM 当前规范入口为 Open-HumanWAM，旧名称保留为历史；Vanilla 与 Goal 的骨干、动作接口和适配条件不同，目标图条件不等于示范程序学习。具体版本的表格保持原协议
+- 11 月 6 日周报的 T-Rex 是 11 月 5 日新闻稿重访 6 月论文，已更正；后续专题链接明确标注编辑跟进日期
+- 几何估计、生成外观、物理仿真和实测执行保持证据层级；导航一年规划、跨项目集成均属建议，未声称已验证

@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/mujoco-4-industrial-value.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="MuJoCo 4: The Industrial Value of Better Simulation" />
   <meta property="og:description" content="An industrial analysis of MuJoCo 4: development cost, sim-to-real workflows, collaboration, and deployment evidence." />
@@ -83,6 +83,14 @@
             <h2>9. Our assessment: follow with a bounded pilot</h2>
             <p>MuJoCo 4 improves the engineering environment around robot learning: broader mechanics, easier inspection, and clearer paths between simulation and hardware. Its strongest industrial opportunity is reducing repeated integration and physical experimentation. The release itself does not establish scalable deployment for deformable manipulation.</p>
             <p>Start with one expensive, recurrent failure in an existing workcell. Compare the current process with a calibrated MuJoCo workflow under equal budgets, and require improvement on held-out real trials. Keep it if it reduces cost at the same reliability, or improves reliability at the same cost. That is the evidence that turns simulation capability into industrial value.</p>
+<section aria-labelledby="connections">
+<h2 id="connections">Separate the renderer, the simulator, and the policy</h2>
+<p>HALO makes the modular division explicit: scene appearance and training dynamics can come from different components. WorldEngine adds failure-driven reconstruction and resampling in driving. These are reasons to build a measured data loop, not evidence that a photorealistic scene transfers automatically to robot contact. Keep renderer quality, dynamics calibration, and held-out policy success as separate tests; only their downstream benefit justifies the integration cost.</p>
+<ul>
+<li><a href="apple-halo-humanoid-control-analysis.html">HALO: appearance and dynamics are separate modules</a></li>
+<li><a href="bevformer-uniad-worldengine-simscale-robotics.html">WorldEngine and SimScale: generate missing experience</a></li>
+</ul>
+</section>
 <h2>Primary sources</h2><ul class="source-list"><li><a href="https://github.com/google-deepmind/mujoco/discussions/3773" target="_blank" rel="noopener noreferrer">Release announcement</a></li><li><a href="https://mujoco.readthedocs.io/en/4.0.0/changelog.html" target="_blank" rel="noopener noreferrer">MuJoCo 4.0.0 changelog</a></li><li><a href="https://mujoco.readthedocs.io/en/4.0.0/studio/index.html" target="_blank" rel="noopener noreferrer">MuJoCo Studio documentation</a></li><li><a href="https://playground.mujoco.org/" target="_blank" rel="noopener noreferrer">MuJoCo Playground 1.0</a></li><li><a href="https://mujoco.readthedocs.io/en/latest/OpenUSD/index.html" target="_blank" rel="noopener noreferrer">OpenUSD integration and limitations</a></li></ul>
 <nav class="series-navigation" aria-label="Reading path"><p class="eyebrow">Reading path</p><a class="series-topic" href="../blog.html#data-simulation">Data collection and simulation</a><div class="series-links"><div><span>Previous in this topic</span><a href="ropedia-xperience2-data-model-industry.html">Ropedia after W0: Xperience 2 and reusable worlds</a></div><div><span>Next in this topic</span><a href="apple-halo-humanoid-control-analysis.html">Apple HALO: a modular synthetic-data pipeline</a></div></div></nav>
 </div>

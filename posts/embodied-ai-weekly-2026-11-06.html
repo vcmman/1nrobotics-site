@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-06.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="Tactile Reaction and Field Reliability | Embodied AI Weekly" />
   <meta property="og:description" content="Four developments that moved embodied AI closer to useful, reliable physical systems this week." />
@@ -57,7 +57,7 @@
             <p>The most interesting progress this week was not simply a larger model. It was a tighter loop between intelligence and the physical world: faster tactile correction, product redesign informed by field hours, shared tooling for adaptation, and a clearer full-stack map of dexterous manipulation.</p>
 
             <h2 id="tactile-reaction">1. T-Rex adds a fast tactile reflex to a slower VLA policy</h2>
-            <p>Panasonic and collaborators introduced T-Rex, a bimanual manipulation system that combines vision-and-language action generation at roughly 5 Hz with tactile-driven correction at roughly 20 Hz. The split matters: the higher-level policy can set the motion while fingertip signals react more quickly to slip, pressure, and deformation.</p>
+            <p>Panasonic's 5 November press release revisited T-Rex ahead of CoRL. The research itself was first submitted on 15 June 2026 and revised on 18 June; its results are not new experiments released this week. The system combines vision-and-language action generation at roughly 5 Hz with tactile-driven correction at roughly 20 Hz. The higher-level policy sets motion while fingertip signals react more quickly to slip, pressure, and deformation.</p>
             <p>In the team’s evaluation across 12 contact-rich tasks, T-Rex reported a 65% average success rate, compared with 35% for the strongest baseline. Removing tactile input reduced the result to 42%. The reported training recipe combines 22,889 hours of human egocentric video with 100 hours of synchronized bimanual robot data and task-specific demonstrations.</p>
             <p class="takeaway"><strong>Why it matters:</strong> useful dexterity may depend less on forcing every decision through one large policy and more on pairing semantic intelligence with fast, sensor-specific control loops.</p>
 
@@ -78,9 +78,18 @@
             <h2>The thread to watch</h2>
             <p>This week’s common theme is <strong>layered intelligence</strong>. High-level reasoning, learned action policies, reactive control, hardware design, and field operations are becoming distinct but coordinated layers. General-purpose robot capability is unlikely to arrive as one model replacing the stack. It is more likely to emerge from better interfaces across the stack.</p>
 
-            <section class="source-list" aria-labelledby="sources-heading">
+            <section aria-labelledby="connections">
+<h2 id="connections">Later analysis: following the contact-data question</h2>
+<p>Editorial follow-up added 16 November 2026; this is not additional news from the original reporting week. The Sharpa review expands the distinction between tactile feedback and visually plausible manipulation. The UMI comparison examines how contact-rich supervision is collected and transferred. They develop the T-Rex question into a practical test: does an added sensing path reduce autonomous failures enough to justify its data and hardware cost? These companion analyses are not independent replications of T-Rex.</p>
+<ul>
+<li><a href="corl-2026-dexterous-hands-sharpa.html">Later review: Sharpa and contact learning</a></li>
+<li><a href="umi-specialist-data-collection-device-comparison.html">Later review: UMI capture and transfer</a></li>
+</ul>
+</section>
+<section class="source-list" aria-labelledby="sources-heading">
               <h2 id="sources-heading">Primary sources</h2>
               <ol>
+                <li><a href="https://arxiv.org/abs/2606.17055" target="_blank" rel="noopener noreferrer">T-Rex paper — June submission and revision history</a></li>
                 <li><a href="https://news.panasonic.com/global/press/en261105-2" target="_blank" rel="noopener noreferrer">Panasonic: T-Rex tactile-reactive dexterous manipulation</a>, November 5, 2026.</li>
                 <li><a href="https://bostondynamics.com/news/boston-dynamics-launches-next-generation-stretch-robot" target="_blank" rel="noopener noreferrer">Boston Dynamics: Stretch Gen 2</a>, November 3, 2026.</li>
                 <li><a href="https://www.sidekickrobotics.ai/news" target="_blank" rel="noopener noreferrer">Sidekick Robotics: Team collaborative plan</a>, November 4, 2026.</li>
