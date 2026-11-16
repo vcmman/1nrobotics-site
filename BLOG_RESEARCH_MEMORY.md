@@ -1,6 +1,6 @@
 # 博客内容与研究分析记忆
 
-更新日期：2026-11-15
+更新日期：2026-11-16
 
 这份文档保存已经写过什么、分析了哪些工作、哪些结论必须连同条件保留，以及后续值得继续追的问题。它是选题与论证索引，不是重新验证过的最新事实库。以下概括来自仓库现有文章；模型名称、发布状态、数字、许可和代码开放情况在再次引用或更新时，都要回到原始来源重新核验。
 
@@ -10,6 +10,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-16 | [UMI 设备与 Specialist 深度分析](posts/umi-specialist-data-collection-device-comparison.html) | UMI Arena D01–D13、Fisheye-VLA、CamVLA | Specialist 重点：双镜头分工、标签因子图、延迟与开放边界；数据规模、触觉和后训练接口 |
 | 2026-11-15 | [DUSt3R／Pi3X／MapAnything 与 ViewCrafter](posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html) | 稠密点图、排列等变、几何分解、点云条件视频扩散、3DGS | 数据单位、观测与生成来源、几何／外观分表、内容资产成本与机器人实测 |
 | 2026-11-15 | [BEVFormer／UniAD 到 Pi3X／Compass 一年路线](posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html) | BEVFormer、UniAD、Pi3X、Compass 1、MapAnything | 规划导向接口、离线几何教师、因果消融、五阶段门槛与有限试点 |
 | 2026-11-14 | [Compass 1 相机、几何与导航](posts/compass1-camera-geometry-memory-navigation.html) | Archon Compass 1、Pi3、MoGe-2、Cosmos3-Edge-4B | 离线几何与在线历史地图、问答监督、真机分母、异步吞吐与部署依赖 |
@@ -347,3 +348,29 @@
 独立判断：最有价值的是可审核的几何与生成接口，让系统区分观测、推断与生成；外观补全与几何可靠性分别验收，机器人收益必须在留出真机完整任务上成立。
 
 来源：[DUSt3R](https://arxiv.org/abs/2312.14132)、[Pi3](https://arxiv.org/abs/2507.13347)、[Pi3X代码](https://github.com/yyfz/Pi3)、[MapAnything论文](https://map-anything.github.io/assets/MapAnything.pdf)、[ViewCrafter](https://arxiv.org/abs/2409.02048)。
+
+
+## 19. UMI 设备演进与 Specialist 重点分析
+
+内容简介：比较 CoRL2026 UMI Arena 十三设备，不将编号当排名，以 Specialist 为主线分析采集／定位／执行接口，再讨论 UMI-Live、YUBI 数据平台、接触与灵巧设备、Fisheye-VLA／CamVLA 及 VLA／WAM 后训练。
+
+- 用户偏好：此次明确重点突出 Specialist；不能将用户提供的“UMI-Live成熟度最高”直接写成已验证客观排名。十三款为Workshop设备展D01–D13，并无统一成本／准确度／真机成功率基准
+- Specialist双Insta360鱼眼：观测镜头供策略，辅助镜头供定位；IMU＋AprilTag锚点＋双爪互见标签融合GTSAM因子图。打印锚点内方100.0mm，尺寸／遮挡／阴影影响尺度与跟踪；不等于无需环境准备
+- 原始、估计、可视化、训练state分层；声音用于同步，不是接触声音策略。100Hz插值行不是100Hz相机独立测量或视觉策略频率；文档240×240与README360×360默认不同，固定提交和配置
+- Specialist作者报告11会话19716帧相对动捕中位3.0mm、p906.6mm，不能直接对比UMI另协议均值6.1mm；八人LEGO218.2→136.5秒不是全链费用；手持$320/315g、机器人$380/480g为单元估计，非完整实验室预算
+- 相机驱动720×720@30、n1000闪光基准glass-to-visible中位153.7ms/p95172.7ms；含显示和闪光周期偏差，不是完整传感到执行；网站约150ms及接近实时离线处理为已知局限。无直接测力，柔顺回放不能当力监督
+- Specialist开源不是一揽子完成：硬件、重建、仿真、夹爪和相机驱动可读；纸面论文、LeRobot插件、BC训练器仍coming soon，arm控制栈未列公开仓库；自主视频不能代替完整评测和复现配方
+- UMI-Live评测版每对$1930、每件含电池1.42kg、续航1.5h；Airy LiDAR-IMU、全局快门腕相机、RPi5；不需环境标定仍需相机／开合标定。共同米制帧需配置对齐，不可用两独立帧假装双手几何
+- UMI-Live公开3255回合39.7小时30Hz（三任务），数据卡双手时间计一次，合并无过滤去重；发布完成不等于每回合物理质量验收
+- 六橙子全部入碗真机：π0.5 95/5 UMI/遥操作9/10，90/10 10/10；MolmoAct2 75/25 8/10；每条件12k步globalbatch32、一个种子十次。遥操作来自评测机器人场地，无纯UMI／纯遥操作消融；点火柴遥操作使用Vive非LiDAR，不能混当自主结果
+- YUBI六月8434小时/120万回合/119任务，十一月AIRoA-0为16151小时/1065万子任务，先后版本不能相加，不能归因全部由YUBI Go采集。Go是Quest3/3S Rust采集应用，腕相机／编码器／控制器，MCAP和LeRobot导出；本地服务无认证，研究软件非默认生产平台
+- 重要口径：AIRoA-0十任务78对最强基线27，每任务15次允许部分得分；本文称含部分得分任务分数，不称78%严格完整成功。仍用同任务手持后训练；无新机器人数据不等于无目标任务数据
+- Eucalyptus磁编码器、双三轴力、DS80独立模块仍是VIO不是动捕；夏季五人四设备18000+示范，主机有线；力通道下游收益待系统消融。PolyUMI触觉／接触声音供策略，VisTA螺丝刀滑移全模态8/10、纯视觉2/10，十度竖直接住不掉落；小样本接触实验不是多任务部署证明
+- Koala形态与采集执行协同，HoMMI头手策略＋全身控制；Aero18关节结构15编码为厂商规格，非独立DoF或成功率；FLEX／GData／Popeye／TRIMI仅保留官方方向，缺少本文可复现成本与成功率表，不编填规格
+- Fisheye-VLA固定220度鱼眼全局＋双EE虚拟视图，不能恢复未见／遮挡细节；R2 84vs58、R3 82vs14、R1 72vs92（前视＋双腕），每配置区域50次，匹配每任务300遥操作；优势依赖覆盖范围，不普遍超越腕相机
+- CamVLA相机动作＋几何头＋确定变换，部署免外部外参不意味训练无需几何。真机15度π0 29.3vs16、GR00TN1.7 33vs14.7；五任务三测试相机，每任务相机偏移20次；训练五视角每任务视角100示范。65.3→6.3属于RLBench仿真，非真机
+- UMI-Live＋Fisheye-VLA＋CamVLA是建议研究，腕视频无法事后还原固定全局相机；需要同步新视图、共同坐标、解决标定渲染与学习外参关系并重训消融；没有已验证联合WAM收益
+
+独立判断：优先以Specialist和UMI-Live做同任务单位有效数据成本试点；规模平台看YUBI，精细接触按缺失测量选Eucalyptus／PolyUMI，五指先验证Aero与目标手匹配，移动操作需HoMMI式策略控制。成熟度属于研究与受控演示，未证明总体可规模部署。
+
+来源：[Specialist](https://specialist-ai.github.io/)、[开源重建](https://github.com/specialist-ai/specialist)、[UMI-Live论文](https://arxiv.org/html/2610.39385v1)、[AIRoA-0含部分得分协议](https://arxiv.org/html/2611.03815v1)、[官方名单](https://umi-arena.airoa.io/accepted)。
