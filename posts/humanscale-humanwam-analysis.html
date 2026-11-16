@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/humanscale-humanwam-analysis.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="From Human Video to Robot Action: HumanScale and HumanWAM" />
   <meta property="og:description" content="How 50,000 hours of egocentric human video enter a world-action model—and what the approach actually solves." />
@@ -51,7 +51,7 @@
       <section class="content-section">
         <div class="container narrow article-layout">
           <div class="article-body">
-            <p>北京大学 DA Group 在 2026 年先后给出了两步答案。6 月的 <strong>HumanScale</strong> 先做受控比较：相同预训练数据量下，经过筛选和动作标注的人类第一视角视频，能否比遥操作真机轨迹提供更好的预训练起点？11 月的 <strong>Open-HumanScale / HumanWAM</strong> 再把规模推到 50,000 小时，并开放数据、训练流程、模型权重和评测套件。</p>
+            <p>DA Group at Peking University developed two related studies in 2026. June's HumanScale compares curated, action-labeled egocentric human pretraining with robot teleoperation pretraining under a controlled downstream protocol. November's open recipe extends the data to 50,000 hours. Its current canonical name is Open-HumanWAM, although this early article used Open-HumanScale. The project links data, models, and code; reproducing a result still requires checking the released subset and exact checkpoint. The comparison article records its own paper version rather than treating all revisions as interchangeable.</p>
 
             <div class="analysis-stats" aria-label="关键实验数据">
               <div><strong>50K h</strong><span>Open-HumanScale 第一视角视频</span></div>
@@ -78,20 +78,20 @@
 
             <h2 id="open-scale">2. Open-HumanScale 把结论扩展成开放配方</h2>
             <p>Open-HumanScale-50K 将规模提升到 50,000 小时，包含手部运动和自然语言标注。团队从 100 小时一路扩展到 50,000 小时，在统一的双臂末端执行器动作表示下训练，并观察到预训练小时数与下游分布外成功率之间的经验性对数线性关系。</p>
-            <p>论文还指出，时长并不是唯一的横轴：当任务与场景覆盖随数据量一起增长时，曲线比“重复增加同类视频”更陡。换句话说，真正有效的规模是<strong>规模 × 多样性 × 对齐质量</strong>，而不是硬盘里累计了多少小时。</p>
+            <p>The coverage experiments support a practical rule: track task and scene diversity alongside hours, and audit action alignment. 'Scale × diversity × alignment quality' is an editorial shorthand for those considerations, not a fitted equation or a general scaling law.</p>
 
             <h2 id="vanilla">3. HumanWAM-Vanilla：纯人类预训练能走多远？</h2>
-            <p>HumanWAM-Vanilla 基于视频生成骨干，联合生成未来视频与动作序列。它先只用 50,000 小时人类数据预训练，再接受目标机器人的后训练。在 RoboTwin 2.0 上，团队报告 Clean2Clean 成功率为 92.08%，Clean2Random 为 68.88%；在真实双臂机器人上，第一视角预训练也提升了换桌布、换光照等视觉分布变化下的稳健性。</p>
+            <p>HumanWAM-Vanilla combines a Wan 2.2-TI2V-5B video backbone with an action expert. Its inverse-dynamics attention recipe permits video-to-action generation in sequence; learning video and action together should not be read as mandatory simultaneous inference. After human-only pretraining on 50,000 hours and target-robot post-training, the reported RoboTwin 2.0 Clean2Clean and Clean2Random success rates are 92.08% and 68.88%. These are post-training results, not zero-shot robot transfer.</p>
             <p>这组实验把人类视频的角色界定得很清楚：它不是直接替代真机数据，而是提高真机数据的利用效率和后训练后的性能上限。论文中的真实机器人任务仍然使用每项 50 条演示进行后训练。</p>
 
             <h2 id="goal">4. HumanWAM-Goal：从“学世界”走向“按目标行动”</h2>
-            <p>HumanWAM-Goal 进一步混合人类与机器人数据，并加入视觉目标条件。相比文字指令，目标图片能更明确地描述物体位置、空间关系和完成状态。模型可以在不更新参数的情况下，仅通过更换目标图片调整执行结果，团队将这种能力称为具身 in-context learning。</p>
+            <p>HumanWAM-Goal mixes human and robot experience and adds visual-goal conditioning. It also changes the backbone to Cosmos 3 Nano 16B and the action representation to a 49-dimensional interface, versus Vanilla's 16-dimensional interface. Its gains therefore cannot be attributed to the goal image alone. The authors describe changing a goal image without updating weights as embodied in-context learning; this specifies a target state, and differs from learning an entire procedure from a human demonstration video.</p>
             <p>联合预训练后，模型在 RoboTwin 上的零样本平均成功率为 13.94%；经过任务后训练后，Clean2Clean 与 Clean2Random 分别达到 92.70% 和 84.60%。真实机器人实验中，在固定 14,600 小时机器人数据的基础上加入 45,900 小时人类数据，20 个零样本任务的平均成功率从 20.0% 提高到 30.5%。</p>
             <p class="takeaway"><strong>路线升级：</strong>HumanScale 证明人类视频适合做预训练；HumanWAM-Goal 则尝试让人类与机器人经验进入同一个动作空间，并用视觉目标把经验即时调用出来。</p>
 
             <h2 id="analysis">5. 我们怎么看：它的突破与边界</h2>
             <div class="verdict-grid">
-              <article class="verdict-card"><h3>真正的突破：可复现</h3><p>数据、筛选管线、预训练配方、模型检查点和仿真评估一起开放，使“人类数据 scaling”从单点结果变成可被复核的研究平台。</p></article>
+              <article class="verdict-card"><h3>An inspectable open recipe</h3><p>The open recipe makes human-data scaling more inspectable through linked datasets, checkpoints, and evaluation materials. It remains necessary to verify that the exact artifacts for a claimed result are downloadable and usable; a project-level release claim is not a completed reproduction.</p></article>
               <article class="verdict-card"><h3>架构价值：统一接口</h3><p>共享动作表示与目标图片条件，把不同来源的经验放进一个训练接口，比单纯扩大某个 VLA 参数量更关键。</p></article>
               <article class="verdict-card caution"><h3>不要混淆零样本与后训练</h3><p>92.70% 与 84.60% 是后训练结果；真正不使用目标任务演示的零样本平均成功率仍为 13.94%。两者说明的问题完全不同。</p></article>
               <article class="verdict-card caution"><h3>Scaling law 仍是局部经验规律</h3><p>对数线性趋势建立在特定数据处理、动作表示、模型规模和评测集合上，尚不能直接外推到任意机器人、移动任务或接触密集操作。</p></article>
@@ -111,13 +111,21 @@
             <h2 id="conclusion">结论</h2>
             <p>HumanScale 到 HumanWAM 的连续性，比任何一个单项榜单数字更值得关注：先证明人类数据的预训练价值，再公开 50K 小时配方，最后通过人机联合训练和视觉目标把模型推向零样本执行。这条路线尚未解决通用机器人控制，但它给出了一个越来越可信的工程分工——用人类经验学习广阔世界，用机器人数据完成精确落地。</p>
 
-            <section class="source-list" aria-labelledby="sources-heading">
+            <section aria-labelledby="connections">
+<h2 id="connections">Read the scaling result with its interface and version</h2>
+<p>The later HumanWAM–GR00T 2 comparison separates Vanilla, Goal, robot post-training, and zero-shot evaluation in greater detail. The UMI study supplies the complementary cost question: how much usable action supervision survives capture and processing? Taken together, the research favors broad human experience plus explicit embodiment alignment. It does not establish that raw human hours replace task demonstrations, nor that a goal image supplies the same procedural information as a demonstration video.</p>
+<ul>
+<li><a href="humanwam-groot2-wam-comparison.html">Versioned comparison: architecture and evaluation conditions</a></li>
+<li><a href="umi-specialist-data-collection-device-comparison.html">UMI capture: measure useful supervision per cost</a></li>
+</ul>
+</section>
+<section class="source-list" aria-labelledby="sources-heading">
               <h2 id="sources-heading">原始资料</h2>
               <ol>
-                <li><a href="https://dagroup-pku.github.io/open-humanscale/" target="_blank" rel="noopener noreferrer">Open-HumanScale / HumanWAM 官方项目页</a></li>
-                <li><a href="https://arxiv.org/abs/2611.06817" target="_blank" rel="noopener noreferrer">Open-HumanScale: An Open Recipe for Scaling Human and Robot Experience</a></li>
+                <li><a href="https://dagroup-pku.github.io/open-humanwam/" target="_blank" rel="noopener noreferrer">Open-HumanWAM official project page</a></li>
+                <li><a href="https://arxiv.org/abs/2611.06817" target="_blank" rel="noopener noreferrer">Open-HumanWAM paper and version history</a></li>
                 <li><a href="https://arxiv.org/abs/2606.20521" target="_blank" rel="noopener noreferrer">HumanScale: Egocentric Human Video Can Outperform Real-Robot Data</a></li>
-                <li><a href="https://github.com/DAGroup-PKU/HumanNet/tree/open-humanscale" target="_blank" rel="noopener noreferrer">DA Group HumanNet / Open-HumanScale 代码</a></li>
+                <li><a href="https://github.com/DAGroup-PKU/HumanNet" target="_blank" rel="noopener noreferrer">DA Group HumanNet code repository</a></li>
               </ol>
             </section>
           <nav class="series-navigation" aria-label="Reading path"><p class="eyebrow">Reading path</p><a class="series-topic" href="../blog.html#world-action-models">World-action models</a><div class="series-links"><div><span>Previous in this topic</span><a href="humanwam-groot2-wam-comparison.html">HumanWAM vs GR00T 2: architecture, data, and deployment</a></div><div><span>Next in this topic</span><a href="nvidia-gr00t-2-wam-analysis.html">GR00T 2: adaptation, recovery, and runtime</a></div></div></nav>

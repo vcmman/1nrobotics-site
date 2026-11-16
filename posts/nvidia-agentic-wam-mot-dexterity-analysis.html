@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/nvidia-agentic-wam-mot-dexterity-analysis.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="NVIDIA Agentic WAM: MoT Architecture and Dexterous Control" />
   <meta property="og:description" content="How code, future video, and robot actions couple in a three-expert MoT—and why touch is the next essential stream for dexterity." />
@@ -72,7 +72,7 @@
               <div class="route-node"><strong>Action expert</strong><small>生成本体可执行的低层动作</small></div>
             </div>
 
-            <p class="takeaway"><strong>一句话理解 AW-0：</strong>代码流回答“该调用什么技能、按什么顺序”，视频流回答“世界应该如何变化”，动作流回答“机器人此刻具体怎么动”；三者在同一个生成系统里互相校验。</p>
+            <p class="takeaway"><strong>一句话理解 AW-0：</strong>The code stream represents skill routines; video predicts future observations; actions specify motion. AW-0 couples them through joint denoising with a blockwise causal attention mask: code reads code, video reads code and video, and action reads all three. Attention within each expert is bidirectional. This directed information flow is not three independent streams verifying one another, nor does it certify the physical validity of the generated motion.</p>
 
             <h2 id="mot">1. MoT 到底是什么：专家分工，但不割裂</h2>
             <p>MoT 很容易被误解为常见的 Mixture-of-Experts（MoE）。MoE 通常用路由器把 token 分发给不同前馈网络，重点是稀疏扩容；MoT 的重点则是<strong>为不同模态保留完整、专用的 Transformer 计算流</strong>。视频 token 具有空间与时间结构，动作 token 更连续、更高频，代码 token 则具有离散语法和长程依赖。把它们全部塞进同一个参数空间，容易出现容量竞争和目标冲突。</p>
@@ -145,7 +145,15 @@
             <h2 id="conclusion">结论</h2>
             <p>NVIDIA 参与的这条研究线正在形成一条清晰的技术栈：EgoScale 用大规模人类视频补数据，WAM 用未来预测补物理后果，AW-0 用代码专家补长期组合，T-Rex 与 DexTacWAM 用触觉补接触状态，Dexplore 则提醒我们精细控制仍可从仿真与强化学习中获得。短期内最强的灵巧系统不会由其中任何一项独占，而会是它们在不同时间尺度上的组合。</p>
 
-            <section class="source-list" aria-labelledby="sources-heading">
+            <section aria-labelledby="connections">
+<h2 id="connections">MoT is an interface choice, not a physical verifier</h2>
+<p>GR00T 2 shows that predictive video–action learning need not use AW-0’s code–video–action expert split. The Sharpa survey shows why a code-conditioned action stream still needs a working contact-feedback path. These are distinct design decisions. Compare architectures under equal data and inference budgets, then test contact feedback separately. Joint generation can improve a learned policy, but its own generated video is not independent confirmation that a grasp or insertion succeeded.</p>
+<ul>
+<li><a href="nvidia-gr00t-2-wam-analysis.html">GR00T 2: another video–action architecture</a></li>
+<li><a href="corl-2026-dexterous-hands-sharpa.html">Dexterous hands: require measured execution feedback</a></li>
+</ul>
+</section>
+<section class="source-list" aria-labelledby="sources-heading">
               <h2 id="sources-heading">原始资料</h2>
               <ol>
                 <li><a href="https://agentic-wam.github.io/" target="_blank" rel="noopener noreferrer">Agentic World Action Models 官方项目页</a>；<a href="https://arxiv.org/abs/2610.30136" target="_blank" rel="noopener noreferrer">AW-0 论文</a></li>

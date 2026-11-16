@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/nvidia-gr00t-2-wam-analysis.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="NVIDIA GR00T 2: World-Action Models Meet Deployment Reality" />
   <meta property="og:description" content="What changed from VLA to WAM—and what the reported generalization, dexterity, agentic recovery, and edge-deployment results actually prove." />
@@ -81,7 +81,7 @@
             <div class="control-stack" aria-label="GR00T 2 execution hierarchy">
               <div><span>Slow</span><strong>Reasoning agent</strong><small>decomposes tasks, verifies progress, and invokes recovery code</small></div>
               <div><span>Medium</span><strong>GR00T 2 WAM</strong><small>predicts future video and 1.6-second action chunks</small></div>
-              <div><span>Fast</span><strong>Robot controller / SONIC</strong><small>stabilizes contact and whole-body motion at 50 Hz</small></div>
+              <div><span>Fast</span><strong>Robot controller / SONIC</strong><small>tracks whole-body motion and balance at 50 Hz</small></div>
             </div>
 
             <p class="takeaway"><strong>1N Robotics interpretation:</strong> the core innovation is not “video generation for robots” by itself. It is a common predictive space in which human experience, several robot bodies, and agentic steering can meet. The remaining per-robot heads and controllers show exactly where embodiment-specific engineering still lives.</p>
@@ -122,7 +122,7 @@
             <p>The recipe still uses task-agnostic play data to describe the target embodiment in several settings. Human or UMI demonstrations specify <em>what</em> to do; robot play specifies <em>how this body moves</em>; pretraining links them. This can reduce expensive task-by-task teleoperation, but it does not eliminate robot-side calibration or embodiment data.</p>
 
             <h2 id="dexterity">6. Dexterity and RL: the WAM helps, but touch remains incomplete</h2>
-            <p>On seven post-trained long-horizon dexterous tasks, GR00T 2 reports 68.6% average success, compared with 0.7% for GR00T 1.7 and 0% for π0.5 under the paper's evaluation. Individual results include 85% for seating GB300 memory and 65% for toy-truck assembly. Real-world GRPO post-training lifted three contact-rich tasks from supervised baselines of 40–76% to 88–96%.</p>
+            <p>On seven post-trained long-horizon dexterous tasks, GR00T 2 reports 68.6% average success, compared with 0.7% for GR00T 1.7 and 0% for π0.5 under that evaluation. Individual results include 85% for seating GB300 memory and 65% for toy-truck assembly. The separate four-task precision study in Appendix F.4 evaluates each method over 50 autonomous trials per task. Direct GRPO changes SFT success from 66/58/76/40% to 86/72/92/94% for fixed-pipe fittings, finger placement, Ethernet insertion, and charger insertion, respectively. Self-imitation on successful GRPO rollouts reaches 88/98/94/96%. These are separate stages: self-imitation inherits the cost of collecting the RL rollouts, even though it needs no additional collection phase. At this sample size, the paper reports statistically significant direct-GRPO gains only for the pipe and charger tasks.</p>
             <p>These are strong within-paper comparisons, but they are not independent replications. Most tasks use up to 20 trials, enough to show a large gap but not enough to distinguish deployment targets such as 95% versus 99%. The paper estimates that comparison would require roughly 285 trials per policy.</p>
             <p>There is also a sensing boundary. GR00T 2 can predict force targets learned from DexUMI and use them to adjust hand stiffness, but it does not take touch as an input. Visual prediction cannot fully observe incipient slip, contact pressure, or a hidden jam. High-rate tactile feedback remains a separate open problem.</p>
 
@@ -132,7 +132,7 @@
             <p>The same hierarchy carries a throughput cost. In visually steered trash sorting, a median agent turn took 7.5 seconds, versus about 0.6 seconds for an unaccelerated policy call, and the robot waited for the agent during a median 38% of an episode. Visual target marks improved short tasks, but on the Dexter long-horizon tests they rarely completed an entire task. Image-space points express <em>where</em> to act, not final orientation, force, or motion.</p>
 
             <h2 id="turbo">8. GR00T 2 Turbo: “real time” is a hierarchy, not a 50 Hz foundation model</h2>
-            <p>The full model predicts a Dexter action chunk in a median 153 ms on a workstation RTX 5090. Turbo keeps the 2B joint transformer but swaps in a higher-compression Wan 2.2 VAE, reducing the spatial latent grid by 4×. After TensorRT, CUDA graph, FP8, and denoising-step optimizations, Turbo reaches 38 ms on an RTX 5090 and 124 ms on the Unitree G1's onboard Jetson Thor at 120 W.</p>
+            <p>The full model predicts a Dexter action chunk in a median 152.78 ms on a workstation RTX 5090. This reported pipeline timing excludes the prefetched observation-VAE encoding; it is not a camera-to-actuator latency measurement. Turbo keeps the 2B joint transformer but swaps in a higher-compression Wan 2.2 VAE, reducing the spatial latent grid by 4×. With TensorRT, CUDA graphs, FP8, and fewer denoising steps, Turbo reports 38 ms on RTX 5090 and 124 ms on the G1's onboard Jetson Thor at 120 W. Camera transport, queueing, control, and latency variation still need measurement on the deployed robot.</p>
             <p>Turbo plans 1.6-second motion chunks roughly once per second while SONIC executes whole-body control at 50 Hz. This is a sensible engineering split: the WAM chooses a motion plan, and a much faster controller keeps the humanoid balanced and coordinated. It should not be described as GR00T 2 itself running low-level control at 50 Hz.</p>
             <p>The speed-capability trade-off is visible. Turbo retains 65.0% average success on the six YAM long-horizon tasks but falls to 34.3% on the seven dexterous-hand tasks, versus 71.7% and 68.6% for the full model. Edge deployment is possible because NVIDIA accepts a smaller visual representation and moves stabilization outside the WAM.</p>
 
@@ -157,7 +157,7 @@
 
             <h2 id="comparison">10. How GR00T 2 changes the current model landscape</h2>
             <p>Compared with a VLA such as GR00T 1.7, GR00T 2 spends more compute learning a visible future and gains a stronger bridge between human video and robot action. Compared with an Agentic WAM such as AW-0, it places more of the published evidence on scaling, cross-embodiment transfer, real-robot RL, and a production-shaped runtime. Compared with tactile WAM work, it is broader across bodies and tasks but still lacks touch as a closed-loop observation.</p>
-            <p>The practical architecture is converging toward three time scales: a slow agent for goals and exceptions, a medium-rate WAM for predictive motion chunks, and a fast controller for stability, force, and safety. GR00T 2 is significant because NVIDIA evaluates all three layers together and reports where each one becomes the bottleneck.</p>
+            <p>A useful engineering decomposition is a slow agent for goals and exceptions, a medium-rate WAM for motion chunks, and a fast controller for tracking and balance. The GR00T 2 report evaluates these interfaces, but does not establish that SONIC provides general contact-force regulation or certified safety. Force limits, collision checks, and stop mechanisms require their own implementation and validation.</p>
 
             <h2 id="verdict">Our verdict: a stronger foundation, not a deployment-ready general robot</h2>
             <div class="verdict-grid">
@@ -168,7 +168,15 @@
 
             <p>GR00T 2 moves the field from “can one policy imitate many robot demonstrations?” toward “can one predictive physical representation be adapted, steered, and corrected across bodies?” The answer is increasingly yes in controlled settings. The leap to deployment will depend less on another headline benchmark and more on cost-to-reliability: how much robot time, human time, compute, and recovery engineering it takes to hold performance across weeks of real operation.</p>
 
-            <h2 id="sources">Primary sources</h2>
+            <section aria-labelledby="connections">
+<h2 id="connections">Keep policy adaptation separate from execution precision</h2>
+<p>The cross-model comparison provides the matched boundaries for HumanWAM and GR00T 2; Appendix F.4, rather than a combined headline range, governs the precision-RL interpretation here. The Anchor1 analysis examines the controller interface underneath a humanoid policy. A stronger action model and a more precise tracker address different errors. Test both at fixed task conditions, and report any human assistance used during training separately from autonomous evaluation.</p>
+<ul>
+<li><a href="humanwam-groot2-wam-comparison.html">HumanWAM–GR00T 2: compare like conditions</a></li>
+<li><a href="anchor1-sonic-supermimic-control-analysis.html">Anchor1 and SONIC: what the controller contributes</a></li>
+</ul>
+</section>
+<h2 id="sources">Primary sources</h2>
             <ul class="source-list">
               <li><a href="https://research.nvidia.com/labs/gear/gr00t-2/" target="_blank" rel="noopener noreferrer">NVIDIA GEAR: GR00T 2 project page</a></li>
               <li><a href="https://research.nvidia.com/labs/gear/gr00t-2/assets/gr00t2_whitepaper.pdf" target="_blank" rel="noopener noreferrer">GR00T 2 technical whitepaper</a></li>

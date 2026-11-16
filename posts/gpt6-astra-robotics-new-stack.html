@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/gpt6-astra-robotics-new-stack.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="Did GPT-6 Astra Change the Robotics Roadmap?" />
   <meta property="og:description" content="Where VLA, WAM, agentic robotics, and tactile control go after a general model begins producing robot actions directly." />
@@ -43,7 +43,7 @@
         <div class="container narrow">
           <p class="eyebrow">Research analysis · GPT-6 Astra × Robotics</p>
           <h1>GPT-6 Astra 之后，机器人路线变了吗？</h1>
-          <p class="lead article-deck">通用大模型第一次在多项机器人评测中表现出直接输出动作的竞争力。但它没有让 VLA、WAM 或触觉控制过时，而是迫使这些路线重新分工。</p>
+          <p class="lead article-deck">Astra reports competitive action generation on several robotics evaluations. The useful question is which parts of a robot system benefit from general-model reasoning, and which still require learned motor skills or measured contact feedback.</p>
           <p class="post-meta"><time datetime="2026-11-07">2026 年 11 月 7 日</time> · 14 分钟阅读 · 1N Robotics</p>
         </div>
       </header>
@@ -64,7 +64,7 @@
             <h2 id="before">1. Astra 之前：机器人“大脑”原来分三条路线</h2>
             <p>要理解变化，先要回到 2026 年初。机器人基础模型大致沿三条路线演进。</p>
             <p><strong>第一条是 VLA（Vision-Language-Action）。</strong>它把相机图像和文字指令直接映射成动作，像一个经过大量示范训练的反射系统。优势是动作快、可以端到端训练；缺点是新任务、新本体或新场景通常仍依赖机器人数据和后训练。</p>
-            <p><strong>第二条是 WAM（World-Action Model）。</strong>它不只问“下一步怎么动”，还预测“动完以后世界会变成什么样”。未来视频或世界状态成为动作的约束，能改善因果一致性和分布外泛化，但生成世界状态通常更慢、更昂贵。</p>
+            <p><strong>第二条是 WAM（World-Action Model）。</strong>A WAM learns future observations alongside actions. This adds predictive supervision, but does not impose a reliable physical constraint or automatically improve out-of-distribution control. Those gains require matched experiments, and future generation can add runtime and memory cost.</p>
             <p><strong>第三条是 Agentic Robotics。</strong>通用语言模型在最外层拆任务、写代码、调用技能和分析失败，底层仍由控制程序、VLA 或强化学习策略执行。ASPIRE、ENPIRE 等系统已经在探索让代码代理通过仿真和真机反馈自动修复策略。</p>
 
             <div class="route-diagram" aria-label="Astra 之前的三条机器人基础模型路线">
@@ -75,7 +75,7 @@
               <div class="route-node"><strong>Agentic</strong><small>规划、写程序、调用技能</small></div>
             </div>
 
-            <p>当时的主流假设是：通用模型负责“想”，专用机器人模型负责“动”。Astra 的出现让这条边界第一次变得模糊。</p>
+            <p>Astra makes the boundary between general-model reasoning and specialized action generation worth testing under explicit robot interfaces and evaluation budgets.</p>
 
             <h2 id="astra">2. Astra 到底带来了什么？</h2>
             <p>根据 OpenAI 官方文档，GPT-6 Astra 面向复杂推理、编程、计算机操作和研究，支持图像输入、函数调用、MCP、计算机操作和超过百万 token 的上下文。它可以在长流程中观察结果、调用工具、修改计划并继续执行。</p>
@@ -117,7 +117,7 @@
                 <thead><tr><th>原路线</th><th>Astra 之前</th><th>Astra 之后的更新</th></tr></thead>
                 <tbody>
                   <tr><td>VLA</td><td>被视为通用机器人策略的主要候选</td><td>更像高速 System 1：承担高频、精确、已学过的动作</td></tr>
-                  <tr><td>WAM</td><td>用未来视觉提高动作的物理一致性</td><td>成为通用推理模型的“后果检查器”和中层规划器</td></tr>
+                  <tr><td>WAM</td><td>用未来视觉提高动作的物理一致性</td><td>Candidate consequence model or predictive action module</td></tr>
                   <tr><td>Agentic</td><td>在外层拆任务、调用固定技能</td><td>能生成、调试、验证并积累新的机器人技能</td></tr>
                   <tr><td>人类视频</td><td>为 VLA/WAM 提供廉价、大规模预训练数据</td><td>继续承担物理经验供给，弥补通用模型缺少动作训练</td></tr>
                   <tr><td>触觉控制</td><td>专门处理接触与滑移</td><td>成为通用推理落地到精密操作时不可缺少的快速回路</td></tr>
@@ -156,7 +156,7 @@
               <li><strong>先做分层接口，不急着换掉现有策略。</strong> 把现有 VLA、控制器和规划器包装成可检查、可组合的技能，让 Astra 负责少量高价值决策。</li>
               <li><strong>记录“动作—回执—新状态”。</strong> RoboICL 的提升来自把执行结果组织成可学习的上下文，而不只是不断追加相机截图。</li>
               <li><strong>按真实时间和真实成本评测。</strong> 仿真里增加调用次数可以换取成功率，工厂和家庭机器人却受电池、吞吐、网络和人的等待时间约束。</li>
-              <li><strong>把物理验证放在生成模型外部。</strong> 世界模型、碰撞检查、力控与安全规则需要能独立拒绝动作。</li>
+              <li><strong>把物理验证放在生成模型外部。</strong> Measured feedback, validated collision checks, force limits, and stop mechanisms must govern execution. A generated future alone is not a dependable safety gate.</li>
               <li><strong>分别报告理解失败和执行失败。</strong> Astra 常常知道应该做什么，却无法稳定完成动作。混合统计会掩盖真正的系统瓶颈。</li>
             </ol>
 
@@ -164,7 +164,15 @@
             <p>GPT-6 Astra 之后，机器人路线确实变了，但变化不是“通用大模型取代机器人基础模型”。真正发生的是分工重排：通用模型开始同时承担任务理解、记忆、技能编程和部分低频动作；VLA 继续负责快速执行；WAM 负责预测物理后果；触觉与经典控制器守住接触、稳定和安全。</p>
             <p>Astra 证明了通用智能可以比预期更深地进入控制回路，也暴露了从“会推理”到“可长期、安全地行动”之间仍有多远。下一阶段最值得看的，不是某个模型单独在榜单上多拿几分，而是这些层能否形成一个在真实时间、真实成本和真实风险下工作的闭环。</p>
 
-            <section class="source-list" aria-labelledby="sources-heading">
+            <section aria-labelledby="connections">
+<h2 id="connections">Separate context learning, weight updates, and control</h2>
+<p>The agentic overview extends this article’s division of labor into explicit verification and recovery loops. The WAM comparison examines a separate adaptation route through training. A demonstration supplied in context, a LoRA update, and an agent given additional retries spend different information and compute budgets; their scores cannot form one model ranking. Our system recommendation remains conditional: use measured execution outcomes to decide when a reasoning model should request another skill or stop.</p>
+<ul>
+<li><a href="agentic-robotics-nvidia-rsi-tinyastral.html">Agentic overview: turn reasoning into verified execution</a></li>
+<li><a href="humanwam-groot2-wam-comparison.html">WAM comparison: account for adaptation separately</a></li>
+</ul>
+</section>
+<section class="source-list" aria-labelledby="sources-heading">
               <h2 id="sources-heading">原始资料</h2>
               <ol>
                 <li><a href="https://developers.openai.com/api/docs/models/gpt-6-astra" target="_blank" rel="noopener noreferrer">OpenAI Docs：GPT-6 Astra 模型页</a>；<a href="https://developers.openai.com/api/docs/guides/latest-model" target="_blank" rel="noopener noreferrer">Using GPT-6</a></li>

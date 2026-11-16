@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://1nrobotics.com/posts/compass1-camera-geometry-memory-navigation.html" />
   <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
   <link rel="stylesheet" href="../style.css?v=13" />
-  <script src="../i18n.js?v=16" defer></script>
+  <script src="../i18n.js?v=17" defer></script>
 
   <meta property="og:title" content="Compass 1: what a single camera, geometric labels, and usable memory solve in robot navigation" />
   <meta property="og:description" content="Inside Archon’s navigation model: DJI Action 4 capture, monocular reconstruction, structured memory, video-action generation, and the gap to autonomous deployment" />
@@ -90,6 +90,14 @@
 <p>It has not solved persistent autonomy. The main benchmark still has 66 failures in 320 trials; multi-stage execution succeeds about half the time and persistent backtracking about 58%. Reported failures include dynamic occlusion, missed targets during rotation, reflection and lighting confusion, occasional collision, and losing the return heading around obstacles. Four selected scenarios do not measure multi-floor routing, crowded-site safety over a shift, long-term mapping drift, or mission recovery with bounded intervention. <a href="#compass-source-2" aria-label="Source 2">[2]</a></p>
 <p>Reproducibility is also pending. The abstract describes an open-source dataset, but the official repository schedules dataset, deployment code, and real-world checkpoints for December 2026. As checked, it contains the research introduction and assets rather than the complete released system. The public Apache-2.0 repository license should not be assumed to license unreleased videos or weights, and web-video rights need their own review. Training duration, collection cost, and continuous operating cost remain insufficiently reported. <a href="#compass-source-3" aria-label="Source 3">[3]</a></p>
 <p>For a robot navigation team, follow this work now and test its memory ideas before replacing the whole stack. Hold perception and control fixed, then compare ordinary frame history, indexed keyframes, and HRM plus retrieval supervision on return-to-landmark tasks. Evaluate on unseen sites and camera settings, count complete missions, collisions, interventions, and time, and stress the communication path. The next decisive advances would be reliable geometry under drift, uncertainty-aware recovery after target loss, local deployment with measured total latency, and independent replication after release. Compass 1 makes remembered experience more useful for navigation; a safe navigation product still has to manage the failures around that capability.</p>
+<section aria-labelledby="connections">
+<h2 id="connections">What the reconstruction comparison can establish</h2>
+<p>The geometry survey explains why Pi3X or MapAnything is a candidate label generator, not an established replacement for Pi3 + MoGe-2. The roadmap therefore starts with reference-measured motion error and a matched downstream policy. Neither a different geometry backbone nor removing a dense online map proves that memory is unnecessary. Archon’s Compass 1 also differs from NVIDIA’s COMPASS agent framework; their results must remain separate.</p>
+<ul>
+<li><a href="dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html">Geometry survey: measurements, estimates, and generated appearance</a></li>
+<li><a href="bevformer-uniad-pi3x-compass-one-year-roadmap.html">Roadmap: test the proposed replacement</a></li>
+</ul>
+</section>
 <h2 id="sources">Sources and implementation status</h2>
 <ol class="source-list"><li id="compass-source-1"><a href="https://www.yuance.ai/research/compass1" target="_blank" rel="noopener noreferrer">Compass 1 official research page — method, task counts, ablations</a></li><li id="compass-source-2"><a href="https://arxiv.org/pdf/2611.12087v1" target="_blank" rel="noopener noreferrer">Compass 1 paper v1 — hardware, labeling, model, and evaluation</a></li><li id="compass-source-3"><a href="https://github.com/OpenDriveLab/Compass/" target="_blank" rel="noopener noreferrer">Official Compass repository — December release schedule</a></li><li id="compass-source-4"><a href="https://github.com/yyfz/Pi3" target="_blank" rel="noopener noreferrer">Pi3 official code — camera geometry and point maps</a></li><li id="compass-source-5"><a href="https://github.com/microsoft/MoGe" target="_blank" rel="noopener noreferrer">MoGe-2 official code — metric monocular geometry</a></li><li id="compass-source-6"><a href="https://www.archon.tech/research/compass1" target="_blank" rel="noopener noreferrer">Original Archon Compass 1 research URL</a></li></ol>
 
