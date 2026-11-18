@@ -10,8 +10,8 @@
   <meta name="author" content="1N Robotics" />
   <title>Product | 1N Robotics</title>
   <link rel="canonical" href="https://1nrobotics.com/product.html" />
-  <link rel="stylesheet" href="style.css?v=13" />
-  <script src="i18n.js?v=17" defer></script>
+  <link rel="stylesheet" href="style.css?v=14" />
+  <script src="i18n.js?v=18" defer></script>
 
   <meta property="og:title" content="Product | 1N Robotics" />
   <meta property="og:description" content="Vision-based navigation for robots working without GPS or a prebuilt map. Explore integration and pilot projects with 1N Robotics." />
@@ -97,6 +97,42 @@
       </div>
     </section>
 
+    <section class="content-section oss-section" id="open-source" aria-labelledby="oss-product-title">
+      <div class="container oss-product">
+        <div class="oss-product-intro">
+          <p class="eyebrow">Open source · Star Nav</p>
+          <h2 id="oss-product-title">Build with Star Nav</h2>
+          <p>Our open-source quadrotor workspace gives developers a concrete starting point for navigation experiments: a waypoint exploration manager, EGO-Planner local planning, and simulation with a flight controller.</p>
+          <p>Run a mission, inspect the observations and commands, then use the documented interfaces to plan your own integration.</p>
+          <div class="oss-actions">
+            <a href="https://1nrobotics.github.io/star-nav/#quick-start" class="cta-button">Get started</a>
+            <a href="https://github.com/1nrobotics/star-nav" class="secondary-button">View on GitHub</a>
+          </div>
+          <p class="oss-license"><a href="https://github.com/1nrobotics/star-nav/blob/main/docs/LICENSES.md">Licensing and upstream credits</a></p>
+        </div>
+        <div class="oss-capabilities">
+          <article>
+            <span class="oss-step" aria-hidden="true">01</span>
+            <h3>See the planning loop</h3>
+            <p>Follow depth observations into an occupancy map, then trace waypoints through local planning and flight-control commands.</p>
+            <a href="https://1nrobotics.github.io/star-nav/#architecture">Inspect the architecture <span aria-hidden="true">→</span></a>
+          </article>
+          <article>
+            <span class="oss-step" aria-hidden="true">02</span>
+            <h3>Run it and check the outcome</h3>
+            <p>Choose lightweight or MuJoCo simulation. The automated MuJoCo mission test fails on mission failure or collision.</p>
+            <a href="https://github.com/1nrobotics/star-nav/blob/main/docs/SIMULATION.md">Read the simulation guide <span aria-hidden="true">→</span></a>
+          </article>
+          <article>
+            <span class="oss-step" aria-hidden="true">03</span>
+            <h3>Explore the interactive scene</h3>
+            <p>Orbit the forest scene and follow the drone in your browser. Physics runs locally using recorded planning commands; the planner itself is not running in the page.</p>
+            <a href="https://1nrobotics.github.io/star-nav/#live">Open the interactive scene <span aria-hidden="true">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="content-section section-band">
       <div class="container section-heading">
           <p class="eyebrow">Research direction</p>
@@ -139,6 +175,7 @@
     <div class="container footer-row">
       <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
       <div class="footer-links">
+        <a href="https://github.com/1nrobotics/star-nav">GitHub</a>
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="blog.html">Blog</a>

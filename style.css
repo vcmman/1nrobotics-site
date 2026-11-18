@@ -1602,3 +1602,51 @@ footer {
     padding: 1.55rem;
   }
 }
+
+/* Open-source project showcase: share the site's type scale and button styles. */
+.oss-section { scroll-margin-top: 6rem; }
+.oss-showcase {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+.oss-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2.5rem; }
+.oss-heading h2, .oss-product h2 {
+  margin: 0;
+  font-size: var(--text-section);
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+.oss-heading .eyebrow, .oss-product .eyebrow { margin-bottom: 0.75rem; }
+.oss-intro { max-width: 68ch; margin: 1rem 0 0; color: var(--muted); }
+.oss-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+.oss-heading .oss-actions { flex-direction: column; align-items: stretch; }
+.oss-figure { margin: 2rem 0 0; }
+.oss-figure > a { display: block; border-radius: 12px; overflow: hidden; background: var(--ink); }
+.oss-figure img { width: 100%; height: auto; }
+.oss-figure figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem 1rem; margin-top: 0.9rem; color: var(--muted); font-size: 0.875rem; }
+.oss-tag { display: inline-flex; padding: 0.2rem 0.65rem; border-radius: 99px; background: var(--accent-soft); color: var(--accent-dark); font-size: 0.75rem; font-weight: 600; }
+.oss-footnote { display: flex; align-items: start; flex-wrap: wrap; justify-content: space-between; gap: 1rem 2rem; margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: 0.875rem; }
+.oss-footnote p { flex: 1 1 40ch; max-width: 80ch; margin: 0; color: var(--muted); }
+.oss-footnote a, .oss-capabilities a, .oss-license a { color: var(--accent-dark); font-weight: 600; }
+.oss-product { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); }
+.oss-product-intro > p:not(.eyebrow) { color: var(--muted); }
+.oss-product-intro .oss-actions { margin-top: 1.75rem; }
+.oss-product-intro .oss-license { margin-top: 1.25rem; font-size: 0.875rem; }
+.oss-capabilities { display: grid; gap: 1.25rem; }
+.oss-capabilities article { position: relative; padding: 0 0 1.25rem 3rem; border-bottom: 1px solid var(--line); }
+.oss-capabilities article:last-child { border-bottom: 0; padding-bottom: 0; }
+.oss-step { position: absolute; left: 0; top: 0.15rem; color: var(--green); font-size: 0.8rem; font-weight: 700; }
+.oss-capabilities h3 { margin: 0; font-size: 1.0625rem; }
+.oss-capabilities p { margin: 0.5rem 0 0.65rem; color: var(--muted); font-size: 0.9375rem; }
+.oss-capabilities a { font-size: 0.875rem; }
+.oss-showcase a:focus-visible, .oss-product a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+@media (max-width: 720px) {
+  .oss-heading, .oss-product { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .oss-heading .oss-actions, .oss-actions { flex-direction: row; }
+  .oss-actions > a { flex: 1 1 10rem; }
+  .oss-showcase { border-radius: 18px; }
+  .oss-figure { margin-top: 1.5rem; }
+}
