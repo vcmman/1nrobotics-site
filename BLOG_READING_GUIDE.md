@@ -1,8 +1,8 @@
 # 技术博客阅读与归档指南
 
-更新日期：2026-11-16
+更新日期：2026-11-19
 
-技术分析按主题与阅读顺序组织；发布日期保留原值。以下目录覆盖 17 篇现有技术文章。主题与序号用于导航，不代表模型排名。11 月 16 日另完成一轮全篇论证一致性审校，并针对高风险表述回查原始资料；范围、修正与逐篇关系见 [内容审校记录](BLOG_CONTENT_REVIEW.md)。这不等于独立复现全部实验。周报继续独立归档并按日期倒序排列。
+技术分析按主题与阅读顺序组织；发布日期保留原值。以下目录覆盖 18 篇现有技术文章。主题与序号用于导航，不代表模型排名。11 月 16 日另完成一轮全篇论证一致性审校，并针对高风险表述回查原始资料；范围、修正与逐篇关系见 [内容审校记录](BLOG_CONTENT_REVIEW.md)。这不等于独立复现全部实验。周报继续独立归档并按日期倒序排列。
 
 ## 编排原则
 
@@ -24,7 +24,8 @@
 1. [DUSt3R → Pi3X → MapAnything，与 ViewCrafter](posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html) — 几何基础：使用重建世界前，先区分观测几何与生成外观
 2. [BEVFormer → UniAD → WorldEngine 与 SimScale](posts/bevformer-uniad-worldengine-simscale-robotics.html) — 技术演进：从空间表征追到规划与交互数据生成
 3. [Compass 1：相机、几何标签与记忆](posts/compass1-camera-geometry-memory-navigation.html) — 系统分析：拆解导航系统、真机评测与剩余部署问题
-4. [从 Pi3X 几何到持续导航：一年路线](posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html) — 研究路线建议：将前述思路转为分阶段实验与明确决策门槛
+4. [ROAM：语义判断走向野外导航](posts/roam-vlm-risk-maps-quadruped-navigation.html) — 野外案例：把语义通行字段接到地图、导航与落脚，保留干预与开放边界
+5. [从 Pi3X 几何到持续导航：一年路线](posts/bevformer-uniad-pi3x-compass-one-year-roadmap.html) — 研究路线建议：将前述思路转为分阶段实验与明确决策门槛
 
 ### 数据采集与仿真
 

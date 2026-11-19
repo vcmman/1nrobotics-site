@@ -5,8 +5,16 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 16 Nov 2026 21:04:27 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 19 Nov 2026 19:35:41 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ROAM: turning VLM judgment into usable robot navigation</title>
+      <link>https://1nrobotics.com/posts/roam-vlm-risk-maps-quadruped-navigation.html</link>
+      <guid isPermaLink="true">https://1nrobotics.com/posts/roam-vlm-risk-maps-quadruped-navigation.html</guid>
+      <pubDate>Thu, 19 Nov 2026 19:35:41 +0800</pubDate>
+      <category>Technical analysis</category>
+      <description>Why explicit semantic maps connect slow VLM reasoning to fast learned control, and what the hiking trials and intervention records establish</description>
+    </item>
     <item>
       <title>UMI after the gripper: Specialist and the engineering of useful robot data</title>
       <link>https://1nrobotics.com/posts/umi-specialist-data-collection-device-comparison.html</link>
