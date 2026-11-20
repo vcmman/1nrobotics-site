@@ -1,6 +1,6 @@
 # 博客内容与研究分析记忆
 
-更新日期：2026-11-19
+更新日期：2026-11-20
 
 这份文档保存已经写过什么、分析了哪些工作、哪些结论必须连同条件保留，以及后续值得继续追的问题。它是选题与论证索引，不是重新验证过的最新事实库。以下概括来自仓库现有文章；模型名称、发布状态、数字、许可和代码开放情况在再次引用或更新时，都要回到原始来源重新核验。
 
@@ -16,6 +16,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-20 | [第 47 周具身智能周报](posts/embodied-ai-weekly-2026-11-20.html) | HandUMI、InteractVLA、Go2 热感知运动、ROAM | 有效数采成本、Agent／Policy 接口、真机分数与成功率、连续运行及干预边界 |
 | 2026-11-19 | [ROAM：VLM、风险地图与野外导航](posts/roam-vlm-risk-maps-quadruped-navigation.html) | ETH ROAM、ANYmal、语义高程地图、VLM＋RL | 通行判断、地图落地、多速率控制、野外干预、分母与可复现范围 |
 | 2026-11-16 | [UMI 设备与 Specialist 深度分析](posts/umi-specialist-data-collection-device-comparison.html) | UMI Arena D01–D13、Fisheye-VLA、CamVLA | Specialist 重点：双镜头分工、标签因子图、延迟与开放边界；数据规模、触觉和后训练接口 |
 | 2026-11-15 | [DUSt3R／Pi3X／MapAnything 与 ViewCrafter](posts/dust3r-pi3x-mapanything-viewcrafter-3d-robotics.html) | 稠密点图、排列等变、几何分解、点云条件视频扩散、3DGS | 数据单位、观测与生成来源、几何／外观分表、内容资产成本与机器人实测 |
@@ -414,3 +415,18 @@
 独立判断：显式可检查语义接口让基础模型知识在路线与落脚两层生效，并简化视觉sim-to-real负担。成熟度按有长程野外演示和干预记录的研究原型评估；值得做有限试验，尚非重复无人值守／规模部署证据。
 
 来源：[正式论文](https://www.science.org/doi/10.1126/scirobotics.aee1549)、[项目](https://roam-hiking.github.io/)、[ETH博士论文](https://www.research-collection.ethz.ch/server/api/core/bitstreams/88b24398-140f-4a47-bb66-aebd371d2ac1/content)、[固定代码](https://github.com/leggedrobotics/roam/tree/0c34cee71be4b2ba12016c70924fef50c0b94c54)。
+
+
+## 21. 第 47 周：从成功演示走向持续运行
+
+范围：2026-11-13 18:02 至 2026-11-20 18:02，Asia/Singapore。检查本地及远端 main 无同周记录后发布，周报分类由 2 增至 3，技术分析保持 18 及原有主题顺序。
+
+- 日期：HandUMI 17日03:29 UTC（SG11:29）、热感知运动17日05:28 UTC（SG13:28）、InteractVLA17日11:07 UTC（SG19:07）为 arXiv v1。HandUMI项目／数据卡已在10月，不能称新项目或新数据集；ROAM为18日期刊发表，保留2024野外／2025博士论文来源
+- HandUMI：报价双手＋Quest3S为$557，不含主机／可选ZED／税运，实验实际PICO4Ultra。562回合111.9分钟；PiPER同任务后训练、每模型20次未配对随机毛巾位姿、现场非数值容差判断；ACT12/20、π0.5微调7/20，小样本不可排名。原101回合ACT参照受会话／标定变化混杂。保留拒收回合、事后高度修正等质检成本，不把仿真七臂IK写成七真机接触迁移
+- InteractVLA：测试时输入梯度引导冻结策略及重投影反馈；真机MR-0每任务50示范、每方法每任务30次。MoveCube Agent+VLA→Agent+InteractVLA平均归一化分86.7→97.6、执行时间165.2→67.5s；不是二值完整成功率或模型延迟，独立VLA更快但低分。99.4% LIBERO-Plus为带练习的RSI仿真智能体，不是零样本policy。固定代码eb56f658d15b961362bb17eb0ac83407612eb361，仍需检查点、上游模型、标定manifest和执行器
+- Go2热感知RL：使用辨识热网络预测稳态温度构造奖励，策略无温度观测。5kg／1m/s平地19→174min，基线22°C、热策略26°C；无负载工厂路线111→193min、25→47圈，23→25°C。非环境匹配重复机队试验，不外推通用倍率；不等于自主导航可靠性。Zenodo24274994公开记录日期16日，48小时两台Go2、2拟合9验证12测试，为热辨识数据不是RL训练小时；核查清单未下载或复现
+- ROAM：强调语义落地失败（识别围栏但分割未正确定位）、10.1km下降中两处干预及人工恢复／搬过门。期刊全文未与博士论文逐项系统比较；不把旧实验证据冒充本周新实验。公开语义前端非完整控制器
+
+判断：本周有价值的变化在可测量接口和全运行预算。建议组件级有限复现，统计有效数采、练习／重试、实际执行时间、热停机和人工恢复，而不混排不同单位成绩。
+
+来源：[HandUMI v1](https://arxiv.org/html/2611.22146v1)、[InteractVLA v1](https://arxiv.org/html/2611.22584v1)、[热感知RL v1](https://arxiv.org/html/2611.22231v1)、[热数据记录](https://zenodo.org/records/24274994)、[ROAM发表记录](https://takahiromiki.com/projects)。
