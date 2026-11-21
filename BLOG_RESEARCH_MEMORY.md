@@ -1,6 +1,6 @@
 # 博客内容与研究分析记忆
 
-更新日期：2026-11-20
+更新日期：2026-11-21
 
 这份文档保存已经写过什么、分析了哪些工作、哪些结论必须连同条件保留，以及后续值得继续追的问题。它是选题与论证索引，不是重新验证过的最新事实库。以下概括来自仓库现有文章；模型名称、发布状态、数字、许可和代码开放情况在再次引用或更新时，都要回到原始来源重新核验。
 
@@ -8,7 +8,7 @@
 
 ## 阅读路线与文章关系
 
-技术目录自 2026-11-16 起按五条路线组织：空间感知与导航（5）、数据采集与仿真（4）、世界动作模型（4）、控制与灵巧操作（2）、Agentic 机器人（3）。每篇只归一个主要主题，主题内按阅读依赖排列；文末连接同主题上一篇／下一篇。目录与后续维护规则见 [阅读与归档指南](BLOG_READING_GUIDE.md)。下方索引保留发布日期，用于查找历史文章，不作为网站展示顺序。
+技术目录自 2026-11-16 起按五条路线组织：空间感知与导航（5）、数据采集与仿真（4）、世界动作模型（4）、控制与灵巧操作（3）、Agentic 机器人（3）。每篇只归一个主要主题，主题内按阅读依赖排列；文末连接同主题上一篇／下一篇。目录与后续维护规则见 [阅读与归档指南](BLOG_READING_GUIDE.md)。下方索引保留发布日期，用于查找历史文章，不作为网站展示顺序。
 
 综合比较、单模型研究与后续分析保持不同职责；本次调整目录和导航没有重新验证旧文实验或发布状态。新增文章应插入对应主题并更新相邻导航，不恢复倒序大杂烩。周报仍独立按日期倒序。
 
@@ -16,6 +16,7 @@
 
 | 日期 | 文章 | 主要对象 | 分析切入点 |
 | --- | --- | --- | --- |
+| 2026-11-21 | [SuperMimic 的前世今生](posts/supermimic-evolution-blinkmimic-xmimic-macmimic.html) | SuperMimic v3、InstantTrack、BlinkMimic、XMimic、MacMimic、supermimic-m5、PartyMimic、NablaMimic | 从动力学代理到 GPU 并行与 Apple Silicon，区分训练集覆盖、留出泛化和真机证据 |
 | 2026-11-20 | [第 47 周具身智能周报](posts/embodied-ai-weekly-2026-11-20.html) | HandUMI、InteractVLA、Go2 热感知运动、ROAM | 有效数采成本、Agent／Policy 接口、真机分数与成功率、连续运行及干预边界 |
 | 2026-11-19 | [ROAM：VLM、风险地图与野外导航](posts/roam-vlm-risk-maps-quadruped-navigation.html) | ETH ROAM、ANYmal、语义高程地图、VLM＋RL | 通行判断、地图落地、多速率控制、野外干预、分母与可复现范围 |
 | 2026-11-16 | [UMI 设备与 Specialist 深度分析](posts/umi-specialist-data-collection-device-comparison.html) | UMI Arena D01–D13、Fisheye-VLA、CamVLA | Specialist 重点：双镜头分工、标签因子图、延迟与开放边界；数据规模、触觉和后训练接口 |
@@ -430,3 +431,12 @@
 判断：本周有价值的变化在可测量接口和全运行预算。建议组件级有限复现，统计有效数采、练习／重试、实际执行时间、热停机和人工恢复，而不混排不同单位成绩。
 
 来源：[HandUMI v1](https://arxiv.org/html/2611.22146v1)、[InteractVLA v1](https://arxiv.org/html/2611.22584v1)、[热感知RL v1](https://arxiv.org/html/2611.22231v1)、[热数据记录](https://zenodo.org/records/24274994)、[ROAM发表记录](https://takahiromiki.com/projects)。
+
+## 22. SuperMimic 的前世今生
+
+- 官方论文从 2026-10-20 v1 演进至 11-19 v3。8 步动力学拟合、32 步想象反传，数据区分人体参考动作与仿真状态转移。129,514 条 BONES-SEED 已见动作的确定性仿真覆盖不能当作留出泛化或真机成功率
+- BlinkMimic 在单张 RTX 4090 上平均 3.4 分钟，三个种子。XMimic 同集群单 H100 NVL 2.47 分钟、四卡 0.86 分钟，四卡减少等待，单卡 GPU 总分钟更少；LAFAN1 40 条已见动作、0.82 且零失败连续三次、编译不计入 XMimic 对比
+- MacMimic 是社区实现，CPU 原生 MuJoCo、Apple GPU MPS／Metal，M5 Max 64 GB 单种子 40/40，选中分支 97.59 分钟，试验合计 152.81 分钟。38.9 倍仅对同机 256 环境 CPU eager 单轮基线。独立 supermimic-m5 的 24 GB M5 实测与检查点用额外锚点观测和不同计分，不能直接排名
+- PartyMimic 提供留出协议，NablaMimic 提供可微物理替代路线。建议先跑 40 条回归，再按来源留出并扩大动作库，最后量测真机延迟、恢复和干预。与 Anchor1／SONIC 比较文互补，未复训或实机复现
+
+来源：[SuperMimic v3](https://arxiv.org/pdf/2610.28480v3)、[BlinkMimic](https://arxiv.org/abs/2611.16422)、[XMimic](https://github.com/nico-bohlinger/xmimic)、[MacMimic](https://github.com/yusenthebot/macmimic)。

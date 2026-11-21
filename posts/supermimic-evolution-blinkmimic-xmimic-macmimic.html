@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="description" content="How humanoid motion tracking went from large motion libraries to minute-scale experiments and Apple Silicon" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="1N Robotics" />
+  <title>From SuperMimic to MacMimic | 1N Robotics</title>
+  <link rel="canonical" href="https://1nrobotics.com/posts/supermimic-evolution-blinkmimic-xmimic-macmimic.html" />
+  <link rel="alternate" type="application/rss+xml" title="Embodied AI Weekly" href="https://1nrobotics.com/feed.xml" />
+  <link rel="stylesheet" href="../style.css?v=14" />
+  <script src="../i18n.js?v=21" defer></script>
+
+  <meta property="og:title" content="From SuperMimic to MacMimic" />
+  <meta property="og:description" content="How humanoid motion tracking went from large motion libraries to minute-scale experiments and Apple Silicon" />
+  <meta property="og:image" content="https://1nrobotics.com/logo-images/logo-old.png" />
+  <meta property="og:url" content="https://1nrobotics.com/posts/supermimic-evolution-blinkmimic-xmimic-macmimic.html" />
+  <meta property="og:type" content="article" />
+  <script src="../site-stats.js?v=1" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Primary">
+      <a href="../index.html" class="brand-link"><img src="../logo-images/logo-old.png" alt="1N Robotics Logo" class="logo" /><span class="brand-wordmark">1N Robotics</span></a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../product.html">Product</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../blog.html" aria-current="page">Blog</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="mailto:contact@1nrobotics.com" class="nav-cta">Contact</a>
+        <button class="language-switch" type="button" data-language-toggle aria-label="切换到中文">中文</button>
+      </div>
+    </nav>
+  </header>
+
+
+  <main>
+    <article>
+      <header class="page-hero article-hero"><div class="container narrow">
+        <p class="eyebrow">Whole-body control</p>
+        <h1>From SuperMimic to MacMimic</h1>
+        <p class="lead article-deck">How humanoid motion tracking went from large motion libraries to minute-scale experiments and Apple Silicon</p>
+        <p class="post-meta"><time datetime="2026-11-21">November 21, 2026</time> · 10 min read · 1N Robotics</p>
+      </div></header>
+      <section class="content-section"><div class="container narrow"><div class="article-body">
+        <p>A backflip tells you that a humanoid can execute one demanding reference motion. A library of 129,514 clips asks a different question: can one controller keep up with an entire repertoire? Then a developer asks a third: can I change the recipe and see what happens before the next meeting? SuperMimic, BlinkMimic, XMimic and MacMimic answer different parts of that story.</p>
+        <h2>From copying one motion to sharing the dynamics</h2>
+        <p>DeepMimic in 2018 showed why reference motion works as supervision. Matching the reference gives the controller feedback throughout a movement, and a physics simulator makes it learn to balance and recover rather than replay joint angles blindly. SuperTrack and ControlVAE explored training controllers through learned dynamics in character animation. For physical humanoids, BeyondMimic and SONIC made the next question concrete: how much motion can a single controller absorb when the training budget grows? <a href="#mimic-source-1">[1]</a> <a href="#mimic-source-2">[2]</a> <a href="#mimic-source-3">[3]</a> <a href="#mimic-source-4">[4]</a> <a href="#mimic-source-14">[14]</a></p>
+        <p>Berkeley’s SuperMimic changes the training loop. Walking and turning have different references, but they use the same joints, inertias and contact mechanics. A single differentiable model learns those shared dynamics from transitions collected in MuJoCo Warp. The reference provides the tracking target. The model predicts the consequences of the robot’s actions. Reference clips and simulator transitions are therefore two distinct kinds of training data. <a href="#mimic-source-5">[5]</a></p>
+        <div class="article-callout"><p>MuJoCo Warp collects transitions → replay buffer → fit dynamics on 8-step sequences → freeze model weights and backpropagate through 32 imagined steps → update policy and critic → collect again</p></div>
+        <p>The policy observes the robot and reference, then outputs joint targets. During training, backpropagation through time shows how a change in one action would alter predicted tracking rewards over the next few steps. The critic estimates rewards beyond that window. This gradient is exact for the learned surrogate, whose predictions can still be wrong around contacts or under unfamiliar dynamics. The high-frequency execution path uses the learned policy. The 32-step imagination is a training operation, so its throughput gives no measurement of onboard policy latency. <a href="#mimic-source-5">[5]</a></p>
+        <h2>What the original benchmark established</h2>
+        <p>The official preprint appeared on October 20, 2026, with revisions on November 9 and 19. The authors now provide an mjlab training repository. The headline comparison in v3 uses 264.56 hours of public BONES-SEED reference motion. On 129,514 shared training motions, the released SONIC checkpoint failed 179 clips. SuperMimic reports 25 failures after 3 hours on one H100 and zero after 9.8 hours on two H100s. Evaluation starts at frame one, with deterministic simulation, foot friction of 1.0, no observation noise or domain randomization, and failure defined by the training termination rule. The paper also shows physical Unitree G1 demonstrations. The clip counts describe simulation coverage of known motions. <a href="#mimic-source-5">[5]</a> <a href="#mimic-source-6">[6]</a></p>
+        <p>The SONIC comparison uses different GPU types, training budgets and data volumes, and SuperMimic’s 3 hours exclude checkpoint evaluation. A cleaner test in the paper matches the LAFAN1 motions, observations, reward and evaluation protocol. SuperMimic reached normalized return 0.82 in 1.2 hours on one H100. The paper’s simulator PPO baseline remained below that score after 18 hours even on eight GPUs, although its parallel environment count and tuning differ. This supports the training-loop change more directly than a ratio of the two projects’ total GPU bills. <a href="#mimic-source-5">[5]</a></p>
+        <h2>How the community cut training to minutes</h2>
+        <p>InstantTrack combined a policy residual around the reference, averaged policy weights and the Muon optimizer with a tighter GPU training loop. BlinkMimic built on that recipe. It reduced the learning rate later in training, sampled resets around failures of the deployed policy, and captured the training iteration in GPU graphs. Those changes address different sources of delay. Graph capture cuts the cost of each iteration. Failure-directed resets spend iterations where the policy still breaks instead of repeatedly sampling easy frames. <a href="#mimic-source-7">[7]</a> <a href="#mimic-source-8">[8]</a></p>
+        <p>XMimic rebuilds the loop in JAX and overlaps work across devices. With four GPUs, collection, world-model fitting, policy updates and evaluation probing can run on separate devices. The same-cluster study reports 3.19 minutes for BlinkMimic on one H100 NVL, 2.47 for single-GPU XMimic and 0.86 for four-GPU XMimic. Their corresponding training budgets are about 3.2, 2.5 and 3.4 GPU-minutes. Four cards buy faster feedback. The single-card XMimic run uses less total GPU time. These clocks exclude compilation and describe time to a checkpoint, rather than time from a clean install to a verified result. <a href="#mimic-source-9">[9]</a></p>
+        <div class="comparison-table-wrap"><table class="comparison-table"><thead><tr><th scope="col">Implementation</th><th scope="col">Hardware</th><th scope="col">Author-reported result in G1 simulation</th></tr></thead><tbody><tr><td>BlinkMimic [8]</td><td>One RTX 4090</td><td>3.4 min, mean of 3 seeds</td></tr><tr><td>XMimic [9]</td><td>One H100 NVL</td><td>2.47 min, mean of 8 runs</td></tr><tr><td>XMimic [9]</td><td>Four H100 NVL</td><td>0.86 min, mean of 4 runs</td></tr><tr><td>MacMimic [10]</td><td>M5 Max, 64 GB</td><td>97.59 min along the selected branch, 40/40, one seed</td></tr></tbody></table></div>
+        <p class="wam-figure-note">BlinkMimic and XMimic target return ≥ 0.82 with 0/40 failures for three consecutive checkpoints. Both evaluate LAFAN1 training clips, with four replicas per clip and no evaluation noise or randomization. MacMimic reports a separate staged run. These rows show the scope of each result, and differences in recipes or clocks prevent a direct Mac versus CUDA speed comparison.</p>
+        <h2>MacMimic moves training onto Apple Silicon</h2>
+        <p>MacMimic is a separate community implementation. Native MuJoCo advances the physics in a C++ CPU thread pool. PyTorch’s MPS backend runs the learned model and policy updates on the Apple GPU, with parts of the computation compiled into Metal kernels. The two exchange batched states and actions at each control step. The project shrinks the dynamics model from three 2,048-wide layers in the paper’s configuration to three 512-wide layers. Its local recipe also changes the optimizer, policy, sampling and curriculum, so this is a hardware adaptation and an algorithm recipe together. <a href="#mimic-source-10">[10]</a></p>
+        <p>On an M5 Max with 64 GB, the maintainer reports 97.59 minutes of cumulative training along the selected branch and 152.81 minutes across the main experiments. Three consecutive checkpoints completed all 40 training clips, with a reported zero-padded return of 0.832, in one seed and in simulation. The reported 38.9× iteration-throughput figure is against CPU eager execution at 256 environments on that platform. A full CUDA comparison would require matched assets, learning objectives and evaluation. The repository publishes instructions and result records, while its documented distribution excludes weights and rollout videos. <a href="#mimic-source-10">[10]</a></p>
+        <p>A separate port, supermimic-m5, offers a downloadable checkpoint on an ordinary M5 MacBook with 24 GB. It reports 0.7081 return with 25 of 40 clips completed in the original evaluation and 26 in a rebuilt environment. This recipe uses extra anchor-relative observations and averages over executed steps, so its return cannot be ranked alongside MacMimic’s zero-padded score. Its retained failures and two evaluation records are particularly useful when checking a local installation. <a href="#mimic-source-11">[11]</a></p>
+        <h2>Which result should a robotics team reproduce?</h2>
+        <p>A fast 40-clip benchmark is a good regression test. Generalization needs a different test. PartyMimic reports results on five held-out motion sets after training with a diverse 41-hour library, including ground motions and martial arts. Its project page keeps completion and body-position error visible together. NablaMimic asks a separate architectural question: can we backpropagate through a contact simulator directly? Its analytic differentiable engine supplies gradients without fitting a learned surrogate. That shifts the engineering cost toward the simulator and the stability of contact gradients. <a href="#mimic-source-12">[12]</a> <a href="#mimic-source-13">[13]</a></p>
+        <p>Our recommendation is to use MacMimic for local debugging or small training experiments, then use a fixed LAFAN1 protocol to compare iteration cost before scaling to a larger motion library. Freeze the retargeting pipeline and separate held-out clips by source, then report full completion alongside tracking error and time to a verified checkpoint. For a physical pilot, measure onboard latency, recovery and intervention rate with the actual reference interface, actuator limits and independent stop controls. The Mac ports and minute-scale results establish a shorter simulation iteration loop. The original G1 demonstrations establish that the approach can transfer under selected conditions. Repeatable hardware operation is the next evidence to collect.</p>
+        <h2>Read the control comparison alongside this article</h2>
+        <p><a href="anchor1-sonic-supermimic-control-analysis.html">Anchor1, SONIC, and SuperMimic</a> examines what changes when the reference becomes sparse and when precision matters more than training speed.</p>
+        <h2>Primary sources</h2><ol class="source-list"><li id="mimic-source-1"><a href="https://arxiv.org/abs/1804.02717" target="_blank" rel="noopener noreferrer">DeepMimic</a></li><li id="mimic-source-2"><a href="https://doi.org/10.1145/3478513.3480527" target="_blank" rel="noopener noreferrer">SuperTrack paper</a></li><li id="mimic-source-3"><a href="https://arxiv.org/abs/2508.08241" target="_blank" rel="noopener noreferrer">BeyondMimic</a></li><li id="mimic-source-4"><a href="https://arxiv.org/abs/2511.07820v4" target="_blank" rel="noopener noreferrer">SONIC v4</a></li><li id="mimic-source-5"><a href="https://arxiv.org/pdf/2610.28480v3" target="_blank" rel="noopener noreferrer">SuperMimic v3</a></li><li id="mimic-source-6"><a href="https://github.com/HybridRobotics/supermimic" target="_blank" rel="noopener noreferrer">Official SuperMimic code</a></li><li id="mimic-source-7"><a href="https://github.com/Huy-Quang-Dao/instantTrack" target="_blank" rel="noopener noreferrer">InstantTrack code and results</a></li><li id="mimic-source-8"><a href="https://arxiv.org/abs/2611.16422" target="_blank" rel="noopener noreferrer">BlinkMimic paper</a></li><li id="mimic-source-9"><a href="https://github.com/nico-bohlinger/xmimic" target="_blank" rel="noopener noreferrer">XMimic protocol and per-run results</a></li><li id="mimic-source-10"><a href="https://github.com/yusenthebot/macmimic" target="_blank" rel="noopener noreferrer">MacMimic code and reproduction notes</a></li><li id="mimic-source-11"><a href="https://github.com/WXyuany/supermimic-m5" target="_blank" rel="noopener noreferrer">SuperMimic on Apple M5 results and checkpoint</a></li><li id="mimic-source-12"><a href="https://roboparty.github.io/PartyMimic/" target="_blank" rel="noopener noreferrer">PartyMimic held-out tests</a></li><li id="mimic-source-13"><a href="https://sailab.ai/nablamimic/" target="_blank" rel="noopener noreferrer">NablaMimic project and differentiable simulator</a></li><li id="mimic-source-14"><a href="https://arxiv.org/abs/2210.06063" target="_blank" rel="noopener noreferrer">ControlVAE</a></li></ol>
+        <nav class="series-navigation" aria-label="Reading path"><p class="eyebrow">Reading path</p><a class="series-topic" href="../blog.html#control-dexterity">Control and dexterous manipulation</a><div class="series-links"><div><span>Previous in this topic</span><a href="anchor1-sonic-supermimic-control-analysis.html">Anchor1, SONIC, and SuperMimic</a></div><div><span>Next in this topic</span><a href="corl-2026-dexterous-hands-sharpa.html">CoRL 2026 dexterity through the Sharpa hand</a></div></div></nav>
+      </div></div></section>
+    </article>
+  </main>
+  <footer>
+    <div class="container footer-row">
+      <p>© 2026 1N Robotics. Build toward general intelligence for robots.</p>
+      <div class="footer-links">
+        <a href="https://github.com/1nrobotics/star-nav">GitHub</a><a href="../index.html">Home</a><a href="../product.html">Product</a><a href="../about.html">About</a><a href="../feed.xml">RSS</a></div>
+    </div>
+    <div class="container site-stats" aria-label="Site statistics">
+      <span><span>Site views</span> <strong data-site-views>—</strong></span>
+      <span>Since 12 Nov 2026</span>
+      <span><span>Counter by</span> <a href="https://busuanzi.ibruce.info/" target="_blank" rel="noopener noreferrer">Busuanzi</a></span>
+      <span data-stats-unavailable hidden>Count unavailable</span>
+    </div>
+  </footer>
+</body>
+</html>

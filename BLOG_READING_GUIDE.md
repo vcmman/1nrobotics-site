@@ -56,7 +56,8 @@
 从全身精度走向接触、抓取与灵巧手学习
 
 1. [Anchor1、SONIC 与 SuperMimic](posts/anchor1-sonic-supermimic-control-analysis.html) — 控制比较：比较跟踪接口、动作数据、精度与训练成本
-2. [从 Sharpa 看 CoRL 2026 灵巧操作](posts/corl-2026-dexterous-hands-sharpa.html) — 研究综述：借助共同硬件，比较数据、接触与学习选择
+2. [SuperMimic 的前世今生](posts/supermimic-evolution-blinkmimic-xmimic-macmimic.html) — 训练与复现：从动力学梯度到分钟级基准和 Apple Silicon
+3. [从 Sharpa 看 CoRL 2026 灵巧操作](posts/corl-2026-dexterous-hands-sharpa.html) — 研究综述：借助共同硬件，比较数据、接触与学习选择
 
 ### Agentic 机器人
 
