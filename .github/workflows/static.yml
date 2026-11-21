@@ -26,6 +26,8 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    env:
+      PAGES_ARTIFACT: github-pages-${{ github.run_attempt }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -38,8 +40,12 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # Reruns can still see artifacts uploaded by previous attempts.
+          name: ${{ env.PAGES_ARTIFACT }}
           # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          artifact_name: ${{ env.PAGES_ARTIFACT }}
