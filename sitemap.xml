@@ -22,7 +22,7 @@
   </url>
   <url>
     <loc>https://1nrobotics.com/blog.html</loc>
-    <lastmod>2026-11-20</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -70,4 +70,5 @@
   <url><loc>https://1nrobotics.com/posts/umi-specialist-data-collection-device-comparison.html</loc><lastmod>2026-11-16</lastmod></url>
   <url><loc>https://1nrobotics.com/posts/roam-vlm-risk-maps-quadruped-navigation.html</loc><lastmod>2026-11-19</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://1nrobotics.com/posts/embodied-ai-weekly-2026-11-20.html</loc><lastmod>2026-11-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://1nrobotics.com/posts/supermimic-evolution-blinkmimic-xmimic-macmimic.html</loc><lastmod>2026-11-21</lastmod></url>
 </urlset>
