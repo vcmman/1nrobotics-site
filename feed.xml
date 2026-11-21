@@ -5,7 +5,7 @@
     <link>https://1nrobotics.com/blog.html</link>
     <description>Weekly briefings and technical analysis on embodied intelligence, data, robot learning, and deployment.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Nov 2026 08:27:46 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2026 09:37:00 +0800</lastBuildDate>
     <atom:link href="https://1nrobotics.com/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>From SuperMimic to MacMimic</title>
@@ -141,7 +141,7 @@
       <guid isPermaLink="true">https://1nrobotics.com/posts/mujoco-4-industrial-value.html</guid>
       <pubDate>Thu, 12 Nov 2026 10:00:00 +0800</pubDate>
       <category>Technical analysis</category>
-      <description>The industrial value of better contact simulation, collaboration, calibrated training, and measurable robot development costs.</description>
+      <description>The industrial value of better contact simulation, shared debugging, and calibrated training, now with an analysis of Google Antigravity Robotics and what its hardware demos establish.</description>
     </item>
     <item>
       <title>NVIDIA GR00T 2: World-Action Models Meet Deployment Reality</title>
