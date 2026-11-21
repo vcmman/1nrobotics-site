@@ -13,6 +13,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
+  actions: read
   contents: read
   pages: write
   id-token: write
@@ -44,6 +45,23 @@ jobs:
           name: ${{ env.PAGES_ARTIFACT }}
           # Upload entire repository
           path: '.'
+      - name: Wait for the uploaded artifact to be visible
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACTS_URL: ${{ github.api_url }}/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts
+        run: |
+          for attempt in {1..12}; do
+            if curl --fail --silent --show-error --max-time 5 \
+                --header "Authorization: Bearer $GH_TOKEN" \
+                --get --data-urlencode "name=$PAGES_ARTIFACT" "$ARTIFACTS_URL" \
+                | jq -e --arg name "$PAGES_ARTIFACT" \
+                  'any(.artifacts[]; .name == $name and (.expired | not))' >/dev/null; then
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::Pages artifact $PAGES_ARTIFACT did not become visible in time"
+          exit 1
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
